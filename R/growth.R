@@ -7,56 +7,19 @@
 #'
 ExponentialGrowth <- R6::R6Class(
   classname = "ExponentialGrowth",
-  # inherit = Module,
+  inherit = RiskModule,
   public = list(
 
-    ## Attributes
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
 
-    name = "",
-    inputs = tibble::tibble(var = c("logN0", "t", "mu"),
-                    units = c(NA, NA, NA)
-    ),
-    depends_on = list(logN0 = NA,
-                      t = NA,
-                      mu = NA
-    ),
-
-    depended_by = c(),
-
-    output = "",
-    simulations = tibble::tibble(),
-    type = "growth",
-
-
-    ## Methods
-
-    initialize = function(name, units = NULL) {
-
-      self$name <- name
-
-      if (!is.null(units)) {
-        self$inputs$units = units
-      }
-
-    },
-
-    map_input = function(input, module, check_units = FALSE) {
-
-      if (! (input %in% names(self$depends_on))) {
-        stop("Unkonwn input: ", input)
-      }
-
-      ## Add the dependency
-
-      self$depends_on[[input]] <- module
-
-      ## Reflect it on the other module
-
-      module$depended_by <- c(module$depended_by, self)
-
-      ## Return self
-
-      invisible(self)
+      super$initialize(name,
+                       input_names = c("t", "mu", "logN0"),
+                       units = units,
+                       module_type = "growth",
+                       output_var = "logN",
+                       output_unit = output_unit)
 
     },
 
@@ -81,27 +44,74 @@ ExponentialGrowth <- R6::R6Class(
 
       sims$logN
 
-    },
-
-    get_output = function() {
-      self$simulations$logN
     }
 
   )
 
 )
 
+#' Growth model with exponential phase + lag
+#'
+#' @export
+#'
+LagExponentialGrowth <- R6::R6Class(
+  "LagExponentialGrowth",
+  inherit = RiskModule,
+
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = c("t", "lambda", "mu", "logN0"),
+                       units = units,
+                       module_type = "growth",
+                       output_var = "logN",
+                       output_unit = output_unit)
+
+    },
+
+    simulate = function(niter, check_units = FALSE) {
+
+      sims <- tibble::tibble(
+        t = self$depends_on$t$simulate(niter),
+        mu = self$depends_on$mu$simulate(niter),
+        logN0 = self$depends_on$logN0$simulate(niter),
+        lambda = self$depends_on$lambda$simulate(niter)
+      ) %>%
+        dplyr::mutate(
+          logN = ifelse(t <= lambda,
+                        logN0,
+                        logN0 + (t-lambda)*mu
+          )
+        )
+
+      ## Save the results of the simulations
+
+      self$simulations <- sims
+
+      ## Return
+
+      sims$logN
+
+
+    }
+  )
+)
+
 # ### tests
 #
-# time <- ModuleConstant$new("Time", 3)
+# time <- Constant$new("Time", 3)
 #
-# mu <- ModuleNormal$new("mu")$
-#   map_input("mu", ModuleConstant$new("mu", 1))$
-#   map_input("sigma", ModuleConstant$new("sigma", 0.2))
+# mu <- Normal$new("mu")$
+#   map_input("mu", Constant$new("mu", 1))$
+#   map_input("sigma", Constant$new("sigma", 0.2))
 #
-# logN0 <- ModuleNormal$new("logD")$
-#   map_input("mu", ModuleConstant$new("mu", 2))$
-#   map_input("sigma", ModuleConstant$new("sigma", 0.5))
+# logN0 <- Normal$new("logD")$
+#   map_input("mu", Constant$new("mu", 2))$
+#   map_input("sigma", Constant$new("sigma", 0.5))
 #
 # growth_model <- ExponentialGrowth$new("Growth")$
 #   map_input("t", time)$
@@ -113,19 +123,22 @@ ExponentialGrowth <- R6::R6Class(
 #
 # ## tests
 #
-# ### Inactivation
+### Inactivation
+
+# library(biorisk)
+# library(tidyverse)
 #
-# treat_time <- ModuleConstant$new("Time", 30)
+# treat_time <- Constant$new("Time", 30)
 #
-# logD <- ModuleNormal$new("logD")$
-#   map_input("mu", ModuleConstant$new("mu", 1))$
-#   map_input("sigma", ModuleConstant$new("sigma", 0.2))
+# logD <- Normal$new("logD")$
+#   map_input("mu", Constant$new("mu", 1))$
+#   map_input("sigma", Constant$new("sigma", 0.2))
 #
-# logN0 <- ModuleNormal$new("logD")$
-#   map_input("mu", ModuleConstant$new("mu", 2))$
-#   map_input("sigma", ModuleConstant$new("sigma", 0.5))
+# logN0 <- Normal$new("logD")$
+#   map_input("mu", Constant$new("mu", 2))$
+#   map_input("sigma", Constant$new("sigma", 0.5))
 #
-# inact_model <- ModuleLogLinInactivation$new("Inactivation")$
+# inact_model <- LogLinInactivation$new("Inactivation")$
 #   map_input("t", treat_time)$
 #   map_input("logD", logD)$
 #   map_input("logN0", logN0)
@@ -164,6 +177,7 @@ ExponentialGrowth <- R6::R6Class(
 #   geom_boxplot(aes(x = step, y = logN))
 #
 # inact_model$simulations
+#
 
 
 
