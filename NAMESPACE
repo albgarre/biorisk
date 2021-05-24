@@ -2,6 +2,7 @@
 
 export(Constant)
 export(ExponentialGrowth)
+export(LagExponentialGrowth)
 export(LogLinInactivation)
 export(Normal)
 export(model_to_graph)

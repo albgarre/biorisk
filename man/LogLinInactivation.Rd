@@ -12,76 +12,33 @@ R6 class describing log-linear inactivation
 A risk module describing log-linear inactivation. It has 3 inputs: logN0, t
 and logD.
 }
-\section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{name}}{A character giving a name to this constant}
-
-\item{\code{inputs}}{A tibble describing the inputs and their units.}
-
-\item{\code{depends_on}}{A list with the mapping of each input}
-
-\item{\code{depended_by}}{A list of modules that use this instance as input}
-
-\item{\code{simulations}}{A tibble with the results of the simulations}
-
-\item{\code{type}}{A character defining it as an inactivation module}
-}
-\if{html}{\out{</div>}}
+\section{Super class}{
+\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{LogLinInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{LogLinInactivation$new()}}
-\item \href{#method-map_input}{\code{LogLinInactivation$map_input()}}
 \item \href{#method-simulate}{\code{LogLinInactivation$simulate()}}
-\item \href{#method-get_output}{\code{LogLinInactivation$get_output()}}
 \item \href{#method-clone}{\code{LogLinInactivation$clone()}}
 }
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+}
+\out{</details>}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new inactivation module
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$new(name, units = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{name}}{Name}
-
-\item{\code{units}}{units of the parameter (NULL by default)}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new Inactivation Module
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-map_input"></a>}}
-\if{latex}{\out{\hypertarget{method-map_input}{}}}
-\subsection{Method \code{map_input()}}{
-Maps an input variable to a module/constant.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$map_input(input, module, check_units = FALSE)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{input}}{Character identifying the input}
-
-\item{\code{module}}{A module/constant whose output is used as input.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-self (silently)
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-simulate"></a>}}
@@ -101,19 +58,6 @@ Simulates the module
 }
 \subsection{Returns}{
 the output of the module
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_output"></a>}}
-\if{latex}{\out{\hypertarget{method-get_output}{}}}
-\subsection{Method \code{get_output()}}{
-Get the output of the simulations
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$get_output()}\if{html}{\out{</div>}}
-}
-
-\subsection{Returns}{
-the output of the module (logN)
 }
 }
 \if{html}{\out{<hr>}}

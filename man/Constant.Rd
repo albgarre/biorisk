@@ -6,25 +6,12 @@
 \description{
 A constant that can be used as input by other methods
 }
+\section{Super class}{
+\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{Constant}
+}
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{name}}{A character giving a name to this constant}
-
-\item{\code{inputs}}{Ignored (empty tibble)}
-
-\item{\code{depends_on}}{Ignored (empty list)}
-
-\item{\code{depended_by}}{A list of modules that use this instance as input}
-
-\item{\code{output}}{Ignored}
-
-\item{\code{simulations}}{Ignored}
-
-\item{\code{type}}{A character defining it as a constant}
-
-\item{\code{unit}}{The unit of the constant}
-
 \item{\code{value}}{The value of the constant}
 }
 \if{html}{\out{</div>}}
@@ -37,29 +24,22 @@ A constant that can be used as input by other methods
 \item \href{#method-clone}{\code{Constant$clone()}}
 }
 }
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+}
+\out{</details>}
+}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new constant
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Constant$new(name, value, unit = NA)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Constant$new(name, value, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{name}}{Name}
-
-\item{\code{value}}{Value of the constant}
-
-\item{\code{unit}}{Unit of the constant (NA by default").}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new Constant object
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-simulate"></a>}}

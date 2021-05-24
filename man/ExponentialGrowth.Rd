@@ -8,31 +8,31 @@ Growth module based on exponential growth
 
 Growth module based on exponential growth
 }
+\section{Super class}{
+\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{ExponentialGrowth}
+}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{ExponentialGrowth$new()}}
-\item \href{#method-map_input}{\code{ExponentialGrowth$map_input()}}
 \item \href{#method-simulate}{\code{ExponentialGrowth$simulate()}}
-\item \href{#method-get_output}{\code{ExponentialGrowth$get_output()}}
 \item \href{#method-clone}{\code{ExponentialGrowth$clone()}}
 }
+}
+\if{html}{
+\out{<details open ><summary>Inherited methods</summary>}
+\itemize{
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+}
+\out{</details>}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-new"></a>}}
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ExponentialGrowth$new(name, units = NULL)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-map_input"></a>}}
-\if{latex}{\out{\hypertarget{method-map_input}{}}}
-\subsection{Method \code{map_input()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ExponentialGrowth$map_input(input, module, check_units = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ExponentialGrowth$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
 }
@@ -42,15 +42,6 @@ Growth module based on exponential growth
 \subsection{Method \code{simulate()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ExponentialGrowth$simulate(niter)}\if{html}{\out{</div>}}
-}
-
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_output"></a>}}
-\if{latex}{\out{\hypertarget{method-get_output}{}}}
-\subsection{Method \code{get_output()}}{
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ExponentialGrowth$get_output()}\if{html}{\out{</div>}}
 }
 
 }
