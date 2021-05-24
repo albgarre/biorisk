@@ -55,7 +55,7 @@ get_edges <- function(node) {
 #'
 #' @importFrom tibble tribble
 #' @importFrom dplyr left_join pull select
-#' @immportFrom DiagrammeR create_graph create_node_df create_edge_df
+#' @importFrom DiagrammeR create_graph create_node_df create_edge_df
 #'
 #' @export
 #'
@@ -144,9 +144,9 @@ plot_model <- function(node, layout = "tree") {
 #   map_input("t", treat_time)$
 #   map_input("logD", logD)$
 #   map_input("logN0", logN0)
-#
-# ## Storage
-#
+
+## Storage
+
 # stor_time <- Constant$new("Storage time", 3)
 #
 # mu <- Normal$new("mu")$
@@ -158,10 +158,12 @@ plot_model <- function(node, layout = "tree") {
 #   map_input("mu", mu)$
 #   map_input("logN0", inact_model)
 #
+# growth_model$simulate(1000) %>% hist()
+
 # ## Get as graph
 #
-# # model_to_graph(growth_model)
 # plot_model(inact_model)
 # plot_model(growth_model, layout = "tree")
 
+# stor_time$depends_on
 
