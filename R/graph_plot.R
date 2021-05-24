@@ -55,7 +55,7 @@ get_edges <- function(node) {
 #'
 #' @importFrom tibble tribble
 #' @importFrom dplyr left_join pull select
-#' @immportFrom DiagrammeR create_graph
+#' @immportFrom DiagrammeR create_graph create_node_df create_edge_df
 #'
 #' @export
 #'
@@ -128,6 +128,10 @@ plot_model <- function(node, layout = "tree") {
 #
 # treat_time <- Constant$new("Treat time", 30)
 #
+# treat_time <- Normal$new("Treat time")$
+#   map_input("mu", Constant$new("mu_t", 30))$
+#   map_input("sigma", Constant$new("sigma_t", 3))
+#
 # logD <- Normal$new("logD")$
 #   map_input("mu", Constant$new("mu_logD", 1))$
 #   map_input("sigma", Constant$new("sigma_logD", 0.2))
@@ -158,6 +162,6 @@ plot_model <- function(node, layout = "tree") {
 #
 # # model_to_graph(growth_model)
 # plot_model(inact_model)
-# plot_model(growth_model)
+# plot_model(growth_model, layout = "tree")
 
 
