@@ -9,76 +9,22 @@
 #'
 LogLinInactivation <- R6::R6Class(
   classname = "LogLinInactivation",
-  # inherit = Module,
+  inherit = RiskModule,
   public = list(
 
-    #' @field name A character giving a name to this constant
-    name = "",
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
 
-    #' @field inputs A tibble describing the inputs and their units.
-    inputs = tibble::tibble(var = c("logN0", "t", "logD"),
-                    units = c(NA, NA, NA)
-    ),
-
-    #' @field depends_on A list with the mapping of each input
-    depends_on = list(logN0 = NA,
-                      t = NA,
-                      logD = NA
-                      ),
-
-    #' @field depended_by A list of modules that use this instance as input
-    depended_by = c(),
-
-    #' @field simulations A tibble with the results of the simulations
-    simulations = tibble::tibble(),
-
-    #' @field type A character defining it as an inactivation module
-    type = "inactivation",
-
-
-    ## Methods
-
-    #' @description
-    #' Create a new inactivation module
-    #' @param name Name
-    #' @param units units of the parameter (NULL by default)
-    #' @return A new Inactivation Module
-    #'
-    initialize = function(name, units = NULL) {
-
-      self$name <- name
-
-      if (!is.null(units)) {
-        self$inputs$units = units
-      }
+      super$initialize(name,
+                       input_names = c("t", "logD", "logN0"),
+                       units = units,
+                       module_type = "inactivation",
+                       output_var = "logN",
+                       output_unit = output_unit)
 
     },
 
-    #' @description
-    #' Maps an input variable to a module/constant.
-    #' @param input Character identifying the input
-    #' @param module A module/constant whose output is used as input.
-    #' @return self (silently)
-    #'
-    map_input = function(input, module, check_units = FALSE) {
-
-      if (! (input %in% names(self$depends_on))) {
-        stop("Unkonwn input: ", input)
-      }
-
-      ## Add the dependency
-
-      self$depends_on[[input]] <- module
-
-      ## Reflect it on the other module
-
-      module$depended_by <- c(module$depended_by, self)
-
-      ## Return self
-
-      invisible(self)
-
-    },
 
     #' @description
     #' Simulates the module
@@ -106,14 +52,6 @@ LogLinInactivation <- R6::R6Class(
 
       sims$logN
 
-    },
-
-    #' @description
-    #' Get the output of the simulations
-    #' @return the output of the module (logN)
-    #'
-    get_output = function() {
-      self$simulations$logN
     }
 
   )
