@@ -7,52 +7,19 @@
 #'
 Normal <- R6::R6Class(
   classname = "Normal",
-  # inherit = Module,
+  inherit = RiskModule,
   public = list(
 
-    ## Attributes
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
 
-    name = "",
-    inputs = tibble::tibble(var = c("mu", "sigma"),
-                    units = c(NA, NA)
-                    ),
-    depends_on = list(mu = NA,
-                      sigma = NA),
-    depended_by = c(),
-    output = "",
-    simulations = tibble::tibble(),
-    type = "distribution",
-
-
-    ## Methods
-
-    initialize = function(name, units = NULL) {
-
-      self$name <- name
-
-      if (!is.null(units)) {
-        self$inputs$units = units
-      }
-
-    },
-
-    map_input = function(input, module, check_units = FALSE) {
-
-      if (! (input %in% names(self$depends_on))) {
-        stop("Unkonwn input: ", input)
-      }
-
-      ## Add the dependency
-
-      self$depends_on[[input]] <- module
-
-      ## Reflect it on the other module
-
-      module$depended_by <- c(module$depended_by, self)
-
-      ## Return self
-
-      invisible(self)
+      super$initialize(name,
+                       input_names = c("mu", "sigma"),
+                       units = units,
+                       module_type = "distribution",
+                       output_var = "x",
+                       output_unit = output_unit)
 
     },
 
@@ -75,26 +42,20 @@ Normal <- R6::R6Class(
       ## Return
 
       sims$x
-
-    },
-
-    get_output = function() {
-      self$simulations$x
     }
-
   )
 
 )
 
 # ## tests
 #
-# my_mean <- ModuleConstant$new("mean", 3)
-# my_sd <- ModuleConstant$new("sd", .3)
+# my_mean <- Constant$new("mean", 3)
+# my_sd <- Constant$new("sd", .3)
 #
 # # my_mean$simulate(10)
 # # my_sd$simulate(20)
 #
-# logN0 <- ModuleNormal$new("Concentracion inicial")$
+# logN0 <- Normal$new("Concentracion inicial")$
 #   map_input("mu", my_mean)$
 #   map_input("sigma", my_sd)
 # # aa$map_input("mu", my_mean)
@@ -105,27 +66,28 @@ Normal <- R6::R6Class(
 #
 # logN0$simulate(2000) %>% hist()
 # logN0$simulations
+# logN0$get_output()
 #
 # ## test 2
 #
-# big_mean <- ModuleConstant$new("big mean", 4)
-# big_sd <- ModuleConstant$new("big sd", 1)
+# big_mean <- Constant$new("big mean", 4)
+# big_sd <- Constant$new("big sd", 1)
 #
-# norm1 <- ModuleNormal$new("Normal 1")$
+# norm1 <- Normal$new("Normal 1")$
 #   map_input("mu", big_mean)$
 #   map_input("sigma", big_sd)
 #
 # norm1$simulate(100) %>%
 #   hist()
 #
-# small_sd <- ModuleConstant$new("small sd", 0.3)
+# small_sd <- Constant$new("small sd", 0.3)
 #
-# norm2 <- ModuleNormal$new("Normal 2")$
+# norm2 <- Normal$new("Normal 2")$
 #   map_input("mu", norm1)$
 #   map_input("sigma", small_sd)
 #
 # norm2$simulate(1000) %>% hist()
 # norm2$simulations
-
+# norm2$get_output()
 
 
