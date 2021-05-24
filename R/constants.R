@@ -8,54 +8,23 @@
 #'
 Constant <- R6::R6Class(
   classname = "Constant",
-  # inherit = Module,
+  inherit = RiskModule,
   public = list(
-
-    ## Usual attributes
-
-    #' @field name A character giving a name to this constant
-    name = "",
-
-    #' @field inputs Ignored (empty tibble)
-    inputs = tibble::tibble(),
-
-    #' @field depends_on Ignored (empty list)
-    depends_on = list(),
-
-    #' @field depended_by A list of modules that use this instance as input
-    depended_by = c(),
-
-    #' @field output Ignored
-    output = "",
-
-    #' @field simulations Ignored
-    simulations = tibble::tibble(),
-
-    #' @field type A character defining it as a constant
-    type = "constant",
-
-    #' @field unit The unit of the constant
-    unit = NULL,
-
-    ## Specific attributes
 
     #' @field value The value of the constant
     value = NULL,
 
-    ## Methods
+    initialize = function(name,
+                          value,
+                          output_unit = NA) {
 
-    #' @description
-    #' Create a new constant
-    #' @param name Name
-    #' @param value Value of the constant
-    #' @param unit Unit of the constant (NA by default").
-    #' @return A new Constant object
-    #'
-    initialize = function(name, value, unit = NA) {
-
-      self$name <- name
+      super$initialize(name,
+                       input_names = NA,
+                       units = NA,
+                       module_type = "constant",
+                       output_var = "x",
+                       output_unit = output_unit)
       self$value <- value
-      self$unit <- unit
 
     },
 
@@ -66,7 +35,9 @@ Constant <- R6::R6Class(
     #'
     simulate = function(niter, check_units = FALSE) {
 
-      rep(self$value, niter)
+      x <- rep(self$value, niter)
+      self$simulations <- tibble(x = x)
+      x
 
     }
 
@@ -76,12 +47,13 @@ Constant <- R6::R6Class(
 
 ## tests
 
-# a <- ModuleConstant$new("a", 5)
+# a <- Constant$new("a", 5)
 # a$simulate(10)
+# a$get_output()
 # a$name
 # a$unit
 #
-# b <- ModuleConstant$new("b", 6)
+# b <- Constant$new("b", 6)
 # b$simulate(20)
 # b$name
 
