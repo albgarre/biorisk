@@ -19,8 +19,8 @@ Constant <- R6::R6Class(
                           output_unit = NA) {
 
       super$initialize(name,
-                       input_names = NA,
-                       units = NA,
+                       input_names = NULL,
+                       units = NULL,
                        module_type = "constant",
                        output_var = "x",
                        output_unit = output_unit)
