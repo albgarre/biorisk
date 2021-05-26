@@ -76,6 +76,10 @@ model_to_graph <- function(node) {
   node_names <- get_names(node) %>%
     left_join(., aes_map)
 
+  if (nrow(node_names) != length(unique(node_names$name))) {
+    stop("Node names must be unique")
+  }
+
   ndf <- create_node_df(n = nrow(node_names),
                         label = node_names$name,
                         type = node_names$type,
