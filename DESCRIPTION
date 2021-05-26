@@ -20,4 +20,6 @@ Imports:
     ggplot2 (>= 3.3.2),
     tibble (>= 3.0.4),
     purrr (>= 0.3.4),
-    DiagrammeR (>= 1.0.6.1)
+    DiagrammeR (>= 1.0.6.1),
+    extraDistr (>= 1.9.1),
+    mc2d (>= 0.1.18)
