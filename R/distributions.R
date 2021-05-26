@@ -47,6 +47,71 @@ Normal <- R6::R6Class(
 
 )
 
+#' A module simulating a log-normal distribution (in e-scale)
+#'
+#' @export
+#'
+LnNormal <- R6::R6Class(
+  classname = "LnNormal",
+  inherit = RiskModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = c("mu_log", "sigma_log"),
+                       units = units,
+                       module_type = "distribution",
+                       output_var = "x",
+                       output_unit = output_unit)
+
+    },
+
+    simulate = function(niter) {
+
+      ## Do the simulations (recursively)
+
+      sims <- tibble::tibble(
+        mu = self$depends_on$mu_log$simulate(niter),
+        sd = self$depends_on$sigma_log$simulate(niter)
+      ) %>%
+        dplyr::mutate(
+          x = rlnorm(niter, mu, sd)
+        )
+
+      ## Save the results of the simulations
+
+      self$simulations <- sims
+
+      ## Return
+
+      sims$x
+    }
+  )
+
+)
+
+## Weibull
+
+## Beta
+
+## Gamma
+
+## Exponential
+
+## Pert
+
+## Triangular
+
+## Uniform
+
+
+
+
+
+
 # ## tests
 #
 # my_mean <- Constant$new("mean", 3)
@@ -89,5 +154,13 @@ Normal <- R6::R6Class(
 # norm2$simulate(1000) %>% hist()
 # norm2$simulations
 # norm2$get_output()
+#
+# LogNormal$new("test")$
+#   map_input("mu_log", Constant$new("aa", 4))$
+#   map_input("sigma_log", Constant$new("bb", .2))$
+#   simulate(10000) %>%
+#   tibble(x = .,
+#          log_x = log(x))
+
 
 

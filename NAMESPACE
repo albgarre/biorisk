@@ -3,6 +3,7 @@
 export(Constant)
 export(ExponentialGrowth)
 export(LagExponentialGrowth)
+export(LnNormal)
 export(LogLinInactivation)
 export(MaxFilter)
 export(MinFilter)
