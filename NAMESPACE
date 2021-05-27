@@ -3,6 +3,7 @@
 export(Beta)
 export(Constant)
 export(CorrelatedExpGrowth)
+export(EmpiricalDistr)
 export(Exponential)
 export(ExponentialGrowth)
 export(Gamma)
