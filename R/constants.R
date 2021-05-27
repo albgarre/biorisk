@@ -45,6 +45,60 @@ Constant <- R6::R6Class(
 
 )
 
+#' R6 Class Representing a Constant vector
+#'
+#' @description
+#' A constant vector that can be used as input by other methods
+#'
+#' @export
+#'
+Vector <- R6::R6Class(
+  classname = "Vector",
+  inherit = RiskModule,
+  public = list(
+
+    #' @field value The value of the constant
+    values = NULL,
+
+    #' @field n Length of the vector
+    n = NULL,
+
+    initialize = function(name,
+                          values,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = NULL,
+                       units = NULL,
+                       module_type = "constant",
+                       output_var = "x",
+                       output_unit = output_unit)
+
+      self$simulations <- tibble::tibble(x = values)
+      self$n <- length(values)
+
+    },
+
+    #' @description
+    #' Make simulation. Returns the vector saved in the class. If the length
+    #' is different from niter, it raises an error.
+    #' @param niter Number of iterations (length of the vector).
+    #' @param check_units Ignored.
+    #'
+    simulate = function(niter, check_units = FALSE) {
+
+      if (niter != self$n) {
+        stop("niter must be equal to the length of the saved vector")
+      }
+
+      self$simulations$x
+
+    }
+
+  )
+
+)
+
 #' R6 Class that re-samples a vector
 #'
 #'
@@ -108,6 +162,6 @@ EmpiricalDistr <- R6::R6Class(
 # aa$simulate(10)
 # aa$simulate(10)
 
-
-
-
+# aa <- Vector$new("aa", rnorm(100))
+# aa$get_output()
+# aa$simulate(100)
