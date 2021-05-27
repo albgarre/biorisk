@@ -2,6 +2,7 @@
 
 export(Beta)
 export(Constant)
+export(CorrelatedExpGrowth)
 export(Exponential)
 export(ExponentialGrowth)
 export(Gamma)
