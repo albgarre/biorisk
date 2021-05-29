@@ -24,6 +24,8 @@ Square root of the output of a module
 \itemize{
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
 }
 \out{</details>}
 }

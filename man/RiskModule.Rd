@@ -36,6 +36,8 @@ Parent class for modules
 \item \href{#method-map_input}{\code{RiskModule$map_input()}}
 \item \href{#method-simulate}{\code{RiskModule$simulate()}}
 \item \href{#method-get_output}{\code{RiskModule$get_output()}}
+\item \href{#method-save_as_vector}{\code{RiskModule$save_as_vector()}}
+\item \href{#method-save_as_distribution}{\code{RiskModule$save_as_distribution()}}
 \item \href{#method-clone}{\code{RiskModule$clone()}}
 }
 }
@@ -142,6 +144,46 @@ Get the output
 }
 \subsection{Returns}{
 A vector with the output variable
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-save_as_vector"></a>}}
+\if{latex}{\out{\hypertarget{method-save_as_vector}{}}}
+\subsection{Method \code{save_as_vector()}}{
+Saves the output of the simulation as a vector module
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$save_as_vector(name = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of the new module (vctr_from_+self_name by default)}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An instance of Vector
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-save_as_distribution"></a>}}
+\if{latex}{\out{\hypertarget{method-save_as_distribution}{}}}
+\subsection{Method \code{save_as_distribution()}}{
+Saves the output of the simulation as an empirical distribution.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$save_as_distribution(name = NULL)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{Name of the new module (distr_from_+self_name by default)}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+An instance of EmpiricalDistr
 }
 }
 \if{html}{\out{<hr>}}
