@@ -136,6 +136,42 @@ RiskModule <- R6::R6Class(
 
       self$simulations[[self$output]]
 
+    },
+
+    #' @description
+    #' Saves the output of the simulation as a vector module
+    #' @param name Name of the new module (vctr_from_+self_name by default)
+    #' @return An instance of Vector
+    save_as_vector = function(name = NULL) {
+
+      if (nrow(self$simulations) == 0) {
+        stop("Run the simulation first")
+      }
+
+      if (is.null(name)) {
+        name <- paste0("vctr_from_", self$name)
+      }
+
+      Vector$new(name, self$get_output())
+
+    },
+
+    #' @description
+    #' Saves the output of the simulation as an empirical distribution.
+    #' @param name Name of the new module (distr_from_+self_name by default)
+    #' @return An instance of EmpiricalDistr
+    save_as_distribution = function(name = NULL) {
+
+      if (nrow(self$simulations) == 0) {
+        stop("Run the simulation first")
+      }
+
+      if (is.null(name)) {
+        name <- paste0("distr_from_", self$name)
+      }
+
+      EmpiricalDistr$new(name, self$get_output())
+
     }
 
   )
@@ -152,15 +188,35 @@ RiskModule <- R6::R6Class(
 
 
 
-# Risk
-
-
-
-# cc <- LagExponentialGrowth$new("aa")
-# cc$simulate(100)
-# cc$inputs
-# cc$output
-# cc$simulate(10)
+# library(biorisk)
+# library(tidyverse)
+#
+# treat_time <- Constant$new("Treat time", 30)
+#
+# treat_time <- Normal$new("Treat time")$
+#   map_input("mu", Constant$new("mu_t", 30))$
+#   map_input("sigma", Constant$new("sigma_t", 3))
+#
+# logD <- Normal$new("logD")$
+#   map_input("mu", Constant$new("mu_logD", 1))$
+#   map_input("sigma", Constant$new("sigma_logD", 0.2))
+#
+# logN0 <- Normal$new("logN0")$
+#   map_input("mu", Constant$new("mu_logN0", 2))$
+#   map_input("sigma", Constant$new("sigma_logN0", 0.5))
+#
+# inact_model <- LogLinInactivation$new("Treatment")$
+#   map_input("t", treat_time)$
+#   map_input("logD", logD)$
+#   map_input("logN0", logN0)
+#
+# inact_model$simulate(1000)
+# aa <- inact_model$save_as_vector()
+# aa$simulate(1000)
+#
+# bb <- inact_model$save_as_distribution("s")
+# bb$name
+# bb$get_output()
 
 
 
