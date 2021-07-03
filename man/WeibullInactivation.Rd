@@ -10,7 +10,7 @@ R6 class describing the Weibull inactivation
 }
 \details{
 A risk module describing Weibullian inactivation. It has 4 inputs: logN0, t
-log_delta, beta.
+delta, beta.
 }
 \section{Super class}{
 \code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{WeibullInactivation}
