@@ -95,7 +95,7 @@ predict_Bigelow_biphasic <- function(t1, t2, D_R, z, temp_ref, logN0,
                    logN0 = logN0
   )
 
-  times <- seq(0, max_time, length=100)
+  times <- seq(0, t2, length=100)
 
   ## Define the temperature profile for the prediction
   temperature_profile <- data.frame(time = c(0, t1, t2),
@@ -182,7 +182,7 @@ predict_Bigelow_triphasic <- function(t1, t2, t3, D_R, z, temp_ref, logN0,
                    logN0 = logN0
   )
 
-  times <- seq(0, max_time, length=100)
+  times <- seq(0, t3, length=100)
 
   ## Define the temperature profile for the prediction
   temperature_profile <- data.frame(time = c(0, t1, t2, t3),
@@ -354,63 +354,63 @@ DynamicBigelow_3phase <- R6::R6Class(
 
 ## Test Bigelow triphasic
 
-D_R <- LogNormal$new("D_R")$
-  map_input("mu_log10", Constant$new("mu_logD", 1))$
-  map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
-
-logN0 <- Normal$new("logN0")$
-  map_input("mu", Constant$new("mu_logN0", 8))$
-  map_input("sigma", Constant$new("sigma_logN0", 0.5))
-
-
-t1 <- Normal$new("t1")$
-  map_input("mu", Constant$new("mu_t1", 5))$
-  map_input("sigma", Constant$new("sigma_t1", 0.1))
-
-t2 <- Normal$new("t2")$
-  map_input("mu", Constant$new("mu_t2", 5))$
-  map_input("sigma", Constant$new("sigma_t2", 0.1))
-
-t3 <- Normal$new("t3")$
-  map_input("mu", Constant$new("mu_t3", 5))$
-  map_input("sigma", Constant$new("sigma_t3", 0.1))
-
-z <- Normal$new("z")$
-  map_input("mu", Constant$new("mu_z", 5))$
-  map_input("sigma", Constant$new("sigma_z", 0.2))
-
-temp_ref <- Constant$new("Tref", 60)
-
-temp0 <- Constant$new("T0", 45)
-temp1  <- Normal$new("T1")$
-  map_input("mu", Constant$new("mu_T1", 65))$
-  map_input("sigma", Constant$new("sigma_T1", 1))
-
-temp2  <- Normal$new("T2")$
-  map_input("mu", Constant$new("mu_T2", 55))$
-  map_input("sigma", Constant$new("sigma_T2", 1))
-
-temp3  <- Normal$new("T3")$
-  map_input("mu", Constant$new("mu_T3", 55))$
-  map_input("sigma", Constant$new("sigma_T3", 1))
-
-
-inact_model <- DynamicBigelow_3phase$new("inact_model")$
-  map_input("D_R", D_R)$
-  map_input("logN0", logN0)$
-  map_input("t1", t1)$
-  map_input("t2", t2)$
-  map_input("t3", t3)$
-  map_input("z", z)$
-  map_input("temp_ref", temp_ref)$
-  map_input("temp0", temp0)$
-  map_input("temp1", temp1)$
-  map_input("temp2", temp2)$
-  map_input("temp3", temp3)
-
-plot_model(inact_model)
-inact_model$simulate(50) %>% hist()
-inact_model$simulations
+# D_R <- LogNormal$new("D_R")$
+#   map_input("mu_log10", Constant$new("mu_logD", 1))$
+#   map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
+#
+# logN0 <- Normal$new("logN0")$
+#   map_input("mu", Constant$new("mu_logN0", 8))$
+#   map_input("sigma", Constant$new("sigma_logN0", 0.5))
+#
+#
+# t1 <- Normal$new("t1")$
+#   map_input("mu", Constant$new("mu_t1", 5))$
+#   map_input("sigma", Constant$new("sigma_t1", 0.1))
+#
+# t2 <- Normal$new("t2")$
+#   map_input("mu", Constant$new("mu_t2", 5))$
+#   map_input("sigma", Constant$new("sigma_t2", 0.1))
+#
+# t3 <- Normal$new("t3")$
+#   map_input("mu", Constant$new("mu_t3", 5))$
+#   map_input("sigma", Constant$new("sigma_t3", 0.1))
+#
+# z <- Normal$new("z")$
+#   map_input("mu", Constant$new("mu_z", 5))$
+#   map_input("sigma", Constant$new("sigma_z", 0.2))
+#
+# temp_ref <- Constant$new("Tref", 60)
+#
+# temp0 <- Constant$new("T0", 45)
+# temp1  <- Normal$new("T1")$
+#   map_input("mu", Constant$new("mu_T1", 65))$
+#   map_input("sigma", Constant$new("sigma_T1", 1))
+#
+# temp2  <- Normal$new("T2")$
+#   map_input("mu", Constant$new("mu_T2", 55))$
+#   map_input("sigma", Constant$new("sigma_T2", 1))
+#
+# temp3  <- Normal$new("T3")$
+#   map_input("mu", Constant$new("mu_T3", 55))$
+#   map_input("sigma", Constant$new("sigma_T3", 1))
+#
+#
+# inact_model <- DynamicBigelow_3phase$new("inact_model")$
+#   map_input("D_R", D_R)$
+#   map_input("logN0", logN0)$
+#   map_input("t1", t1)$
+#   map_input("t2", t2)$
+#   map_input("t3", t3)$
+#   map_input("z", z)$
+#   map_input("temp_ref", temp_ref)$
+#   map_input("temp0", temp0)$
+#   map_input("temp1", temp1)$
+#   map_input("temp2", temp2)$
+#   map_input("temp3", temp3)
+#
+# plot_model(inact_model)
+# inact_model$simulate(50) %>% hist()
+# inact_model$simulations
 
 
 
