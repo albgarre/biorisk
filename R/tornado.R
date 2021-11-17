@@ -57,8 +57,8 @@ tornado_plot <- function(node, which = "output",
 
   # browser()
 
-  tibble(var = names(my_cor[inact_model$name,]),  # We take out 1 bcs self-correlation
-         rho = my_cor[inact_model$name,]) %>%
+  tibble(var = names(my_cor[node$name,]),  # We take out 1 bcs self-correlation
+         rho = my_cor[node$name,]) %>%
     filter(var != node$name) %>%
     # mutate(abs_rho = abs(rho))
     arrange(abs(rho)) %>%
@@ -118,6 +118,7 @@ tornado_plot <- function(node, which = "output",
 #
 # plot_model(inact_model)
 # plot_model(growth_model, layout = "tree")
+#
 #
 # tornado_plot(growth_model)
 # tornado_plot(inact_model)
