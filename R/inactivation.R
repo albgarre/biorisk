@@ -222,7 +222,7 @@ TrilinearInactivation <- R6::R6Class(
         logNres = self$depends_on$logNres$simulate(niter),
       ) %>%
         dplyr::mutate(
-          logN = logN0 - t/D
+          logN = logN0 - (t-SL)/D
         ) %>%
         dplyr::mutate(
           logN = ifelse(t < SL, logN0, logN),
