@@ -69,7 +69,9 @@ model_to_graph <- function(node) {
     "inactivation", "rectangle", "orange",
     "constant", "triangle", "grey",
     "distribution", "circle", "blue",
-    "dose_response", "rectangle", "blue"
+    "dose_response", "rectangle", "blue",
+    "boolean", "triangle", "blue",
+    "algebra", "triangle", "red",
   )
 
   ## Get the node attributes
