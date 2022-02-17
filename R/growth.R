@@ -42,13 +42,68 @@ ExponentialGrowth <- R6::R6Class(
 
       ## Return
 
-      sims$logN
+      sims[[self$output]]
 
     }
 
   )
 
 )
+
+#' Growth module based on exponential growth considering a stationary phase
+#'
+#' @importFrom tibble tibble
+#' @importFrom R6 R6Class
+#' @export
+#'
+ExponentialGrowthNmax <- R6::R6Class(
+  classname = "ExponentialGrowthNmax",
+  inherit = RiskModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = c("t", "mu", "logN0", "logNmax"),
+                       units = units,
+                       module_type = "growth",
+                       output_var = "logN",
+                       output_unit = output_unit)
+
+    },
+
+    simulate = function(niter) {
+
+      ## Do the simulations (recursively)
+
+      sims <- tibble::tibble(
+        t = self$depends_on$t$simulate(niter),
+        mu = self$depends_on$mu$simulate(niter),
+        logN0 = self$depends_on$logN0$simulate(niter),
+        logNmax = self$depends_on$logNmax$simulate(niter)
+      ) %>%
+        dplyr::mutate(
+          logN_calc = logN0 + t*mu,
+          logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
+        )
+
+      ## Save the results of the simulations
+
+      self$simulations <- sims
+
+      ## Return
+
+      sims[[self$output]]
+
+    }
+
+  )
+
+)
+
+
 
 #' Growth model with exponential phase + lag
 #'
@@ -94,12 +149,66 @@ LagExponentialGrowth <- R6::R6Class(
 
       ## Return
 
-      sims$logN
+      sims[[self$output]]
 
 
     }
   )
 )
+
+#' Growth model with exponential phase + lag
+#'
+#' @export
+#'
+TrilinealGrowth <- R6::R6Class(
+  "TrilinealGrowth",
+  inherit = RiskModule,
+
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = c("t", "lambda", "mu", "logN0", "logNmax"),
+                       units = units,
+                       module_type = "growth",
+                       output_var = "logN",
+                       output_unit = output_unit)
+
+    },
+
+    simulate = function(niter, check_units = FALSE) {
+
+      sims <- tibble::tibble(
+        t = self$depends_on$t$simulate(niter),
+        mu = self$depends_on$mu$simulate(niter),
+        logN0 = self$depends_on$logN0$simulate(niter),
+        lambda = self$depends_on$lambda$simulate(niter),
+        logNmax = self$depends_on$logNmax$simulate(niter)
+      ) %>%
+        dplyr::mutate(
+          logN_calc = ifelse(t <= lambda,
+                        logN0,
+                        logN0 + (t-lambda)*mu
+                        ),
+          logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
+        )
+
+      ## Save the results of the simulations
+
+      self$simulations <- sims
+
+      ## Return
+
+      sims[[self$output]]
+
+
+    }
+  )
+)
+
 
 # ### tests
 #
@@ -121,6 +230,23 @@ LagExponentialGrowth <- R6::R6Class(
 # growth_model$simulate(1000) %>% hist()
 # growth_model$simulations
 #
+# growth_model <- ExponentialGrowthNmax$new("Growth")$
+#   map_input("t", time)$
+#   map_input("mu", mu)$
+#   map_input("logN0", logN0)$
+#   map_input("logNmax", Constant$new("logNmax", 4))
+#
+# growth_model <- TrilinealGrowth$new("Growth")$
+#   map_input("t", time)$
+#   map_input("mu", mu)$
+#   map_input("logN0", logN0)$
+#   map_input("logNmax", Constant$new("logNmax", 4))$
+#   map_input("lambda", Constant$new("lambda", 1.5))
+#
+# growth_model$simulate(100)
+#
+# growth_model$simulate(1000)
+#
 # ## tests
 #
 ### Inactivation
@@ -130,7 +256,7 @@ LagExponentialGrowth <- R6::R6Class(
 #
 # treat_time <- Constant$new("Time", 30)
 #
-# logD <- Normal$new("logD")$
+# D <- Normal$new("logD")$
 #   map_input("mu", Constant$new("mu", 1))$
 #   map_input("sigma", Constant$new("sigma", 0.2))
 #
@@ -140,7 +266,7 @@ LagExponentialGrowth <- R6::R6Class(
 #
 # inact_model <- LogLinInactivation$new("Inactivation")$
 #   map_input("t", treat_time)$
-#   map_input("logD", logD)$
+#   map_input("D", D)$
 #   map_input("logN0", logN0)
 #
 # ## Storage
@@ -177,7 +303,7 @@ LagExponentialGrowth <- R6::R6Class(
 #   geom_boxplot(aes(x = step, y = logN))
 #
 # inact_model$simulations
-#
+# plot_model(inact_model)
 
 
 
