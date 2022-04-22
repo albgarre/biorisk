@@ -3,7 +3,7 @@
 #'
 #' @importFrom purrr map_dfc
 #'
-get_data_tornado <- function(node, which = "output") {
+get_data_tornado <- function(node) {
 
   # if (node$type == "constant") {  # Constants have no variation and no inputs
   #   return(NULL)
@@ -30,7 +30,8 @@ get_data_tornado <- function(node, which = "output") {
 #' @importFrom purrr %>%
 #'
 #' @export
-tornado_plot <- function(node, which = "output",
+tornado_plot <- function(node,
+                         chosen = NULL,
                          method = "spearman",
                          use = "everything") {
 
@@ -57,10 +58,16 @@ tornado_plot <- function(node, which = "output",
 
   # browser()
 
-  tibble(var = names(my_cor[node$name,]),  # We take out 1 bcs self-correlation
+  d <- tibble(var = names(my_cor[node$name,]),  # We take out 1 bcs self-correlation
          rho = my_cor[node$name,]) %>%
-    filter(var != node$name) %>%
-    # mutate(abs_rho = abs(rho))
+    filter(var != node$name)
+
+  if (!is.null(chosen)) {
+    d <- d %>%
+      filter(var %in% chosen)
+  }
+
+  d %>%
     arrange(abs(rho)) %>%
     mutate(var = factor(var, levels = var)) %>%
     ggplot() +
@@ -68,68 +75,52 @@ tornado_plot <- function(node, which = "output",
     coord_flip() +
     geom_hline(yintercept = 0) +
     ylab(paste(method, "correlation")) +
-    xlab("")
+    xlab("") +
+    ylim(-1, 1)
 
 }
 
-
-
 # ### tests
-#
 #
 # library(biorisk)
 # library(tidyverse)
 #
-# treat_time <- Constant$new("Treat time", 30)
+# time <- Constant$new("Time", 30)
 #
-# treat_time <- Normal$new("Treat time")$
-#   map_input("mu", Constant$new("mu_t", 30))$
-#   map_input("sigma", Constant$new("sigma_t", 3))
-#
-# logD <- Normal$new("logD")$
-#   map_input("mu", Constant$new("mu_logD", 1))$
-#   map_input("sigma", Constant$new("sigma_logD", 0.2))
+# D <- LogNormal$new("D")$
+#   map_input("mu_log10", Constant$new("mu_logD", 1))$
+#   map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
 #
 # logN0 <- Normal$new("logN0")$
 #   map_input("mu", Constant$new("mu_logN0", 2))$
 #   map_input("sigma", Constant$new("sigma_logN0", 0.5))
 #
-# inact_model <- LogLinInactivation$new("Treatment")$
-#   map_input("t", treat_time)$
-#   map_input("logD", logD)$
+# inact_model <- LogLinInactivation$new("Inactivation")$
+#   map_input("t", time)$
+#   map_input("D", D)$
 #   map_input("logN0", logN0)
 #
-# ## Storage
+# stor_time <- Constant$new("Stor_Time", 3)
 #
-# stor_time <- Constant$new("Storage time", 3)
+# mu <- Normal$new("growth_rate")$
+#   map_input("mu", Constant$new("mu_growthrate", 1))$
+#   map_input("sigma", Constant$new("sigma_growthrate", 0.2))
 #
-# mu <- Normal$new("mu")$
-#   map_input("mu", Constant$new("mu_mu", 1))$
-#   map_input("sigma", Constant$new("sigma_mu", 0.2))
-#
-# growth_model <- ExponentialGrowth$new("Storage")$
+# growth_model <- ExponentialGrowthNmax$new("Growth")$
 #   map_input("t", stor_time)$
 #   map_input("mu", mu)$
-#   map_input("logN0", inact_model)
-#
-# growth_model$simulate(1000) %>% hist()
+#   map_input("logN0", inact_model)$
+#   map_input("logNmax", Constant$new("logNmax", 4))
 #
 # # ## Get as graph
 #
-# plot_model(inact_model)
 # plot_model(growth_model, layout = "tree")
 #
+# growth_model$simulate(1000)
 #
 # tornado_plot(growth_model)
-# tornado_plot(inact_model)
-
-
-
-
-
-
-
-
+# tornado_plot(growth_model, chosen = c("logN0", "D"))
+#
 
 
 

@@ -8,50 +8,74 @@
 #'
 Dz_model <- R6::R6Class(
   classname = "Dz_model",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("Dref", "temperature", "z", "Tref"),
                        units = units,
                        module_type = "secondary",
                        output_var = "D",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      Dref <- self$depends_on$Dref$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
+      z <- self$depends_on$z$discrete_prediction()
+      Tref <- self$depends_on$Tref$discrete_prediction()
 
-      sims <- tibble::tibble(
-        Dref = self$depends_on$Dref$simulate(niter),
-        temperature = self$depends_on$temperature$simulate(niter),
-        z = self$depends_on$z$simulate(niter),
-        Tref = self$depends_on$Tref$simulate(niter)
-      ) %>%
+      logD <- log10(Dref) - (temperature - Tref)/z
+      10^logD
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           logD = log10(Dref) - (temperature - Tref)/z,
           D = 10^logD
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logD = log10(Dref) - (temperature - Tref)/z,
+          D = 10^logD
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -69,48 +93,70 @@ Dz_model <- R6::R6Class(
 #'
 Peleg_secondary <- R6::R6Class(
   classname = "Peleg_secondary",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("temperature", "k_b", "temp_crit"),
                        units = units,
                        module_type = "secondary",
                        output_var = "b",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      k_b <- self$depends_on$k_b$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
+      temp_crit <- self$depends_on$temp_crit$discrete_prediction()
 
-      sims <- tibble::tibble(
-        temperature = self$depends_on$temperature$simulate(niter),
-        k_b = self$depends_on$k_b$simulate(niter),
-        temp_crit = self$depends_on$temp_crit$simulate(niter),
-      ) %>%
+      log(1 + exp(k_b * (temperature - temp_crit)))
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           b = log(1 + exp(k_b * (temperature - temp_crit)))
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          b = log(1 + exp(k_b * (temperature - temp_crit)))
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -146,7 +192,7 @@ Peleg_secondary <- R6::R6Class(
 #   map_input("Tref", Tref)
 #
 # model_D$simulate(1000)
-# plot_model(model_D)
+# model_D$histogram()
 #
 #
 # time <- Constant$new("Time", 30)
@@ -163,13 +209,13 @@ Peleg_secondary <- R6::R6Class(
 # plot_model(inact_model)
 #
 #
-# inact_model$simulate(1000) %>%
-#   hist()
-# inact_model$simulations
-
-
-## Test of the Peleg model
-
+# inact_model$simulate(1000)
+# inact_model$histogram()
+#
+#
+#
+# ## Test of the Peleg model
+#
 # library(biorisk)
 # library(tidyverse)
 #
@@ -192,7 +238,7 @@ Peleg_secondary <- R6::R6Class(
 #   map_input("temp_crit", temp_crit)
 #
 # model_b$simulate(1000)
-# plot_model(model_b)
+# model_b$density_plot()
 #
 #
 # time <- Constant$new("Time", 30)
@@ -201,7 +247,7 @@ Peleg_secondary <- R6::R6Class(
 #   map_input("mu", Constant$new("mu_logN0", 2))$
 #   map_input("sigma", Constant$new("sigma_logN0", 0.5))
 #
-# n = Normal$new("n")$
+# n <- Normal$new("n")$
 #   map_input("mu", Constant$new("mu_n", 1))$
 #   map_input("sigma", Constant$new("sigma_n", .1))
 #
@@ -209,16 +255,9 @@ Peleg_secondary <- R6::R6Class(
 # inact_model <- PelegInactivation$new("Peleg")$
 #   map_input("n", n)$
 #   map_input("b", model_b)$
-#   map_input("t", t)$
+#   map_input("t", time)$
 #   map_input("logN0", logN0)
 #
 #
-# inact_model$simulate(10000) %>%
-#   hist()
-# plot_model(inact_model)
-
-
-
-
-
-
+# inact_model$simulate(10000)
+# inact_model$histogram()

@@ -39,6 +39,27 @@ Constant <- R6::R6Class(
       self$simulations <- tibble(x = x)
       x
 
+    },
+
+    #' @description
+    #' Simulation at some level for X-D Monte Carlo
+    #' @param niter0 Number of iterations at the lower level
+    #' @param iter1 Iteration at the upper level
+    #' @param level Level of the calculation (ignored, it always returns a vector
+    #' to facilitate the mutates)
+    simulate_level = function(niter0, iter1 = 1, level = 0) {
+      out <- rep(self$value, niter0)
+
+      self$simulations_multi[[iter1]] <- tibble(x = out)
+
+      out
+    },
+
+    #' @description
+    #' Returns the value of the constant
+    #'
+    discrete_prediction = function() {
+      self$value
     }
 
   )
@@ -93,75 +114,32 @@ Vector <- R6::R6Class(
 
       self$simulations$x
 
-    }
-
-  )
-
-)
-
-#' R6 Class that re-samples a vector
-#'
-#'
-#' @export
-#'
-EmpiricalDistr <- R6::R6Class(
-  classname = "EmpiricalDistr",
-  inherit = RiskModule,
-  public = list(
-
-    #' @field values A vector to resample
-    values = NULL,
-
-    initialize = function(name,
-                          values,
-                          output_unit = NA) {
-
-      super$initialize(name,
-                       input_names = NULL,
-                       units = NULL,
-                       module_type = "distribution",
-                       output_var = "x",
-                       output_unit = output_unit)
-      self$values <- values
-
     },
 
     #' @description
-    #' Make simulation. Returns a vector of length niter which is a resample of
-    #' self$values.
-    #' @param niter Number of iterations (length of the vector).
-    #' @param check_units Ignore.
-    #'
-    simulate = function(niter, check_units = FALSE) {
+    #' Simulation at some level for X-D Monte Carlo
+    #' @param niter0 Number of iterations at the lower level
+    #' @param iter1 Iteration at the upper level
+    #' @param level Level of the calculation (ignored, it always returns a vector
+    #' to facilitate the mutates)
+    simulate_level = function(niter0, iter1 = 1, level = 0) {
 
-      x <- sample(self$values, niter, replace = TRUE)
+      if (niter0 != self$n) {
+        stop("niter must be equal to the length of the saved vector")
+      }
 
-      self$simulations <- tibble(x = x)
+      out <- self$simulations$x
 
-      x
+      self$simulations_multi[[iter1]] <- tibble(x = out)
 
+      out
     }
 
   )
 
 )
 
-## tests
 
-# a <- Constant$new("a", 5)
-# a$simulate(10)
-# a$get_output()
-# a$name
-# a$unit
-#
-# b <- Constant$new("b", 6)
-# b$simulate(20)
-# b$name
 
-# aa <- EmpiricalDistr$new("aa", rnorm(5))
-# aa$simulate(10)
-# aa$simulate(10)
 
-# aa <- Vector$new("aa", rnorm(100))
-# aa$get_output()
-# aa$simulate(100)
+

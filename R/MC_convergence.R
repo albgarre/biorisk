@@ -1,8 +1,9 @@
 
+
 #' Resampling a vector with replacement several times
 #'
 resample_vector_median <- function(x, size, samples) {
- 1:samples %>%
+  1:samples %>%
     map_dbl(., ~ median(sample(x, size, replace = TRUE)))
 }
 
@@ -19,8 +20,8 @@ MC_convergence <- function(node,
   sizes %>%
     set_names(., .) %>%
     map_dfc(.,
-        ~ resample_vector_median(node_output, ., n_samples)
-        ) %>%
+            ~ resample_vector_median(node_output, ., n_samples)
+    ) %>%
     pivot_longer(everything(), names_to = "MC iterations", values_to = "median_output") %>%
     mutate(`MC iterations` = as.numeric(`MC iterations`)) %>%
     group_by(`MC iterations`) %>%
@@ -47,13 +48,26 @@ plot_MC_analysis <- function(MC_analysis) {
 
 # ## tests
 #
+# time <- Constant$new("Time", 3)
+#
+# mu <- Normal$new("mu")$
+#   map_input("mu", Constant$new("mu", 1))$
+#   map_input("sigma", Constant$new("sigma", 0.2))
+#
+# logN0 <- Normal$new("logD")$
+#   map_input("mu", Constant$new("mu", 2))$
+#   map_input("sigma", Constant$new("sigma", 0.5))
+#
+#
+# growth_model <- ExponentialGrowth$new("Growth")$
+#   map_input("t", time)$
+#   map_input("mu", mu)$
+#   map_input("logN0", logN0)
+#
+# growth_model$simulate(100000)
+#
 # aa <- MC_convergence(growth_model, sizes = c(10, 100, 500, 1000, 5000), n_samples = 500)
 # aa
 # plot_MC_analysis(aa)
-
-
-
-
-
 
 

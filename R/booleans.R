@@ -12,36 +12,58 @@ ModuleGreaterThan <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
-                       output_unit = output_unit)
+                       output_unit = NA,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$x$discrete_prediction() > self$depends_on$a$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           y = x > a
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          y = x > a
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -62,36 +84,58 @@ ModuleLowerThan <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
-                       output_unit = output_unit)
+                       output_unit = NA,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$x$discrete_prediction() < self$depends_on$a$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           y = x < a
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          y = x < a
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -101,7 +145,7 @@ ModuleLowerThan <- R6::R6Class(
 
 #' Boolean operator >=
 #'
-#' TRUE if variable x is greater or equal than a
+#' TRUE if variable x is greater than a
 #'
 #' @export
 #'
@@ -112,36 +156,58 @@ ModuleGreaterEqualThan <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
-                       output_unit = output_unit)
+                       output_unit = NA,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$x$discrete_prediction() >= self$depends_on$a$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           y = x >= a
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          y = x >= a
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -151,7 +217,7 @@ ModuleGreaterEqualThan <- R6::R6Class(
 
 #' Boolean operator <=
 #'
-#' TRUE if variable x is lower or equal than a
+#' TRUE if variable x is greater than a
 #'
 #' @export
 #'
@@ -162,36 +228,58 @@ ModuleLowerEqualThan <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
-                       output_unit = output_unit)
+                       output_unit = NA,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$x$discrete_prediction() <= self$depends_on$a$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           y = x <= a
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          y = x <= a
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -201,7 +289,7 @@ ModuleLowerEqualThan <- R6::R6Class(
 
 #' Boolean operator ==
 #'
-#' TRUE if variable x is equal to a
+#' TRUE if variable x is greater than a
 #'
 #' @export
 #'
@@ -212,87 +300,58 @@ ModuleEqualTo <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
-                       output_unit = output_unit)
+                       output_unit = NA,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$x$discrete_prediction() == self$depends_on$a$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           y = x == a
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
-
-      ## Return
-
-      sims[[self$output]]
-
-    }
-
-  )
-
-)
-
-#' Boolean operator between
-#'
-#' TRUE if variable x is between a and b
-#'
-#' @export
-#'
-ModuleBetween <- R6::R6Class(
-  classname = "ModuleBetween",
-  inherit = RiskModule,
-  public = list(
-
-    initialize = function(name,
-                          units = NA,
-                          output_unit = NA) {
-
-      super$initialize(name,
-                       input_names = c("a", "b", "x"),
-                       units = units,
-                       module_type = "boolean",
-                       output_var = "y",
-                       output_unit = output_unit)
 
     },
 
-    simulate = function(niter) {
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
 
-      ## Do the simulations (recursively)
+      if (self$level > level) {
+        niter0 <- 1
+      }
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter),
-        x = self$depends_on$x$simulate(niter)
-      ) %>%
+      sims <- self$simulations_multi[[iter1]] %>%
         dplyr::mutate(
-          y = between(x, a, b)
+          y = x == a
         )
 
-      ## Save the results of the simulations
+      ## Save it
 
-      self$simulations <- sims
+      self$simulations_multi[[iter1]] <- sims
 
-      ## Return
+      ## Return the output
 
-      sims[[self$output]]
+      invisible(sims[[self$output]])
 
     }
 
@@ -300,8 +359,8 @@ ModuleBetween <- R6::R6Class(
 
 )
 
-# ## tests
-#
+## tests
+
 # N1 <- Normal$new("N1")$
 #   map_input("mu", Constant$new("mu_1", 1))$
 #   map_input("sigma", Constant$new("sd_1", 1))
@@ -349,11 +408,3 @@ ModuleBetween <- R6::R6Class(
 # aa$simulate(10)
 # aa$simulations
 #
-# aa <- ModuleBetween$new("aa")$
-#   map_input("x", xx)$
-#   map_input("a", Constant$new("a", 1))$
-#   map_input("b", Constant$new("b", 3))
-#
-# plot_model(aa)
-# aa$simulate(10)
-# aa$simulations

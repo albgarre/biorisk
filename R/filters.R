@@ -15,8 +15,9 @@ MaxFilter <- R6::R6Class(
                           max_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1
-                          ) {
+                          rule = 1,
+                          level = 0
+    ) {
 
       self$rule = rule
       self$max_value = max_value
@@ -26,36 +27,67 @@ MaxFilter <- R6::R6Class(
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      stop("discrete_prediction not implemented for filters")
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
 
       ## Get the substitute value
 
       substitute <- switch(as.character(self$rule),
-             `1` = NA,
-             `2` = self$max_value,
-             stop("Unknown rule:", self$rule)
-             )
+                           `1` = NA,
+                           `2` = self$max_value,
+                           stop("Unknown rule:", self$rule)
+      )
 
-      ## Do the simulations (recursively)
-
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = ifelse(a > self$max_value, substitute, a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      substitute <- switch(as.character(self$rule),
+                           `1` = NA,
+                           `2` = self$max_value,
+                           stop("Unknown rule:", self$rule)
+      )
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = ifelse(a > self$max_value, substitute, a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -79,7 +111,8 @@ MinFilter <- R6::R6Class(
                           min_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1
+                          rule = 1,
+                          level = 0
     ) {
 
       self$rule = rule
@@ -90,11 +123,25 @@ MinFilter <- R6::R6Class(
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      stop("discrete_prediction not implemented for filters")
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
 
       ## Get the substitute value
 
@@ -104,22 +151,39 @@ MinFilter <- R6::R6Class(
                            stop("Unknown rule:", self$rule)
       )
 
-      ## Do the simulations (recursively)
-
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = ifelse(a < self$min_value, substitute, a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      substitute <- switch(as.character(self$rule),
+                           `1` = NA,
+                           `2` = self$min_value,
+                           stop("Unknown rule:", self$rule)
+      )
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = ifelse(a < self$min_value, substitute, a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -136,8 +200,8 @@ MinMaxFilter <- R6::R6Class(
   inherit = RiskModule,
   public = list(
 
-    min_value = NULL,
     max_value = NULL,
+    min_value = NULL,
     rule = NULL,
 
     initialize = function(name,
@@ -145,47 +209,54 @@ MinMaxFilter <- R6::R6Class(
                           max_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1
+                          rule = 1,
+                          level = 0
     ) {
 
-      if (max_value < min_value) {
-        stop("max_value must be higher than min_value")
-      }
-
       self$rule = rule
-      self$min_value = min_value
       self$max_value = max_value
+      self$min_value = min_value
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      stop("discrete_prediction not implemented for filters")
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
 
       ## Get the substitute value
 
       substitute_left <- switch(as.character(self$rule),
-                           `1` = NA,
-                           `2` = self$min_value,
-                           stop("Unknown rule:", self$rule)
-      )
-
-      substitute_right <- switch(as.character(self$rule),
                                 `1` = NA,
-                                `2` = self$max_value,
+                                `2` = self$min_value,
                                 stop("Unknown rule:", self$rule)
       )
 
-      ## Do the simulations (recursively)
+      substitute_right <- switch(as.character(self$rule),
+                                 `1` = NA,
+                                 `2` = self$max_value,
+                                 stop("Unknown rule:", self$rule)
+      )
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = ifelse(a < self$min_value, substitute_left, a)
         ) %>%
@@ -193,13 +264,43 @@ MinMaxFilter <- R6::R6Class(
           x = ifelse(a > self$max_value, substitute_right, x)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      substitute_left <- switch(as.character(self$rule),
+                                `1` = NA,
+                                `2` = self$min_value,
+                                stop("Unknown rule:", self$rule)
+      )
+
+      substitute_right <- switch(as.character(self$rule),
+                                 `1` = NA,
+                                 `2` = self$max_value,
+                                 stop("Unknown rule:", self$rule)
+      )
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = ifelse(a < self$min_value, substitute_left, a)
+        ) %>%
+        dplyr::mutate(
+          x = ifelse(a > self$max_value, substitute_right, x)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -213,26 +314,20 @@ MinMaxFilter <- R6::R6Class(
 #   map_input("mu", Constant$new("", 0))$
 #   map_input("sigma", Constant$new("", .5))
 #
-# # N1$simulate(1000)
-# MaxFilter$new("aa", .6, rule = 2)$
-#   map_input("a", N1)$
-#   simulate(1000) %>% hist()
+# aa <- MaxFilter$new("aa", .6, rule = 2)$
+#   map_input("a", N1)
+# aa$simulate(100)
+# aa$histogram()
+
+# aa <- MinFilter$new("aa", -.5, rule = 2)$
+#   map_input("a", N1)
 #
+# aa$simulate(100)
+# aa$histogram()
 #
-# MinFilter$new("aa", -1, rule = 2)$
-#   map_input("a", N1)$
-#   simulate(1000) %>% hist()
+# aa <- MinMaxFilter$new("", -.9, 0.9, rule = 2)$
+#   map_input("a", N1)
 #
-# MinMaxFilter$new("", -1, 0, rule = 2)$
-#   map_input("a", N1)$
-#   simulate(1000) %>%
-#   hist()
-
-
-
-
-
-
-
-
+# aa$simulate(1000)
+# aa$histogram()
 

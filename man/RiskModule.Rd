@@ -23,9 +23,15 @@ Parent class for modules
 
 \item{\code{output_unit}}{Unit of the output variable}
 
+\item{\code{output_type}}{Type of output variable (discrete/continuous)}
+
 \item{\code{simulations}}{A tibble with the results of the simulations}
 
 \item{\code{type}}{A character describing the type of the module}
+
+\item{\code{level}}{Description of the level for X-D Monte Carlo}
+
+\item{\code{simulations_multi}}{For multidimensional MC}
 }
 \if{html}{\out{</div>}}
 }
@@ -35,9 +41,15 @@ Parent class for modules
 \item \href{#method-new}{\code{RiskModule$new()}}
 \item \href{#method-map_input}{\code{RiskModule$map_input()}}
 \item \href{#method-simulate}{\code{RiskModule$simulate()}}
+\item \href{#method-simulate_level}{\code{RiskModule$simulate_level()}}
+\item \href{#method-discrete_prediction}{\code{RiskModule$discrete_prediction()}}
 \item \href{#method-get_output}{\code{RiskModule$get_output()}}
 \item \href{#method-save_as_vector}{\code{RiskModule$save_as_vector()}}
 \item \href{#method-save_as_distribution}{\code{RiskModule$save_as_distribution()}}
+\item \href{#method-density_plot}{\code{RiskModule$density_plot()}}
+\item \href{#method-histogram}{\code{RiskModule$histogram()}}
+\item \href{#method-boxplot}{\code{RiskModule$boxplot()}}
+\item \href{#method-quantiles}{\code{RiskModule$quantiles()}}
 \item \href{#method-clone}{\code{RiskModule$clone()}}
 }
 }
@@ -53,7 +65,9 @@ Create a new module
   units = NA,
   module_type = "",
   output_var = "",
-  output_unit = ""
+  output_unit = "",
+  output_type = "",
+  level = 0
 )}\if{html}{\out{</div>}}
 }
 
@@ -108,7 +122,7 @@ Self (invisible)
 \subsection{Method \code{simulate()}}{
 Make simulation. Returns a vector of length niter with self.value.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate(niter, check_units = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate(niter)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -125,12 +139,31 @@ A vector with the output variable
 }
 }
 \if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-simulate_level"></a>}}
+\if{latex}{\out{\hypertarget{method-simulate_level}{}}}
+\subsection{Method \code{simulate_level()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate_level(niter0, iter1 = 1, level = 0)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-discrete_prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-discrete_prediction}{}}}
+\subsection{Method \code{discrete_prediction()}}{
+Gets a discrete (fast and simple) prediction
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$discrete_prediction()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-get_output"></a>}}
 \if{latex}{\out{\hypertarget{method-get_output}{}}}
 \subsection{Method \code{get_output()}}{
 Get the output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output(iter1 = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -185,6 +218,46 @@ Saves the output of the simulation as an empirical distribution.
 \subsection{Returns}{
 An instance of EmpiricalDistr
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-density_plot"></a>}}
+\if{latex}{\out{\hypertarget{method-density_plot}{}}}
+\subsection{Method \code{density_plot()}}{
+Makes a density plot of the model output
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-histogram"></a>}}
+\if{latex}{\out{\hypertarget{method-histogram}{}}}
+\subsection{Method \code{histogram()}}{
+Makes a histogram of the model output
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$histogram()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-boxplot"></a>}}
+\if{latex}{\out{\hypertarget{method-boxplot}{}}}
+\subsection{Method \code{boxplot()}}{
+Makes a boxplot of the model output
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$boxplot()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-quantiles"></a>}}
+\if{latex}{\out{\hypertarget{method-quantiles}{}}}
+\subsection{Method \code{quantiles()}}{
+Makes a summary table of the model output
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$quantiles(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

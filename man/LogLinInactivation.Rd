@@ -12,24 +12,30 @@ R6 class describing log-linear inactivation
 A risk module describing log-linear inactivation. It has 3 inputs: logN0, t
 and D.
 }
-\section{Super class}{
-\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{LogLinInactivation}
+\section{Super classes}{
+\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{\link[biorisk:NA]{biorisk::NA}} -> \code{LogLinInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{LogLinInactivation$new()}}
-\item \href{#method-simulate}{\code{LogLinInactivation$simulate()}}
+\item \href{#method-discrete_prediction}{\code{LogLinInactivation$discrete_prediction()}}
 \item \href{#method-clone}{\code{LogLinInactivation$clone()}}
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot">}\href{../../biorisk/html/RiskModule.html#method-boxplot}{\code{biorisk::RiskModule$boxplot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot">}\href{../../biorisk/html/RiskModule.html#method-density_plot}{\code{biorisk::RiskModule$density_plot()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram">}\href{../../biorisk/html/RiskModule.html#method-histogram}{\code{biorisk::RiskModule$histogram()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles">}\href{../../biorisk/html/RiskModule.html#method-quantiles}{\code{biorisk::RiskModule$quantiles()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate">}\href{../../biorisk/html/RiskModule.html#method-simulate}{\code{biorisk::RiskModule$simulate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_level">}\href{../../biorisk/html/RiskModule.html#method-simulate_level}{\code{biorisk::RiskModule$simulate_level()}}\out{</span>}
 }
 \out{</details>}
 }
@@ -38,29 +44,19 @@ and D.
 \if{latex}{\out{\hypertarget{method-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$new(name, units = NA, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate}{}}}
-\subsection{Method \code{simulate()}}{
-Simulates the module
+\if{html}{\out{<a id="method-discrete_prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-discrete_prediction}{}}}
+\subsection{Method \code{discrete_prediction()}}{
+Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$simulate(niter)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{LogLinInactivation$discrete_prediction()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{niter}}{Number of Monte Carlo simulations.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-the output of the module
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

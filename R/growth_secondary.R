@@ -8,49 +8,76 @@
 #'
 Ratkowsky_model <- R6::R6Class(
   classname = "Ratkowsky_model",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature"),
                        units = units,
                        module_type = "secondary",
                        output_var = "mu",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      b <- self$depends_on$b$discrete_prediction()
+      Tmin <- self$depends_on$Tmin$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
 
-      sims <- tibble::tibble(
-        temperature = self$depends_on$temperature$simulate(niter),
-        b = self$depends_on$b$simulate(niter),
-        Tmin = self$depends_on$Tmin$simulate(niter),
-      ) %>%
+      sq_mu <- b*(temperature - Tmin)
+
+      ifelse(temperature < Tmin,
+             0,
+             sq_mu^2
+             )
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           sq_mu = b*(temperature - Tmin),
           mu = sq_mu^2
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          sq_mu = b*(temperature - Tmin),
+          mu = sq_mu^2
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -68,51 +95,78 @@ Ratkowsky_model <- R6::R6Class(
 #'
 Ratkowsky_model_error <- R6::R6Class(
   classname = "Ratkowsky_model_error",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature", "sigma"),
                        units = units,
                        module_type = "secondary",
                        output_var = "mu",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      b <- self$depends_on$b$discrete_prediction()
+      Tmin <- self$depends_on$Tmin$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
 
-      sims <- tibble::tibble(
-        temperature = self$depends_on$temperature$simulate(niter),
-        b = self$depends_on$b$simulate(niter),
-        Tmin = self$depends_on$Tmin$simulate(niter),
-        sigma = self$depends_on$sigma$simulate(niter)
-      ) %>%
-        dplyr::mutate(.,
+      sq_mu <- b*(temperature - Tmin)
+
+      ifelse(temperature < Tmin,
+             0,
+             sq_mu^2
+      )
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
           sq_mu_mean = b*(temperature - Tmin),
           sq_mu = rnorm(n = nrow(.), mean = sq_mu_mean, sd = sigma),
           mu = sq_mu^2
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          sq_mu_mean = b*(temperature - Tmin),
+          sq_mu = rnorm(n = niter0, mean = sq_mu_mean, sd = sigma),
+          mu = sq_mu^2
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -138,8 +192,8 @@ Ratkowsky_model_error <- R6::R6Class(
 #             )
 #
 # plot_model(mu)
-# mu$simulate(1000) %>% hist()
-#
+# mu$simulate(1000)
+# mu$density_plot()
 # (.15*(15-0))^2
 #
 # mu_e <- Ratkowsky_model_error$new("aa")$
@@ -153,7 +207,7 @@ Ratkowsky_model_error <- R6::R6Class(
 #   map_input("sigma", Constant$new("sigma", .5))
 #
 # plot_model(mu_e)
-# mu_e$simulate(100) %>% hist()
-
+# mu_e$simulate(100)
+# mu_e$density_plot()
 
 

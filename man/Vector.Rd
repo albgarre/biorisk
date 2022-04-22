@@ -30,14 +30,20 @@ A constant vector that can be used as input by other methods
 \itemize{
 \item \href{#method-new}{\code{Vector$new()}}
 \item \href{#method-simulate}{\code{Vector$simulate()}}
+\item \href{#method-simulate_level}{\code{Vector$simulate_level()}}
 \item \href{#method-clone}{\code{Vector$clone()}}
 }
 }
 \if{html}{
-\out{<details open ><summary>Inherited methods</summary>}
+\out{<details ><summary>Inherited methods</summary>}
 \itemize{
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot">}\href{../../biorisk/html/RiskModule.html#method-boxplot}{\code{biorisk::RiskModule$boxplot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot">}\href{../../biorisk/html/RiskModule.html#method-density_plot}{\code{biorisk::RiskModule$density_plot()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="discrete_prediction">}\href{../../biorisk/html/RiskModule.html#method-discrete_prediction}{\code{biorisk::RiskModule$discrete_prediction()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram">}\href{../../biorisk/html/RiskModule.html#method-histogram}{\code{biorisk::RiskModule$histogram()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles">}\href{../../biorisk/html/RiskModule.html#method-quantiles}{\code{biorisk::RiskModule$quantiles()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
 }
@@ -68,6 +74,28 @@ is different from niter, it raises an error.
 \item{\code{niter}}{Number of iterations (length of the vector).}
 
 \item{\code{check_units}}{Ignored.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-simulate_level"></a>}}
+\if{latex}{\out{\hypertarget{method-simulate_level}{}}}
+\subsection{Method \code{simulate_level()}}{
+Simulation at some level for X-D Monte Carlo
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Vector$simulate_level(niter0, iter1 = 1, level = 0)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{niter0}}{Number of iterations at the lower level}
+
+\item{\code{iter1}}{Iteration at the upper level}
+
+\item{\code{level}}{Level of the calculation (ignored, it always returns a vector
+to facilitate the mutates)}
 }
 \if{html}{\out{</div>}}
 }

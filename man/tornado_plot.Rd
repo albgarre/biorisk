@@ -4,7 +4,7 @@
 \alias{tornado_plot}
 \title{Tornado plot}
 \usage{
-tornado_plot(node, which = "output", method = "spearman", use = "everything")
+tornado_plot(node, chosen = NULL, method = "spearman", use = "everything")
 }
 \description{
 Tornado plot

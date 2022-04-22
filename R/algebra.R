@@ -1,5 +1,4 @@
 
-
 #' Sum of the output of two modules
 #'
 #' @export
@@ -11,36 +10,59 @@ ModulePlus <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$a$discrete_prediction() + self$depends_on$b$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = a + b
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = a + b
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -59,36 +81,59 @@ ModuleMinus <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$a$discrete_prediction() - self$depends_on$b$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = a - b
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = a - b
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -107,36 +152,59 @@ ModuleTimes <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$a$discrete_prediction() * self$depends_on$b$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = a * b
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = a * b
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -144,7 +212,7 @@ ModuleTimes <- R6::R6Class(
 
 )
 
-#' Division of the output of two modules
+#' Division of the output of two modules (a/b)
 #'
 #' @export
 #'
@@ -155,36 +223,59 @@ ModuleDivision <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$a$discrete_prediction() / self$depends_on$b$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          x = a/b
+          x = a / b
         )
-
-      ## Save the results of the simulations
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = a / b
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -192,7 +283,7 @@ ModuleDivision <- R6::R6Class(
 
 )
 
-#' Calculation of the output of one module to the power of a different one
+#' Power of the output of two modules (a^b)
 #'
 #' @export
 #'
@@ -203,36 +294,59 @@ ModulePower <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$a$discrete_prediction() ^ self$depends_on$b$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          x = a^b
+          x = a ^ b
         )
-
-      ## Save the results of the simulations
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = a ^ b
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -240,7 +354,7 @@ ModulePower <- R6::R6Class(
 
 )
 
-#' Square root of the output of a module
+#' Square root of the output of a modules
 #'
 #' @export
 #'
@@ -251,35 +365,59 @@ ModuleSqrt <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      sqrt(self$depends_on$a$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = sqrt(a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = sqrt(a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -298,35 +436,59 @@ ModuleLog <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      log10(self$depends_on$a$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = log10(a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = log10(a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -345,35 +507,59 @@ ModuleLn <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      log(self$depends_on$a$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = log(a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = log(a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -392,35 +578,59 @@ ModuleExp <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      exp(self$depends_on$a$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = exp(a)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = exp(a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -439,43 +649,65 @@ ModulePow10 <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      10^(self$depends_on$a$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          x = 10^a
+          x = 10^(a)
         )
-
-      ## Save the results of the simulations
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = 10^(a)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
   )
 
 )
-
-## tests
 
 # N1 <- Normal$new("N1")$
 #   map_input("mu", Constant$new("mu_1", 1))$
@@ -485,61 +717,67 @@ ModulePow10 <- R6::R6Class(
 #   map_input("mu", Constant$new("mu_2", 5))$
 #   map_input("sigma", Constant$new("sd_2", 4))
 #
-# ModulePlus$new("sum")$
+# aa <- ModulePlus$new("sum")$
 #   map_input("a", N1)$
-#   map_input("b", N2)$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", N2)
 #
-# ModuleMinus$new("-")$
+# aa$simulate(1000)
+# aa$density_plot()
+#
+# aa <- ModuleMinus$new("sum")$
 #   map_input("a", N1)$
-#   map_input("b", N2)$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", N2)
 #
-# ModuleTimes$new("-")$
+# aa$simulate(1000)
+# aa$density_plot()
+#
+# aa <- ModuleTimes$new("sum")$
 #   map_input("a", N1)$
-#   map_input("b", N2)$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", N2)
 #
-# ModuleDivision$new("-")$
-#   map_input("a", N2)$
-#   map_input("b", N1)$
-#   simulate(1000) %>%
-#   hist()
+# aa$simulate(1000)
+# aa$density_plot()
 #
-# ModulePower$new("-")$
+# aa <- ModuleDivision$new("sum")$
 #   map_input("a", N1)$
-#   map_input("b", Constant$new("a", 2))$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", N2)
 #
-# ModuleSqrt$new("-")$
-#   map_input("a", N2)$
-#   simulate(1000) %>%
-#   hist()
+# aa$simulate(1000)
+# aa$density_plot()
 #
-# ModuleLog$new("-")$
-#   map_input("a", N2)$
-#   simulate(1000) %>%
-#   hist()
 #
-# ModuleLn$new("")$
-#   map_input("a", N2)$
-#   simulate(1000) %>%
-#   hist()
-#
-# ModuleExp$new("")$
+# aa <- ModulePower$new("-")$
 #   map_input("a", N1)$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", Constant$new("a", 2))
 #
-# ModulePow10$new("")$
-#   map_input("a", N2)$
-#   simulate(1000) %>%
-#   hist()
-
-
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <-ModuleSqrt$new("-")$
+#   map_input("a", N2)
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- ModuleLog$new("-")$
+#   map_input("a", N2)
+#
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- ModuleLn$new("")$
+#   map_input("a", N2)
+#
+# aa$simulate(100)
+# aa$density_plot()
+#
+# aa <- ModuleExp$new("")$
+#   map_input("a", N1)
+# aa$simulate(100)
+# aa$histogram()
+#
+# aa <- ModulePow10$new("")$
+#   map_input("a", N2)
+# aa$simulate(52)
+# aa$histogram()
 
 

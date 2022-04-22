@@ -7,42 +7,66 @@
 #'
 ExponentialGrowth <- R6::R6Class(
   classname = "ExponentialGrowth",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0"),
                        units = units,
                        module_type = "growth",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      self$depends_on$logN0$discrete_prediction() + self$depends_on$t$discrete_prediction() * self$depends_on$mu$discrete_prediction()
 
-      sims <- tibble::tibble(
-        t = self$depends_on$t$simulate(niter),
-        mu = self$depends_on$mu$simulate(niter),
-        logN0 = self$depends_on$logN0$simulate(niter)
-      ) %>%
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           logN = logN0 + t*mu
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logN = logN0 + t*mu
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -58,44 +82,75 @@ ExponentialGrowth <- R6::R6Class(
 #'
 ExponentialGrowthNmax <- R6::R6Class(
   classname = "ExponentialGrowthNmax",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "logNmax"),
                        units = units,
                        module_type = "growth",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$discrete_prediction()
+      mu <- self$depends_on$mu$discrete_prediction()
+      logNmax <- self$depends_on$logNmax$discrete_prediction()
 
-      sims <- tibble::tibble(
-        t = self$depends_on$t$simulate(niter),
-        mu = self$depends_on$mu$simulate(niter),
-        logN0 = self$depends_on$logN0$simulate(niter),
-        logNmax = self$depends_on$logNmax$simulate(niter)
-      ) %>%
+      logN <- logN0 + t*mu
+
+      ifelse(logN > logNmax, logNmax, logN)
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           logN_calc = logN0 + t*mu,
           logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logN_calc = logN0 + t*mu,
+          logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -103,39 +158,53 @@ ExponentialGrowthNmax <- R6::R6Class(
 
 )
 
-
-
 #' Growth model with exponential phase + lag
 #'
 #' @export
 #'
 LagExponentialGrowth <- R6::R6Class(
   "LagExponentialGrowth",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
 
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t", "lambda", "mu", "logN0"),
                        units = units,
                        module_type = "growth",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter, check_units = FALSE) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      sims <- tibble::tibble(
-        t = self$depends_on$t$simulate(niter),
-        mu = self$depends_on$mu$simulate(niter),
-        logN0 = self$depends_on$logN0$simulate(niter),
-        lambda = self$depends_on$lambda$simulate(niter)
-      ) %>%
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$discrete_prediction()
+      mu <- self$depends_on$mu$discrete_prediction()
+      lambda <- self$depends_on$lambda$discrete_prediction()
+
+      logN <- logN0 + t*mu
+
+      ifelse(t > lambda, logN, logN0)
+
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           logN = ifelse(t <= lambda,
                         logN0,
@@ -143,17 +212,36 @@ LagExponentialGrowth <- R6::R6Class(
           )
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
 
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logN = ifelse(t <= lambda,
+                        logN0,
+                        logN0 + (t-lambda)*mu
+          )
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
+
   )
+
 )
 
 #' Growth model with exponential phase + lag
@@ -162,56 +250,100 @@ LagExponentialGrowth <- R6::R6Class(
 #'
 TrilinealGrowth <- R6::R6Class(
   "TrilinealGrowth",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
 
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t", "lambda", "mu", "logN0", "logNmax"),
                        units = units,
                        module_type = "growth",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter, check_units = FALSE) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      sims <- tibble::tibble(
-        t = self$depends_on$t$simulate(niter),
-        mu = self$depends_on$mu$simulate(niter),
-        logN0 = self$depends_on$logN0$simulate(niter),
-        lambda = self$depends_on$lambda$simulate(niter),
-        logNmax = self$depends_on$logNmax$simulate(niter)
-      ) %>%
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$discrete_prediction()
+      mu <- self$depends_on$mu$discrete_prediction()
+      lambda <- self$depends_on$lambda$discrete_prediction()
+      logNamx <- self$depends_on$logNmax$discrete_prediction()
+
+      if (t < lambda) {
+
+        logN0
+
+      } else {
+
+        logN <- logN0 + (t-lambda)*mu
+
+        ifelse(logN > logNmax, logNmax, logN)
+
+      }
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           logN_calc = ifelse(t <= lambda,
-                        logN0,
-                        logN0 + (t-lambda)*mu
-                        ),
+                             logN0,
+                             logN0 + (t-lambda)*mu
+                             ),
           logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
 
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logN_calc = ifelse(t <= lambda,
+                             logN0,
+                             logN0 + (t-lambda)*mu
+                             ),
+          logN = ifelse(logN_calc > logNmax, logNmax, logN_calc)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
+
   )
+
 )
 
+### tests
 
-# ### tests
-#
 # time <- Constant$new("Time", 3)
 #
 # mu <- Normal$new("mu")$
@@ -222,19 +354,15 @@ TrilinealGrowth <- R6::R6Class(
 #   map_input("mu", Constant$new("mu", 2))$
 #   map_input("sigma", Constant$new("sigma", 0.5))
 #
-# growth_model <- ExponentialGrowth$new("Growth")$
-#   map_input("t", time)$
-#   map_input("mu", mu)$
-#   map_input("logN0", logN0)
-#
-# growth_model$simulate(1000) %>% hist()
-# growth_model$simulations
 #
 # growth_model <- ExponentialGrowthNmax$new("Growth")$
 #   map_input("t", time)$
 #   map_input("mu", mu)$
 #   map_input("logN0", logN0)$
 #   map_input("logNmax", Constant$new("logNmax", 4))
+#
+# growth_model$simulate(1000)
+# growth_model$density_plot()
 #
 # growth_model <- TrilinealGrowth$new("Growth")$
 #   map_input("t", time)$
@@ -243,67 +371,8 @@ TrilinealGrowth <- R6::R6Class(
 #   map_input("logNmax", Constant$new("logNmax", 4))$
 #   map_input("lambda", Constant$new("lambda", 1.5))
 #
-# growth_model$simulate(100)
-#
 # growth_model$simulate(1000)
-#
-# ## tests
-#
-### Inactivation
-
-# library(biorisk)
-# library(tidyverse)
-#
-# treat_time <- Constant$new("Time", 30)
-#
-# D <- Normal$new("logD")$
-#   map_input("mu", Constant$new("mu", 1))$
-#   map_input("sigma", Constant$new("sigma", 0.2))
-#
-# logN0 <- Normal$new("logD")$
-#   map_input("mu", Constant$new("mu", 2))$
-#   map_input("sigma", Constant$new("sigma", 0.5))
-#
-# inact_model <- LogLinInactivation$new("Inactivation")$
-#   map_input("t", treat_time)$
-#   map_input("D", D)$
-#   map_input("logN0", logN0)
-#
-# ## Storage
-#
-# stor_time <- Constant$new("Storage time", 3)
-#
-# mu <- Normal$new("mu")$
-#   map_input("mu", Constant$new("mu", 1))$
-#   map_input("sigma", Constant$new("sigma", 0.2))
-#
-# growth_model <- ExponentialGrowth$new("Growth")$
-#   map_input("t", stor_time)$
-#   map_input("mu", mu)$
-#   map_input("logN0", inact_model)
-#
-# growth_model <- ExponentialGrowth$new("Growth")
-#
-# growth_model$map_input("t", stor_time)
-# growth_model$map_input("mu", mu)
-# growth_model$map_input("logN0", inact_model)
-#
-# ### Simulate and plot
-#
-# growth_model$simulate(1000)
-#
-# tibble(
-#   logN0 = logN0$get_output(),
-#   treatment = inact_model$get_output(),
-#   consumer = growth_model$get_output()
-# ) %>%
-#   pivot_longer(everything(), names_to = "step", values_to = "logN") %>%
-#   mutate(step = factor(step, levels = c("logN0", "treatment", "consumer"))) %>%
-#   ggplot() +
-#   geom_boxplot(aes(x = step, y = logN))
-#
-# inact_model$simulations
-# plot_model(inact_model)
+# growth_model$density_plot()
 
 
 

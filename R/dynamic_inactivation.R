@@ -1,6 +1,8 @@
 
 #' Dynamic microbial inactivation for the Bigelow model with a ramp profile
 #'
+#' @importFrom bioinactivation predict_inactivation
+#'
 predict_Bigelow_ramp <- function(max_time, D_R, z, temp_ref, logN0,
                                  temp_start, temp_end) {
 
@@ -8,7 +10,7 @@ predict_Bigelow_ramp <- function(max_time, D_R, z, temp_ref, logN0,
                    z = z,
                    temp_ref = temp_ref,
                    logN0 = logN0
-                   )
+  )
 
   times <- seq(0, max_time, length=100)
 
@@ -32,51 +34,63 @@ predict_Bigelow_ramp <- function(max_time, D_R, z, temp_ref, logN0,
 #'
 DynamicBigelow_1phase <- R6::R6Class(
   classname = "DynamicBigelow_1phase",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
-                       input_names = c("treat_time", "D_R", "z", "temp_ref",
+                       input_names = c("max_time", "D_R", "z", "temp_ref",
                                        "logN0", "temp_start", "temp_end"),
                        units = units,
                        module_type = "inactivation",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      stop("Discrete predictions not (yet) implemented for dynamic modules")
 
-      sims <- tibble::tibble(
-        logN0 = self$depends_on$logN0$simulate(niter),
-        max_time = self$depends_on$treat_time$simulate(niter),
-        D_R = self$depends_on$D_R$simulate(niter),
-        z = self$depends_on$z$simulate(niter),
-        temp_ref = self$depends_on$temp_ref$simulate(niter),
-        temp_start = self$depends_on$temp_start$simulate(niter),
-        temp_end = self$depends_on$temp_end$simulate(niter),
-      ) %>%
-        mutate(logN = purrr::pmap_dbl(., predict_Bigelow_ramp))
+    }
 
-      ## Save the results of the simulations
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_ramp))
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+          dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_ramp))
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -87,7 +101,7 @@ DynamicBigelow_1phase <- R6::R6Class(
 #' Dynamic microbial inactivation for the Bigelow model with a biphasic profile
 #'
 predict_Bigelow_biphasic <- function(t1, t2, D_R, z, temp_ref, logN0,
-                                 temp0, temp1, temp2) {
+                                     temp0, temp1, temp2) {
 
   model_parms <- c(D_R = D_R,
                    z = z,
@@ -116,12 +130,13 @@ predict_Bigelow_biphasic <- function(t1, t2, D_R, z, temp_ref, logN0,
 #'
 DynamicBigelow_2phase <- R6::R6Class(
   classname = "DynamicBigelow_2phase",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t1", "t2", "D_R", "z", "temp_ref",
@@ -129,40 +144,51 @@ DynamicBigelow_2phase <- R6::R6Class(
                        units = units,
                        module_type = "inactivation",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      stop("Discrete predictions not (yet) implemented for dynamic modules")
 
-      sims <- tibble::tibble(
-        logN0 = self$depends_on$logN0$simulate(niter),
-        t1 = self$depends_on$t1$simulate(niter),
-        t2 = self$depends_on$t2$simulate(niter),
-        D_R = self$depends_on$D_R$simulate(niter),
-        z = self$depends_on$z$simulate(niter),
-        temp_ref = self$depends_on$temp_ref$simulate(niter),
-        temp0 = self$depends_on$temp0$simulate(niter),
-        temp1 = self$depends_on$temp1$simulate(niter),
-        temp2 = self$depends_on$temp2$simulate(niter)
-      ) %>%
-        mutate(logN = purrr::pmap_dbl(., predict_Bigelow_biphasic))
+    }
 
-      ## Save the results of the simulations
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      # browser()
+
+      sims <- self$simulations %>%
+          dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_biphasic))
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+          dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_biphasic))
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -170,11 +196,10 @@ DynamicBigelow_2phase <- R6::R6Class(
 
 )
 
-
 #' Dynamic microbial inactivation for the Bigelow model with a triphasic profile
 #'
 predict_Bigelow_triphasic <- function(t1, t2, t3, D_R, z, temp_ref, logN0,
-                                     temp0, temp1, temp2, temp3) {
+                                      temp0, temp1, temp2, temp3) {
 
   model_parms <- c(D_R = D_R,
                    z = z,
@@ -204,12 +229,13 @@ predict_Bigelow_triphasic <- function(t1, t2, t3, D_R, z, temp_ref, logN0,
 #'
 DynamicBigelow_3phase <- R6::R6Class(
   classname = "DynamicBigelow_3phase",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("t1", "t2", "t3", "D_R", "z", "temp_ref",
@@ -217,42 +243,49 @@ DynamicBigelow_3phase <- R6::R6Class(
                        units = units,
                        module_type = "inactivation",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-
     #' @description
-    #' Simulates the module
-    #' @param niter Number of Monte Carlo simulations.
-    #' @return the output of the module
+    #' Returns the expected value
     #'
-    simulate = function(niter) {
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      stop("Discrete predictions not (yet) implemented for dynamic modules")
 
-      sims <- tibble::tibble(
-        logN0 = self$depends_on$logN0$simulate(niter),
-        t1 = self$depends_on$t1$simulate(niter),
-        t2 = self$depends_on$t2$simulate(niter),
-        t3 = self$depends_on$t3$simulate(niter),
-        D_R = self$depends_on$D_R$simulate(niter),
-        z = self$depends_on$z$simulate(niter),
-        temp_ref = self$depends_on$temp_ref$simulate(niter),
-        temp0 = self$depends_on$temp0$simulate(niter),
-        temp1 = self$depends_on$temp1$simulate(niter),
-        temp2 = self$depends_on$temp2$simulate(niter),
-        temp3 = self$depends_on$temp3$simulate(niter)
-      ) %>%
-        mutate(logN = purrr::pmap_dbl(., predict_Bigelow_triphasic))
+    }
 
-      ## Save the results of the simulations
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_triphasic))
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims[[self$output]]
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(logN = purrr::pmap_dbl(., predict_Bigelow_triphasic))
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
 
     }
 
@@ -260,9 +293,10 @@ DynamicBigelow_3phase <- R6::R6Class(
 
 )
 
+
 #-------------------------------------------------------------------------------
-# ## Test Bigelow ramp
-#
+## Test Bigelow ramp
+
 # D_R <- LogNormal$new("D_R")$
 #   map_input("mu_log10", Constant$new("mu_logD", 1))$
 #   map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
@@ -291,15 +325,16 @@ DynamicBigelow_3phase <- R6::R6Class(
 # inact_model <- DynamicBigelow_1phase$new("inact_model")$
 #   map_input("D_R", D_R)$
 #   map_input("logN0", logN0)$
-#   map_input("treat_time", treat_time)$
+#   map_input("max_time", treat_time)$
 #   map_input("z", z)$
 #   map_input("temp_ref", temp_ref)$
 #   map_input("temp_start", temp_start)$
 #   map_input("temp_end", temp_end)
 #
 # plot_model(inact_model)
-# inact_model$simulate(1000) %>% hist()
-# inact_model$simulations
+# inact_model$simulate(1000)
+# inact_model$density_plot()
+# logN0$density_plot()
 
 
 ## Test Bigelow biphasic
@@ -348,9 +383,9 @@ DynamicBigelow_3phase <- R6::R6Class(
 #   map_input("temp1", temp1)$
 #   map_input("temp2", temp2)
 #
-# plot_model(inact_model)
-# inact_model$simulate(50) %>% hist()
+# inact_model$simulate(10)
 # inact_model$simulations
+# inact_model$histogram()
 
 ## Test Bigelow triphasic
 
@@ -409,30 +444,6 @@ DynamicBigelow_3phase <- R6::R6Class(
 #   map_input("temp3", temp3)
 #
 # plot_model(inact_model)
-# inact_model$simulate(50) %>% hist()
-# inact_model$simulations
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+# inact_model$simulate(50)
+# inact_model$histogram()
 

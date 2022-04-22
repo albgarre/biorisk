@@ -7,42 +7,67 @@
 #'
 Normal <- R6::R6Class(
   classname = "Normal",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("mu", "sigma"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      self$depends_on$mu$discrete_prediction()
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        mu = self$depends_on$mu$simulate(niter),
-        sd = self$depends_on$sigma$simulate(niter)
-        ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          x = rnorm(niter, mu, sd)
-          )
-
-      ## Save the results of the simulations
+          x = rnorm(niter, mu, sigma)
+        )
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rnorm(niter0, mu, sigma)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -53,42 +78,67 @@ Normal <- R6::R6Class(
 #'
 LnNormal <- R6::R6Class(
   classname = "LnNormal",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("mu_ln", "sigma_ln"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the median
+    #'
+    discrete_prediction = function() {
+      exp(self$depends_on$mu_ln$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        mu = self$depends_on$mu_ln$simulate(niter),
-        sd = self$depends_on$sigma_ln$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          x = rlnorm(niter, mu, sd)
+          x = rlnorm(niter, mu_ln, sigma_ln)
         )
-
-      ## Save the results of the simulations
 
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rlnorm(niter0, mu_ln, sigma_ln)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -99,43 +149,69 @@ LnNormal <- R6::R6Class(
 #'
 LogNormal <- R6::R6Class(
   classname = "LogNormal",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("mu_log10", "sigma_log10"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the median
+    #'
+    discrete_prediction = function() {
+      10^(self$depends_on$mu_log10$discrete_prediction())
+    }
 
-      ## Do the simulations (recursively)
+  ),
 
-      sims <- tibble::tibble(
-        mu = self$depends_on$mu_log10$simulate(niter),
-        sd = self$depends_on$sigma_log10$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
-          y = rnorm(niter, mu, sd),
+          y = rnorm(niter, mu_log10, sigma_log10),
           x = 10^y
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          y = rnorm(niter0, mu_log10, sigma_log10),
+          x = 10^y
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -146,42 +222,66 @@ LogNormal <- R6::R6Class(
 #'
 Weibull <- R6::R6Class(
   classname = "Weibull",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("shape", "scale"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the median
+    #'
+    discrete_prediction = function() {
+      self$depends_on$scale$discrete_prediction()*log(2)^(1/self$depends_on$shape$discrete_prediction())
+    }
+  ),
 
-      ## Do the simulations (recursively)
+  private = list(
 
-      sims <- tibble::tibble(
-        shape = self$depends_on$shape$simulate(niter),
-        scale = self$depends_on$scale$simulate(niter)
-      ) %>%
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = rweibull(niter, shape, scale)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rweibull(niter0, shape, scale)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -192,42 +292,69 @@ Weibull <- R6::R6Class(
 #'
 Beta <- R6::R6Class(
   classname = "Beta",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("shape1", "shape2"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+      a <- self$depends_on$shape1$discrete_prediction()
+      b <- self$depends_on$shape2$discrete_prediction()
 
-      ## Do the simulations (recursively)
+      a/(a+b)
+    }
+  ),
 
-      sims <- tibble::tibble(
-        shape1 = self$depends_on$shape1$simulate(niter),
-        shape2 = self$depends_on$shape2$simulate(niter)
-      ) %>%
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = rbeta(niter, shape1, shape2)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rbeta(niter0, shape1, shape2)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -238,42 +365,69 @@ Beta <- R6::R6Class(
 #'
 Gamma <- R6::R6Class(
   classname = "Gamma",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("shape", "scale"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      self$depends_on$shape$discrete_prediction() * self$depends_on$scale$discrete_prediction()
 
-      sims <- tibble::tibble(
-        shape = self$depends_on$shape$simulate(niter),
-        scale = self$depends_on$scale$simulate(niter)
-      ) %>%
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = rgamma(niter, shape, scale = scale)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rgamma(niter0, shape, scale = scale)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -284,41 +438,68 @@ Gamma <- R6::R6Class(
 #'
 Exponential <- R6::R6Class(
   classname = "Exponential",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("rate"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the median
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      log(2)/self$depends_on$rate$discrete_prediction()
 
-      sims <- tibble::tibble(
-        rate = self$depends_on$rate$simulate(niter)
-      ) %>%
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = rexp(niter, rate)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rexp(niter0, rate)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -329,42 +510,69 @@ Exponential <- R6::R6Class(
 #'
 Uniform <- R6::R6Class(
   classname = "Uniform",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("min", "max"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      (self$depends_on$min$discrete_prediction() * self$depends_on$max$discrete_prediction())/2
 
-      sims <- tibble::tibble(
-        min = self$depends_on$min$simulate(niter),
-        max = self$depends_on$max$simulate(niter)
-      ) %>%
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = runif(niter, min, max)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = runif(niter0, min, max)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -375,43 +583,68 @@ Uniform <- R6::R6Class(
 #'
 Triangular <- R6::R6Class(
   classname = "Triangular",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b", "c"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      (self$depends_on$a$discrete_prediction() + self$depends_on$b$discrete_prediction() + self$depends_on$c$discrete_prediction() )/3
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter),
-        c = self$depends_on$c$simulate(niter)
-      ) %>%
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = extraDistr::rtriang(niter, a, b, c)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = extraDistr::rtriang(niter0, a, b, c)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -422,42 +655,68 @@ Triangular <- R6::R6Class(
 #'
 TriangularSym <- R6::R6Class(
   classname = "TriangularSym",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      (self$depends_on$a$discrete_prediction() * self$depends_on$b$discrete_prediction())/2
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = extraDistr::rtriang(niter, a, b)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = extraDistr::rtriang(niter0, a, b)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -468,44 +727,69 @@ TriangularSym <- R6::R6Class(
 #'
 Pareto <- R6::R6Class(
   classname = "Pareto",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the model
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      self$depends_on$b$discrete_prediction()
 
-      sims <- tibble::tibble(
-        a = self$depends_on$a$simulate(niter),
-        b = self$depends_on$b$simulate(niter)
-      ) %>%
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = extraDistr::rpareto(niter, a, b)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = extraDistr::rpareto(niter0, a, b)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
   )
-
 )
 
 #' A module simulating a Pert distribution
@@ -514,44 +798,68 @@ Pareto <- R6::R6Class(
 #'
 Pert <- R6::R6Class(
   classname = "Pert",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = c("min", "mode", "max", "shape"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level =  level)
 
     },
 
-    simulate = function(niter) {
+    #' @description
+    #' Returns the mode
+    #'
+    discrete_prediction = function() {
 
-      ## Do the simulations (recursively)
+      self$depends_on$mode$discrete_prediction()
 
-      sims <- tibble::tibble(
-        min = self$depends_on$min$simulate(niter),
-        mode = self$depends_on$mode$simulate(niter),
-        max = self$depends_on$max$simulate(niter),
-        shape = self$depends_on$shape$simulate(niter)
-      ) %>%
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
         dplyr::mutate(
           x = mc2d::rpert(niter, min, mode, max, shape)
         )
 
-      ## Save the results of the simulations
-
       self$simulations <- sims
 
-      ## Return
+    },
 
-      sims$x
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = mc2d::rpert(niter, min, mode, max, shape)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
     }
+
   )
 
 )
@@ -573,9 +881,8 @@ Pert <- R6::R6Class(
 # # aa$depends_on
 # # my_mean$depended_by
 #
-# logN0$simulate(2000) %>% hist()
-# logN0$simulations
-# logN0$get_output()
+# logN0$simulate(2000)
+# logN0$histogram()
 #
 # ## test 2
 #
@@ -586,8 +893,8 @@ Pert <- R6::R6Class(
 #   map_input("mu", big_mean)$
 #   map_input("sigma", big_sd)
 #
-# norm1$simulate(100) %>%
-#   hist()
+# norm1$simulate(100)
+# norm1$histogram()
 #
 # small_sd <- Constant$new("small sd", 0.3)
 #
@@ -595,79 +902,105 @@ Pert <- R6::R6Class(
 #   map_input("mu", norm1)$
 #   map_input("sigma", small_sd)
 #
-# norm2$simulate(1000) %>% hist()
-# norm2$simulations
-# norm2$get_output()
+# norm2$simulate(1000)
+# norm2$density_plot()
 #
-# LnNormal$new("test")$
+# aa <- LnNormal$new("test")$
 #   map_input("mu_ln", Constant$new("aa", 4))$
-#   map_input("sigma_ln", Constant$new("bb", .2))$
-#   simulate(1000) %>% hist()
+#   map_input("sigma_ln", Constant$new("bb", .2))
 #
-# LogNormal$new("test")$
+# aa$simulate(100)
+# aa$histogram()
+#
+# aa <- LogNormal$new("test")$
 #   map_input("mu_log10", Constant$new("aa", 4))$
-#   map_input("sigma_log10", Constant$new("bb", .1))$
-#   simulate(1000) %>% {log10(.)} %>% hist()
+#   map_input("sigma_log10", Constant$new("bb", .1))
 #
-# Weibull$new("")$
+# aa$simulate(1000)
+# aa$density_plot()
+#
+# aa <- Weibull$new("")$
 #   map_input("shape",
 #             Normal$new("aa")$
 #               map_input("mu", Constant$new("", 3))$
 #               map_input("sigma", Constant$new("", .1))
 #             )$
-#   map_input("scale", Constant$new("bb", 3))$
-#   simulate(1000) %>% hist()
+#   map_input("scale", Constant$new("bb", 3))
 #
-# Beta$new("")$
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- Beta$new("aa")$
 #   map_input("shape1", Constant$new("", 3))$
-#   map_input("shape2", Constant$new("", 4))$
-#   simulate(1000) %>% hist()
+#   map_input("shape2", Constant$new("", 4))
 #
-# Gamma$new("")$
-#   map_input("shape", Constant$new("", 1))$
-#   map_input("scale", Constant$new("as", 3))$
-#   simulate(1000) %>% hist()
+# aa$simulate(1000)
+# aa$density_plot()
 #
 # aa <- Gamma$new("")$
 #   map_input("shape", Constant$new("", 1))$
 #   map_input("scale", Constant$new("as", 3))
 #
-# Exponential$new("")$
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- Gamma$new("")$
+#   map_input("shape", Constant$new("", 1))$
+#   map_input("scale", Constant$new("as", 3))
+#
+# aa <- Exponential$new("")$
 #   # map_input("rate", Constant$new("", 3))$
 #   # simulate(1000)
-#   map_input("rate",aa)$
-#   simulate(1000) %>% hist()
+#   map_input("rate",aa)
 #
-# Uniform$new("")$
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- Uniform$new("")$
 #   map_input("min", Constant$new("", 2))$
-#   map_input("max", Constant$new("", 4))$
-#   simulate(1000) %>% hist()
+#   map_input("max", Constant$new("", 4))
 #
-# Triangular$new("")$
+# aa$simulate(1000)
+# aa$histogram()
+#
+# aa <- Triangular$new("")$
 #   map_input("a", Constant$new("", 0))$
 #   map_input("b", Constant$new("", 2))$
-#   map_input("c", Constant$new("", 1.5))$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("c", Constant$new("", 1.5))
 #
-# TriangularSym$new("")$
-  # map_input("a", Constant$new("", 0))$
-  # map_input("b", Constant$new("", 2))$
-  # simulate(1000) %>%
-  # hist()
+# aa$simulate(1000)
+# aa$histogram()
 #
-# Pareto$new("")$
+# aa <- TriangularSym$new("")$
+# map_input("a", Constant$new("", 0))$
+# map_input("b", Constant$new("", 2))
+#
+# aa$simulate(1000)
+# aa$density_plot()
+#
+# aa <- Pareto$new("")$
 #   map_input("a", Constant$new("", 2))$
-#   map_input("b", Constant$new("", .5))$
-#   simulate(1000) %>%
-#   hist()
+#   map_input("b", Constant$new("", .5))
 #
-# Pert$new("")$
+# aa$simulate(1000)
+# aa$density_plot()
+#
+# aa <- Pert$new("")$
 #   map_input("min", Constant$new("", 0))$
 #   map_input("mode", Constant$new("", 3))$
 #   map_input("max", Constant$new("", 4))$
-#   map_input("shape", Constant$new("", 8))$
-#   simulate(1000) %>% hist()
+#   map_input("shape", Constant$new("", 8))
+#
+# aa$simulate(1000)
+# aa$histogram()
+
+
+
+
+
+
+
+
 
 
 

@@ -1,11 +1,14 @@
 
 
+
 #' Parent class for modules
 #'
 #'
 RiskModule <- R6::R6Class(
   classname = "RiskModule",
-  # inherit = Module,
+
+  ## Public methods ------------------------------------------------------------
+
   public = list(
 
     ## Fields ------------------------------------------------------------------
@@ -28,12 +31,20 @@ RiskModule <- R6::R6Class(
     #' @field output_unit Unit of the output variable
     output_unit = "",
 
+    #' @field output_type Type of output variable (discrete/continuous)
+    output_type = "",
+
     #' @field simulations A tibble with the results of the simulations
     simulations = tibble::tibble(),
 
     #' @field type A character describing the type of the module
     type = NULL,
 
+    #' @field level Description of the level for X-D Monte Carlo
+    level = NULL,
+
+    #' @field simulations_multi For multidimensional MC
+    simulations_multi = NULL,
 
     ## Methods -----------------------------------------------------------------
 
@@ -52,16 +63,21 @@ RiskModule <- R6::R6Class(
                           units = NA,
                           module_type = "",
                           output_var = "",
-                          output_unit = "") {
+                          output_unit = "",
+                          output_type = "",
+                          level = 0) {
 
       self$name <- name
       self$type <- module_type
       self$inputs <- tibble(var = input_names, units = units)
       self$depends_on <-rep(NA, length(input_names)) %>%
-        set_names(., input_names) %>%
+        set_names(input_names) %>%
         as.list()
       self$output <- output_var
       self$output_unit <- output_unit
+      self$output_type <- output_type
+      self$level <- level
+      self$simulations_multi <- list()
 
     },
 
@@ -98,29 +114,29 @@ RiskModule <- R6::R6Class(
     #' @param check_units Ignored.
     #' @return A vector with the output variable
     #'
-    simulate = function(niter, check_units = FALSE) {
+    simulate = function(niter
+                        # check_units = FALSE, force = TRUE  # TODO
+                        ) {
 
-      stop("Simulate not implemented for this class")
+      private$update_inputs(niter)
+      private$update_output(niter)
+      invisible(self$get_output())
 
-      ## Do the simulations (recursively)
+    },
 
-      # sims <- tibble::tibble(
-      #   t = self$depends_on$t$simulate(niter),
-      #   mu = self$depends_on$mu$simulate(niter),
-      #   logN0 = self$depends_on$logN0$simulate(niter)
-      # ) %>%
-      #   dplyr::mutate(
-      #     logN = logN0 + t*mu
-      #   )
-      #
-      # ## Save the results of the simulations
-      #
-      # self$simulations <- sims
-      #
-      # ## Return
-      #
-      # sims$logN
+    simulate_level = function(niter0, iter1 = 1, level = 0) {
 
+      private$update_inputs_level(niter0, iter1 = iter1, level = level)
+      private$update_output_level(niter0, iter1 = iter1, level = level)
+      invisible(self$get_output(iter1 = iter1))
+
+    },
+
+    #' @description
+    #' Gets a discrete (fast and simple) prediction
+    #'
+    discrete_prediction = function() {
+      stop("Discrete prediction not available for this module")
     },
 
     #' @description
@@ -128,13 +144,19 @@ RiskModule <- R6::R6Class(
     #' @param niter Number of iterations (length of the vector).
     #' @param check_units Ignored.
     #' @return A vector with the output variable
-    get_output = function() {
+    get_output = function(iter1 = NULL) {
 
-      if (nrow(self$simulations) == 0) {
-        stop("Run the simulation first")
+      # if (nrow(self$simulations) == 0) {
+      #   stop("Run the simulation first")
+      # }
+
+      if (is.null(iter1)) {
+
+        self$simulations[[self$output]]
+
+      } else {
+        self$simulations_multi[[iter1]][[self$output]]
       }
-
-      self$simulations[[self$output]]
 
     },
 
@@ -172,51 +194,147 @@ RiskModule <- R6::R6Class(
 
       EmpiricalDistr$new(name, self$get_output())
 
+    },
+
+    #' @description
+    #' Makes a density plot of the model output
+    #'
+    density_plot = function() {
+
+      ggplot() + geom_density(aes(x = self$get_output()))
+
+    },
+
+    #' @description
+    #' Makes a histogram of the model output
+    #'
+    histogram = function() {
+
+      ggplot() + geom_histogram(aes(x = self$get_output()))
+
+    },
+
+    #' @description
+    #' Makes a boxplot of the model output
+    #'
+    boxplot = function() {
+      ggplot() + geom_boxplot(aes(y = self$get_output()))
+    },
+
+    #' @description
+    #' Makes a summary table of the model output
+    #'
+    quantiles = function(probs = c(.01, .1, .5, .9, .99)) {
+
+      quantile(self$get_output(), probs = probs)
+
+    }
+
+  ),
+  private = list(
+
+    #' @description
+    #' Calls the simulate method for the dependencies
+    #'
+    update_inputs = function(niter) {
+
+      sims <- self$depends_on %>% map_dfc(~ .$simulate(niter))
+
+      self$simulations <- sims
+
+    },
+
+    #' @description
+    #' Calculates the output based on the
+    #'
+    update_output = function(niter) {
+      stop("update_output not implemented for this class")
+
+    },
+
+    update_inputs_level = function(niter0, iter1 = 1, level = 0) {
+
+      sims <- self$depends_on %>%
+        map_dfc(~ .$simulate_level(niter0, iter1, level))
+
+      self$simulations_multi[[iter1]] <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      stop("update_output_level not implemented for this class")
+
     }
 
   )
 
 )
 
-# aa <- biorisk:::RiskModule$new("aa", c("t", "T"))
-# bb <- biorisk:::RiskModule$new("bb")
-# aa$depends_on
-# #
-# aa$map_input("t", bb)
-# #
-# aa$depends_on
 
 
 
-# library(biorisk)
-# library(tidyverse)
-#
-# treat_time <- Constant$new("Treat time", 30)
-#
-# treat_time <- Normal$new("Treat time")$
-#   map_input("mu", Constant$new("mu_t", 30))$
-#   map_input("sigma", Constant$new("sigma_t", 3))
-#
-# logD <- Normal$new("logD")$
-#   map_input("mu", Constant$new("mu_logD", 1))$
-#   map_input("sigma", Constant$new("sigma_logD", 0.2))
-#
-# logN0 <- Normal$new("logN0")$
-#   map_input("mu", Constant$new("mu_logN0", 2))$
-#   map_input("sigma", Constant$new("sigma_logN0", 0.5))
-#
-# inact_model <- LogLinInactivation$new("Treatment")$
-#   map_input("t", treat_time)$
-#   map_input("logD", logD)$
-#   map_input("logN0", logN0)
-#
-# inact_model$simulate(1000)
-# aa <- inact_model$save_as_vector()
-# aa$simulate(1000)
-#
-# bb <- inact_model$save_as_distribution("s")
-# bb$name
-# bb$get_output()
+#' Parent for modules with discrete outputs
+#'
+DiscreteModule <- R6::R6Class(
+  inherit = RiskModule,
+
+  public = list(
+    initialize = function(name,
+                          input_names = NA,
+                          units = NA,
+                          module_type = "",
+                          output_var = "",
+                          output_unit = "",
+                          output_type = "",
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = input_names,
+                       units = units,
+                       module_type = module_type,
+                       output_var = output_var,
+                       output_unit = output_unit,
+                       output_type = "discrete",
+                       level = level)
+
+    }
+  )
+
+)
+
+#' Parent for modules with continuous outputs
+#'
+ContinuousModule <- R6::R6Class(
+  inherit = RiskModule,
+
+  public = list(
+    initialize = function(name,
+                          input_names = NA,
+                          units = NA,
+                          module_type = "",
+                          output_var = "",
+                          output_unit = "",
+                          output_type = "",
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = input_names,
+                       units = units,
+                       module_type = module_type,
+                       output_var = output_var,
+                       output_unit = output_unit,
+                       output_type = "continuous",
+                       level = level)
+
+    }
+  )
+
+)
+
+
+
+
 
 
 

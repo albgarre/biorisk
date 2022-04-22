@@ -5,7 +5,7 @@
 #'
 CorrelatedExpGrowth <- R6::R6Class(
   classname = "CorrelatedExpGrowth",
-  inherit = RiskModule,
+  inherit = ContinuousModule,
   public = list(
 
     ## Fields to describe the MVNorm
@@ -20,7 +20,8 @@ CorrelatedExpGrowth <- R6::R6Class(
                           mean_temperature, sd_temperature,
                           correlation,
                           units = NA,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       ## Generic initilization
 
@@ -29,7 +30,8 @@ CorrelatedExpGrowth <- R6::R6Class(
                        units = units,
                        module_type = "growth",
                        output_var = "logN",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
       ## Add the specific fields
 
@@ -39,6 +41,29 @@ CorrelatedExpGrowth <- R6::R6Class(
       self$mean_temperature <- mean_temperature
       self$sd_temperature <- sd_temperature
       self$correlation <- correlation
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      temperature <- self$mean_temperature
+      b <- self$depends_on$b$discrete_prediction()
+      Tmin <- self$depends_on$Tmin$discrete_prediction()
+
+      if (temperature < Tmin) {
+        return(logN0)
+      }
+
+      sq_mu <- b*(temperature - Tmin)
+      mu <- sq_mu^2
+
+      t <- self$mean_time
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+
+      logN0 + t*mu
 
     },
 
@@ -52,10 +77,10 @@ CorrelatedExpGrowth <- R6::R6Class(
       cov_matrix <- b_matrix * matrix(c(1, self$correlation, self$correlation, 1), nrow = 2)
 
       sims <- tibble::as_tibble(mvtnorm::rmvnorm(niter,
-                                 mus,
-                                 cov_matrix),
-                .name_repair = ~ c("t", "temperature")
-                ) %>%
+                                                 mus,
+                                                 cov_matrix),
+                                .name_repair = ~ c("t", "temperature")
+      ) %>%
 
         ## Call the rest of the dependencies
 
@@ -84,16 +109,15 @@ CorrelatedExpGrowth <- R6::R6Class(
 
       ## Return
 
-      sims$logN
+      invisible(sims$logN)
 
     }
 
   )
-
 )
 
-## tests
-
+# ## tests
+#
 # Tmin <- Normal$new("Tmin")$
 #   map_input("mu", Constant$new("0", 0))$
 #   map_input("sigma", Constant$new("1", 1))
@@ -110,25 +134,7 @@ CorrelatedExpGrowth <- R6::R6Class(
 #   map_input("b", b)$
 #   map_input("logN0", Constant$new("logN0", 3))
 #
-# aa$simulate(1000) %>% hist()
+# aa$simulate(1000)
+# aa$histogram()
 #
 # plot_model(aa)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

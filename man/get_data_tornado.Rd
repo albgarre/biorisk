@@ -4,7 +4,7 @@
 \alias{get_data_tornado}
 \title{Extract data for the tornado plot}
 \usage{
-get_data_tornado(node, which = "output")
+get_data_tornado(node)
 }
 \description{
 Extract data for the tornado plot
