@@ -1,0 +1,414 @@
+---
+title: "Conceptual idea"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Conceptual idea}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(biorisk)
+library(tidyverse)
+```
+
+So, this is **biorisk**, a package intended to facilitate the implementation, simulation and analysis of QMRA models based on Monte Carlo simulations. It is still in a conceptual phase. In this document I provide a very general overview of how models are built, simulated and analysed/visualized.
+
+
+## Building modules with biorisk: the module
+
+In **biorisk**, everything is a module. You want to define a normal distribution? You use a module. You want a linear inactivation model? You use a module. You want a constant value? You use a module. You want a growth module with correlation between storage time and temperature? You guessed it right; you need a module! This has two disadvantages. The first one is that, if you just want to fix some value to `2` in your model, you do not write
+
+```{r}
+x <- 2
+```
+
+You have to write 
+
+```{r}
+x <- Constant$new("x", 2)
+```
+
+which is a bit more convoluted. But the advantage of this module-based philosophy is that everything has the same complexity. If you want to define a log-linear inactivation model, you write
+
+```{r}
+inactivation <- LogLinInactivation$new("inactivation")
+```
+
+Or a secondary growth model
+
+```{r}
+mu <- Ratkowsky_model$new("mu")
+```
+
+A dose-response model
+
+```{r}
+dr <- DoseResponse_BetaPoisson$new("dose-response")
+```
+
+Or a distribution
+
+```{r}
+x <- GammaPoisson$new("something")
+```
+
+So, regardless of what you define (distributions, microbial processes, constants, dose-response models...), you will be using modules. So, in order to learn how to work with **biorisk**, you first need to work with modules. 
+
+Modules have two parts. The first one comprises the mathematical calculations (e.g. solving an equation or getting a random value according to some distribution). This is done inside the module and you don't have to worry about it. Your only worry is choosing the right module. This is done by writing the name of the module followed "$new" (the name of every module is given at the end of the document). Then, adding within brackets the name assigned to the module (this is just used for output results, so it is not relevant for the calculations). Moreover, due to the way R works, it is often a good idea to assign modules to a variable. We do that writing the name of the variable followed by "<-". 
+
+This may sound complicated, but it is quite simple. So, we are going to create a module describing a normal distribution. We are going to call this module "logN0" and we are going to assign it to a variable named `logN0` (names do not have to match, but it may be easier to understand if they do).
+
+```{r}
+logN0 <- Normal$new("logN0")
+```
+
+And that's our normal.
+
+The second part of the module is the input/outputs. Every calculations in QMRA requires a number of model parameters (e.g. the D-value for microbial inactivation) and variables describing environmental/logistic factors (e.g. the temperature). In a similar way, probability distributions also need some parameters (e.g. the mean and variance of a normal distribution). All of these are called *inputs* in **biorisk**.
+
+The names of the inputs are defined within the package. To know what names I assigned, you just have to type `$inputs` after the variable saving the distribution.
+
+```{r}
+logN0$inputs
+```
+
+So, a normal distribution needs a mean value (called `mu`) and a standard deviation (called `sigma`). In **biorisk**, we need to assign modules to every input. These modules can be literally anything. We could assign the results of a biological process, the output of a distribution... but, at some point, we will always need to define a module without an input (most times, a constant).
+
+So, we are going two define two constants: one for the mean and one for the standard deviation. They are defined in a very similar way as the normal distribution (they are also a module!). We write the name of the module (`Constant`) plus `$new` and then, the name within brackets. The only difference is that, for constants, we need to assign a value by putting a coma after the name.
+
+So, we are going to define a constant value of 0 for the expected value
+
+```{r}
+mu_logN0 <- Constant$new("mu_logN0", 0)
+```
+
+And a constant value of 0.5 for its standard deviation
+
+```{r}
+sigma_logN0 <- Constant$new("sigma_logN0", .5)
+```
+
+And now we need to assign these constants to the module. For that, we need to call the `$map_input` method. I think it is easier to show it directly with an example. This bit of code
+
+```{r}
+logN0$map_input("mu", mu_logN0)
+```
+
+shows that we are mapping the input named "mu" of module `logN0` (our normal distribution) to another module saved as `mu_logN0` (our constant 0). Then, to map the input named "sigma" of the same module to our constant 0.5 we do
+
+```{r}
+logN0$map_input("sigma", sigma_logN0)
+```
+
+Things are a bit hard to see just with code. For that reason, **biorisk** includes several functions to make life easier. For instance, `plot_model()` plots the structure of the modules. So, if we pass our `logN0` to this function
+
+```{r}
+plot_model(logN0)
+```
+
+It shows us how the modules are mapped. In this case, our module called "logN0" depends on modules "mu_logN0" and "sigma_logN0". In this plot, the shapes and colours show the type of module. A grey triangle is a constant, whereas a blue circle is a distribution. There are other shapes included in the package (e.g. for inactivation, growth, dose-response...) -- in the future, I will also add the name of the input--.
+
+### Code shortcuts (advanced)
+
+The **biorisk** package is implemented in a way that allows several shortcuts. For instance, it allows *method chaining*. In this coding style, you can link operations together. So, you can include the mapping right after the definition of the module. So, this bit of code:
+
+```{r}
+mu_logN0 <- Constant$new("mu_logN0", 0)
+sigma_logN0 <- Constant$new("sigma_logN0", .5)
+
+logN0 <- Normal$new("logN0")$
+  map_input("mu", mu_logN0)$
+  map_input("sigma", sigma_logN0)
+```
+
+Is equivalent to what we wrote before
+
+```{r}
+mu_logN0 <- Constant$new("mu_logN0", 0)
+sigma_logN0 <- Constant$new("sigma_logN0", .5)
+
+logN0 <- Normal$new("logN0")
+logN0$map_input("mu", mu_logN0)
+logN0$map_input("sigma", sigma_logN0)
+```
+
+The second shortcut is that you do not need to assign every module to a variable. Instead, they can be defined directly within `$map_input()` This is quite useful for constant because they are quite uninteresting. So, this bit of code is also equivalent to the previous ones
+
+```{r}
+logN0 <- Normal$new("logN0")$
+  map_input("mu", 
+             Constant$new("mu_logN0", 0)
+            )$
+  map_input("sigma", 
+            Constant$new("sigma_logN0", .5)
+            )
+```
+
+## A very simple QMRA model
+
+Normal distributions are too boring. So, let's do a very simple QMRA model to illustrate the package. We are going to use a log-linear inactivation model. How is it defined? Its name (`LogLinInactivation`) plus `$new` and a name we assign within quotations
+
+```{r}
+inact <- LogLinInactivation$new("Inactivation")
+```
+
+How do we check its inputs? With `$inputs`.
+
+```{r}
+inact$inputs
+```
+
+So, we need 3 inputs: the treatment time (named `t`), the D-value (`D`) and the initial count (`logN0`).
+
+To `logN0`, we will assign the normal distribution we defined above.
+
+```{r}
+inact$map_input("logN0", logN0)
+```
+
+To the treatment time, we will assign a constant value
+
+```{r}
+inact$map_input("t", 
+                Constant$new("treat_time", 30)
+                )
+```
+
+And to the D-value we are going to assign a log-normal distribution. For convenience, we will define a `LogNormal` module.
+
+```{r}
+D <- LogNormal$new("D")$
+  map_input("mu_log10", Constant$new("mu_logD", 1))$
+  map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
+```
+
+And assign it to the `inact` module.
+
+```{r}
+inact$map_input("D", D)
+```
+
+In case that was too much, the `plot_model()` function allows us to see what we did
+
+```{r}
+plot_model(inact)
+```
+
+Note that `plot_model()` uses the name of the module, not the name of the variable where the module is saved. For instance, the inactivation module is saved in a variable called `inact`, but its name is "Inactivation" (`inact <- LogLinInactivation$new("Inactivation")`). This is the name that **biporisk** uses for every output. It is often a good idea that every module within a model have unique names (e.g., not having 2 modules named "time") because some plotting functions will not work correctly.
+
+## Model simulations
+
+Once you have built the model, doing MC simulations is very simple. You just call the method `$simulate()` with the number of Monte Carlo simulations. Just like this 
+
+```{r}
+set.seed(1241)
+inact$simulate(1000)
+```
+
+and **biorisk** takes care of doing 1,000 simulations of the module and all its dependencies. By default, the method does not return anything. Instead, the results of each MC iteration are stored within each module
+
+```{r}
+inact$simulations %>% head()
+```
+
+Note that **biorisk** takes care of doing the calculations for all the dependencies of the module. For instance, it updates the simulations for the distribution of the D-value:
+
+```{r}
+D$simulations %>% head()
+```
+
+Note that **biorisk** only does the calculation for the dependencies. In other words, the modules upstream but not those downstream. This makes sense from a computational point of view, because it allows analyzing parts for the model separately. For instance, one can simulate the distribution of the D-value without having to analyze the complete model.
+
+## Result visualization
+
+Looking at the results of individual MC simulations is boring. For that reason, **biorisk** includes several tools to visualize and summarize the results.
+
+Every module has a `$histogram()`, `$boxplot()` and `$density_plot()` module that allows checking its output
+
+```{r}
+inact$histogram()
+```
+
+```{r}
+D$histogram()
+```
+
+```{r}
+logN0$density_plot()
+```
+
+The function `plot_outputs()` plots the output of every module in the QMRA model
+
+```{r}
+plot_outputs(inact)
+```
+
+Most times, there are outputs with different units in the model For that reason, the function includes the `chosen` argument that allows choosing what to plot -- quite likely, I will implement something smarter here in the future.
+
+```{r}
+plot_outputs(inact, chosen = c("logN0", "Inactivation"))
+```
+
+Besides boxplots, the `type` argument allows doing violin plots
+
+```{r}
+plot_outputs(inact, chosen = c("logN0", "Inactivation"), type = "violin")
+```
+
+or density plots
+
+```{r}
+plot_outputs(inact, chosen = c("logN0", "Inactivation"), type = "density")
+```
+
+The function `quantile_table()` creates a table with the quantiles of the outputs of every module
+
+```{r}
+quantile_table(inact)
+```
+
+Again, you can specify what outputs to show in the table
+
+```{r}
+quantile_table(inact, chosen = c("logN0", "Inactivation") )
+```
+
+By default, the quantiles are a bit random -- I should totally improve this--. You can specify them with 
+
+```{r}
+quantile_table(inact, chosen = c("logN0", "Inactivation"),
+               probs = c(.5, .9, .99))
+```
+
+The package also includes tornado plots for sensitivity analysis with the `tornado_plot()` function.
+
+```{r}
+tornado_plot(inact)
+```
+
+Again, it allows choosing what module is included in the calculation (not too useful in this example because there are not enough levels)
+
+```{r}
+tornado_plot(inact, chosen = "logN0")
+```
+
+
+## A model a bit more interesting
+
+This structure based on modules gives pretty much endless possibilities. We can link as many modules as we want. So, we can assign the output of an inactivation module to a growth module; we can add secondary models... Basically everything. Just for the sake of it, here is a model a bit more complex.
+
+```{r, fig.width=6}
+time <- Constant$new("Time", 30)
+
+D <- LogNormal$new("D")$
+  map_input("mu_log10", Constant$new("mu_logD", 1))$
+  map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
+
+logN0 <- Normal$new("logN0")$
+  map_input("mu", Constant$new("mu_logN0", 2))$
+  map_input("sigma", Constant$new("sigma_logN0", 0.5))
+
+inact_model <- LogLinInactivation$new("Inactivation")$
+  map_input("t", time)$
+  map_input("D", D)$
+  map_input("logN0", logN0)
+
+stor_time <- Constant$new("Stor_Time", 3)
+
+mu <- Ratkowsky_model$new("growth_rate")$
+  map_input("b",
+            Uniform$new("b")$
+              map_input("min", Constant$new("min_b", .05))$
+              map_input("max", Constant$new("max_b", .1))
+            )$
+  map_input("Tmin", Constant$new("Tmin", 0))$
+  map_input("temperature",
+            Normal$new("temp")$
+              map_input("mu", Constant$new("mu", 15))$
+              map_input("sigma", Constant$new("sigma", 1))
+            )
+
+growth_model <- ExponentialGrowthNmax$new("Growth")$
+  map_input("t", stor_time)$
+  map_input("mu", mu)$
+  map_input("logN0", inact_model)$
+  map_input("logNmax", Constant$new("logNmax", 8))
+
+plot_model(growth_model)
+```
+
+The most interesting thing is that, simulating 
+
+```{r}
+set.seed(21421)
+growth_model$simulate(5000)
+```
+
+
+and analyzing the model output is exactly the same, regardless of its complexity.
+
+```{r}
+growth_model$density_plot()
+```
+
+
+```{r}
+
+quantile_table(growth_model, probs = c(.5, .9, .99), chosen = c("logN0", "Inactivation", "Growth"))
+
+
+plot_outputs(growth_model, chosen = c("logN0", "Inactivation", "Growth"),
+             type = "violin")
+
+tornado_plot(growth_model, chosen = c("D", "logN0", "growth_rate", "temp"))
+```
+
+## 2-d Monte Carlo
+
+The package also includes tools for doing 2-d Monte Carlo analysis. In order to define a 2-d Monte Carlo, the only difference is that one has to pass the `level` argument to the distributions. Just as an example, this is a model with 2 normal distributions, one on the variability level and another one in the uncertainty level:
+
+```{r}
+bb <- Normal$new("mu_mu", level = 1)$
+  map_input("mu", Constant$new("mu_mu_mu", 3))$
+  map_input("sigma", Constant$new("mu_sigma_mu", .1))
+
+aa <- Normal$new("aa", level =  0)$
+  map_input("mu", bb
+  )$
+  map_input("sigma", Constant$new("sigma", .2))
+
+plot_model(aa)
+```
+
+Now, to do 2-d Monte Carlo, instead of using the `$simulate()` method, we use the `simulate_2D()` function -- quite likely, this will become a method in the future. This function takes a node, the number of iterations in the variability level (50 here) and the number of iterations in the uncertainty level (10 here)
+
+```{r}
+simulate_2D(aa, niter0 = 50, niter1 = 10)
+```
+
+Again, the results of the simulation are stored within the modules themselves. They are stored a list where each element is a simulation in the uncertainty level. Then, each element has a table where rows are the iterations in the variability level. 
+
+So, the distribution "bb" is defined in the uncertainty level, so it is constant in the variability level
+
+```{r}
+bb$simulations_multi[1:3] %>% map(head)
+```
+
+On the other hand, `aa` is defined in the variability level, so it has different values through the rows. Note here that the input of `aa` matches the output of `bb`
+
+```{r}
+aa$simulations_multi[1:3] %>% map(head)
+```
+
+
+
+
+
