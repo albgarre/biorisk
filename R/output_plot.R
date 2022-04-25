@@ -68,6 +68,42 @@ plot_outputs <- function(node, chosen = NULL, type = "boxplot") {
 
 }
 
+#' Compares the output of several nodes
+#'
+#' @export
+#'
+compare_nodes <- function(node_list, type = "density") {
+
+  my_table <- node_list %>%
+    map_dfc(~ .$get_output())
+
+  if (type == "boxplot") {
+
+    my_table %>%
+      pivot_longer(everything()) %>%
+      ggplot() +
+      geom_boxplot(aes(x = name, y = value)) +
+      xlab("Node") + ylab("Output")
+
+  } else if (type == "density") {
+
+    my_table %>%
+      pivot_longer(everything()) %>%
+      ggplot() +
+      geom_density(aes(x = value, colour = name)) +
+      xlab("Output")
+
+  } else if (type == "violin") {
+
+    my_table %>%
+      pivot_longer(everything()) %>%
+      ggplot() +
+      geom_violin(aes(x = name, y = value)) +
+      xlab("Node") + ylab("Output")
+
+  }
+
+}
 
 # ################
 #
@@ -114,7 +150,8 @@ plot_outputs <- function(node, chosen = NULL, type = "boxplot") {
 #
 # plot_outputs(growth_model, chosen = c("logN0", "Inactivation", "Growth"),
 #              type = "violin")
-
+#
+# compare_nodes(list(growth = growth_model, inact = inact_model), type = "boxplot")
 
 
 
