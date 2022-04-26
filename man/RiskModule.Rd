@@ -245,7 +245,7 @@ An instance of EmpiricalDistr
 \subsection{Method \code{density_plot()}}{
 Makes a density plot of the model output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot(type = "1D", summary = TRUE)}\if{html}{\out{</div>}}
 }
 
 }

@@ -216,9 +216,53 @@ RiskModule <- R6::R6Class(
     #' @description
     #' Makes a density plot of the model output
     #'
-    density_plot = function() {
+    density_plot = function(type = "1D", summary = TRUE) {
 
-      ggplot() + geom_density(aes(x = self$get_output()))
+      if (type == "1D") {
+
+        ggplot() + geom_density(aes(x = self$get_output()))
+
+      } else if (type == "2D") {
+
+        if (!summary) {
+
+          1:length(self$simulations_multi) %>%
+            map_dfc(~ self$get_output(iter1 = .)) %>%
+            pivot_longer(everything()) %>%
+            ggplot() + geom_density(aes(x = value, colour = name)) +
+            theme(legend.position = "none")
+
+        } else {
+
+          ranges <- 1:length(self$simulations_multi) %>%
+            map(~ self$get_output(.)) %>%
+            map_dfr(~ tibble(min = min(.), max = max(.)))
+
+          1:length(self$simulations_multi) %>%
+            map(~ self$get_output(.)) %>%
+            map(~ density(.,
+                          from = median(ranges$min, na.rm = TRUE),  # TODO: think about this
+                          to = median(ranges$max, na.rm = TRUE),
+                          n = 200)) %>%
+            map(., ~ tibble(x = .$x, y = .$y)) %>%
+            imap_dfr(., ~ mutate(.x, sim = .y)) %>%
+            group_by(x) %>%
+            summarize(m_y = median(y, na.rm = TRUE),
+                      q05 = quantile(y, 0.05, na.rm = TRUE),
+                      q95 = quantile(y, 0.95, na.rm = TRUE)) %>%
+            ggplot(aes(x = x)) +
+            geom_line(aes(y = m_y)) +
+            geom_ribbon(aes(ymin = q05, ymax = q95), alpha = .5)
+
+        }
+
+
+
+
+      } else {
+        stop("type must be either '1D' or '2D', got ", type)
+      }
+
 
     },
 
