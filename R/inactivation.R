@@ -337,6 +337,176 @@ TrilinearInactivation <- R6::R6Class(
 
 )
 
+#' R6 class describing Tri-linear inactivation
+#'
+#' @details
+#' A risk module describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+#'
+#' @export
+#'
+GeeraerdInactivation <- R6::R6Class(
+  classname = "GeeraerdInactivation",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("t", "logN0", "D", "SL", "logNres"),
+                       units = units,
+                       module_type = "inactivation",
+                       output_var = "logN",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      t <- self$depends_on$t$discrete_prediction()
+      D <- self$depends_on$D$discrete_prediction()
+      SL <- self$depends_on$SL$discrete_prediction()
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+      logNres <- self$depends_on$logNres$discrete_prediction()
+
+      k <- log(10)/D
+
+      logNres + log10(( (10^(logN0-logNres)-1)*exp(k*SL) )/(exp(k*t) + exp(k*SL) - 1) + 1)
+
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          k = log(10)/D,
+          logN = logNres + log10(( (10^(logN0-logNres)-1)*exp(k*SL) )/(exp(k*t) + exp(k*SL) - 1) + 1)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          k = log(10)/D,
+          logN = logNres + log10(( (10^(logN0-logNres)-1)*exp(k*SL) )/(exp(k*t) + exp(k*SL) - 1) + 1)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+#' R6 class describing Tri-linear inactivation
+#'
+#' @details
+#' A risk module describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+#'
+#' @export
+#'
+GeeraerdInactivation_noSL <- R6::R6Class(
+  classname = "GeeraerdInactivation_noSL",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("t", "logN0", "D", "logNres"),
+                       units = units,
+                       module_type = "inactivation",
+                       output_var = "logN",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      t <- self$depends_on$t$discrete_prediction()
+      D <- self$depends_on$D$discrete_prediction()
+      SL <- 0
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+      logNres <- self$depends_on$logNres$discrete_prediction()
+
+      k <- log(10)/D
+
+      logNres + log10(( (10^(logN0-logNres)-1)*exp(k*SL) )/(exp(k*t) + exp(k*SL) - 1) + 1)
+
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          k = log(10)/D,
+          logN = logNres + log10(( (10^(logN0-logNres)-1) )/(exp(k*t)) + 1)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          k = log(10)/D,
+          logN = logNres + log10(( (10^(logN0-logNres)-1) )/(exp(k*t)) + 1)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
 
 
 # ## tests
@@ -482,8 +652,57 @@ TrilinearInactivation <- R6::R6Class(
 #
 #
 # plot_model(inact_model)
-
-
+#
+# time <- Normal$new("t")$
+#   map_input("mu", Constant$new("mu_t", 5))$
+#   map_input("sigma", Constant$new("sigma_logN0", 2))
+#
+# D <- LogNormal$new("D")$
+#   map_input("mu_log10", Constant$new("mu_logD", .1))$
+#   map_input("sigma_log10", Constant$new("sigma_logD", 0.02))
+#
+# logN0 <- Constant$new("logN0", 6)
+# logNres <- Constant$new("logNres", 3)
+# SL <- Constant$new("SL", 5)
+#
+# inact_model <- GeeraerdInactivation$new("Inactivation")$
+#   map_input("t", time)$
+#   map_input("D", D)$
+#   map_input("logN0", logN0)$
+#   map_input("logNres", logNres)$
+#   map_input("SL", SL)
+#
+# plot_model(inact_model)
+# inact_model$simulate(1000)
+# inact_model$histogram()
+#
+#
+# inact_model$discrete_prediction()
+#
+# time <- Normal$new("t")$
+#   map_input("mu", Constant$new("mu_t", 5))$
+#   map_input("sigma", Constant$new("sigma_logN0", 2))
+#
+# D <- LogNormal$new("D")$
+#   map_input("mu_log10", Constant$new("mu_logD", .1))$
+#   map_input("sigma_log10", Constant$new("sigma_logD", 0.02))
+#
+# logN0 <- Constant$new("logN0", 6)
+# logNres <- Constant$new("logNres", 3)
+# SL <- Constant$new("SL", 5)
+#
+# inact_model <- GeeraerdInactivation_noSL$new("Inactivation")$
+#   map_input("t", time)$
+#   map_input("D", D)$
+#   map_input("logN0", logN0)$
+#   map_input("logNres", logNres)
+#
+# plot_model(inact_model)
+# inact_model$simulate(1000)
+# inact_model$histogram()
+#
+#
+# inact_model$discrete_prediction()
 
 
 
