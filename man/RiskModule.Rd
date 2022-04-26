@@ -17,6 +17,8 @@ Parent class for modules
 
 \item{\code{depends_on}}{List describing the dependencies for each input}
 
+\item{\code{depends_index}}{List with the indexes for each independency}
+
 \item{\code{depended_by}}{A list of modules that use this instance as input}
 
 \item{\code{output}}{Name of the output variable}
@@ -99,7 +101,7 @@ A new instance of the module
 \subsection{Method \code{map_input()}}{
 Map an input to a module
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$map_input(input, module, check_units = FALSE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$map_input(input, module, check_units = FALSE, index = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -183,7 +185,7 @@ Gets a discrete (fast and simple) prediction
 \subsection{Method \code{get_output()}}{
 Get the output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output(iter1 = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output(iter1 = NULL, index = 1)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{

@@ -37,7 +37,8 @@ Constant <- R6::R6Class(
 
       x <- rep(self$value, niter)
       self$simulations <- tibble(x = x)
-      x
+      # x
+      invisible(self)
 
     },
 
@@ -112,7 +113,8 @@ Vector <- R6::R6Class(
         stop("niter must be equal to the length of the saved vector")
       }
 
-      self$simulations$x
+      # self$simulations$x
+      invisible(self)
 
     },
 

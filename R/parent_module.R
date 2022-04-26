@@ -22,6 +22,9 @@ RiskModule <- R6::R6Class(
     #' @field depends_on List describing the dependencies for each input
     depends_on = NULL,
 
+    #' @field depends_index List with the indexes for each independency
+    depends_index = NULL,
+
     #' @field depended_by A list of modules that use this instance as input
     depended_by = c(),
 
@@ -73,6 +76,11 @@ RiskModule <- R6::R6Class(
       self$depends_on <-rep(NA, length(input_names)) %>%
         set_names(input_names) %>%
         as.list()
+
+      self$depends_index <- rep(NA, length(input_names)) %>%
+        set_names(input_names) %>%
+        as.list()
+
       self$output <- output_var
       self$output_unit <- output_unit
       self$output_type <- output_type
@@ -88,7 +96,7 @@ RiskModule <- R6::R6Class(
     #' @param check_units Ignored
     #' @return Self (invisible)
     #'
-    map_input = function(input, module, check_units = FALSE) {
+    map_input = function(input, module, check_units = FALSE, index = 1) {
 
       if (! (input %in% names(self$depends_on))) {
         stop("Unkonwn input: ", input)
@@ -97,6 +105,10 @@ RiskModule <- R6::R6Class(
       ## Add the dependency
 
       self$depends_on[[input]] <- module
+
+      ## Add the index
+
+      self$depends_index[[input]] <- index
 
       ## Reflect it on the other module
 
@@ -120,7 +132,8 @@ RiskModule <- R6::R6Class(
 
       private$update_inputs(niter)
       private$update_output(niter)
-      invisible(self$get_output())  # TODO: Maybe change this to invisible(self)... maybe
+      # invisible(self$get_output())  # TODO: Maybe change this to invisible(self)... maybe
+      invisible(self)
 
     },
 
@@ -161,18 +174,20 @@ RiskModule <- R6::R6Class(
     #' @param niter Number of iterations (length of the vector).
     #' @param check_units Ignored.
     #' @return A vector with the output variable
-    get_output = function(iter1 = NULL) {
+    get_output = function(iter1 = NULL, index = 1) {
 
       # if (nrow(self$simulations) == 0) {
       #   stop("Run the simulation first")
       # }
 
+      column <- self$output[[index]]
+
       if (is.null(iter1)) {
 
-        self$simulations[[self$output]]
+        self$simulations[[column]]
 
       } else {
-        self$simulations_multi[[iter1]][[self$output]]
+        self$simulations_multi[[iter1]][[column]]
       }
 
     },
@@ -299,7 +314,11 @@ RiskModule <- R6::R6Class(
     #'
     update_inputs = function(niter) {
 
-      sims <- self$depends_on %>% map_dfc(~ .$simulate(niter))
+      # sims <- self$depends_on %>% map_dfc(~ .$simulate(niter)$get_output())
+
+      sims <- map2_dfc(self$depends_on, self$depends_index,
+                       ~ .x$simulate(niter)$get_output(index = .y)
+                       )
 
       self$simulations <- sims
 
