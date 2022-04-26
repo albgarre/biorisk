@@ -52,7 +52,7 @@ Ratkowsky_model <- R6::R6Class(
       sims <- self$simulations %>%
         dplyr::mutate(
           sq_mu = b*(temperature - Tmin),
-          mu = sq_mu^2
+          mu = ifelse(temperature < Tmin, 0, sq_mu^2)
         )
 
       self$simulations <- sims
@@ -68,7 +68,7 @@ Ratkowsky_model <- R6::R6Class(
       sims <- self$simulations_multi[[iter1]] %>%
         dplyr::mutate(
           sq_mu = b*(temperature - Tmin),
-          mu = sq_mu^2
+          mu = ifelse(temperature < Tmin, 0, sq_mu^2)
         )
 
       ## Save it
@@ -140,7 +140,7 @@ Ratkowsky_model_error <- R6::R6Class(
         dplyr::mutate(
           sq_mu_mean = b*(temperature - Tmin),
           sq_mu = rnorm(n = nrow(.), mean = sq_mu_mean, sd = sigma),
-          mu = sq_mu^2
+          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
         )
 
       self$simulations <- sims
@@ -157,7 +157,7 @@ Ratkowsky_model_error <- R6::R6Class(
         dplyr::mutate(
           sq_mu_mean = b*(temperature - Tmin),
           sq_mu = rnorm(n = niter0, mean = sq_mu_mean, sd = sigma),
-          mu = sq_mu^2
+          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
         )
 
       ## Save it
@@ -174,8 +174,374 @@ Ratkowsky_model_error <- R6::R6Class(
 
 )
 
-####### Tests -----------------------
+#' R6 class describing the secondary Full Ratkowsky model
+#'
+#' @details
+#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
+#'
+#' @export
+#'
+FullRatkowsky_model <- R6::R6Class(
+  classname = "FullRatkowsky_model",
+  inherit = ContinuousModule,
+  public = list(
 
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("b", "Tmin", "temperature", "Tmax", "c"),
+                       units = units,
+                       module_type = "secondary",
+                       output_var = "mu",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      b <- self$depends_on$b$discrete_prediction()
+      Tmin <- self$depends_on$Tmin$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
+      Tmax <- self$depends_on$Tmax$discrete_prediction()
+      c <- self$depends_on$c$discrete_prediction()
+
+      sq_mu <- b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax)))
+
+      ifelse(
+        between(temperature, Tmin, Tmax),
+        sq_mu^2,
+        0
+      )
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
+          mu = ifelse(temperature < Tmin, 0, sq_mu)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
+          mu = ifelse(temperature < Tmin, 0, sq_mu)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+
+#' R6 class describing the secondary Full Ratkowsky model
+#'
+#' @details
+#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
+#'
+#' @export
+#'
+FullRatkowsky_model_error <- R6::R6Class(
+  classname = "FullRatkowsky_model",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("b", "Tmin", "temperature", "Tmax", "c", "sigma"),
+                       units = units,
+                       module_type = "secondary",
+                       output_var = "mu",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      b <- self$depends_on$b$discrete_prediction()
+      Tmin <- self$depends_on$Tmin$discrete_prediction()
+      temperature <- self$depends_on$temperature$discrete_prediction()
+      Tmax <- self$depends_on$Tmax$discrete_prediction()
+      c <- self$depends_on$c$discrete_prediction()
+
+      sq_mu <- b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax)))
+
+      ifelse(
+        between(temperature, Tmin, Tmax),
+        sq_mu^2,
+        0
+      )
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          sq_mu_mean = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
+          sq_mu = rnorm(n = niter, mean = sq_mu_mean, sd = sigma),
+          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          sq_mu_mean = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
+          sq_mu = rnorm(n = niter0, mean = sq_mu_mean, sd = sigma),
+          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+#' R6 class describing the secondary Cardinal Parameter Model
+#'
+#' @details
+#' A risk module describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
+#'
+#' @export
+#'
+CardinalParameterModel <- R6::R6Class(
+  classname = "CardinalParameterModel",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("X", "Xmin", "Xopt", "Xmax", "n"),
+                       units = units,
+                       module_type = "secondary",
+                       output_var = "gamma",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      X <- self$depends_on$X$discrete_prediction()
+      Xmin <- self$depends_on$Xmin$discrete_prediction()
+      Xmax <- self$depends_on$Xmax$discrete_prediction()
+      Xopt <- self$depends_on$Xopt$discrete_prediction()
+      n <- self$depends_on$n$discrete_prediction()
+
+      num <- (X-Xmax)*(X-Xmin)^n
+      den <- (Xopt-Xmin)^(n-1)*( (Xopt-Xmin)*(X-Xopt) - (Xopt-Xmax)*((n-1)*Xopt + Xmin-n*X) )
+      gamma <- num/den
+
+      ifelse(
+        between(X, Xmin, Xmax),
+        gamma,
+        0
+      )
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          num = (X-Xmax)*(X-Xmin)^n,
+          den = (Xopt-Xmin)^(n-1)*( (Xopt-Xmin)*(X-Xopt) - (Xopt-Xmax)*((n-1)*Xopt + Xmin-n*X) ),
+          gamma = num/den
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          num = (X-Xmax)*(X-Xmin)^n,
+          den = (Xopt-Xmin)^(n-1)*( (Xopt-Xmin)*(X-Xopt) - (Xopt-Xmax)*((n-1)*Xopt + Xmin-n*X) ),
+          gamma = num/den
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+#' R6 class describing the gamma coefficient using the Zwietering parameterization
+#'
+#' @details
+#' A risk module describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
+#'
+#' @export
+#'
+ZwieteringGamma <- R6::R6Class(
+  classname = "ZwieteringGamma",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("X", "Xmin", "Xopt", "n"),
+                       units = units,
+                       module_type = "secondary",
+                       output_var = "gamma",
+                       output_unit = output_unit,
+                       level = level)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      X <- self$depends_on$X$discrete_prediction()
+      Xmin <- self$depends_on$Xmin$discrete_prediction()
+      Xopt <- self$depends_on$Xopt$discrete_prediction()
+      n <- self$depends_on$n$discrete_prediction()
+
+      gamma <- ((X-Xmin)/(Xopt-Xmin))^n
+
+      ifelse(
+        X > Xmin,
+        gamma,
+        0
+      )
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          gamma = ((X-Xmin)/(Xopt-Xmin))^n
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          gamma = ((X-Xmin)/(Xopt-Xmin))^n
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+
+
+####### Tests -----------------------
+#
 # library(tidyverse)
 #
 # mu <- Ratkowsky_model$new("aa")$
@@ -191,10 +557,26 @@ Ratkowsky_model_error <- R6::R6Class(
 #               map_input("sigma", Constant$new("sigma", 1))
 #             )
 #
+# mu <- FullRatkowsky_model$new("aa")$
+#   map_input("b",
+#             Uniform$new("b")$
+#               map_input("min", Constant$new("min_b", .1))$
+#               map_input("max", Constant$new("max_b", .2))
+#   )$
+#   map_input("Tmin", Constant$new("Tmin", 0))$
+#   map_input("temperature",
+#             Normal$new("temp")$
+#               map_input("mu", Constant$new("mu", 15))$
+#               map_input("sigma", Constant$new("sigma", 1))
+#   )$
+#   map_input("c", Constant$new("c", .1))$
+#   map_input("Tmax", Constant$new("Tmax", 20))
+#
 # plot_model(mu)
 # mu$simulate(1000)
 # mu$density_plot()
-# (.15*(15-0))^2
+# mu$discrete_prediction()
+
 #
 # mu_e <- Ratkowsky_model_error$new("aa")$
 #   map_input("b",
@@ -209,5 +591,72 @@ Ratkowsky_model_error <- R6::R6Class(
 # plot_model(mu_e)
 # mu_e$simulate(100)
 # mu_e$density_plot()
+#
+# mu <- FullRatkowsky_model_error$new("aa")$
+#   map_input("b",
+#             Uniform$new("b")$
+#               map_input("min", Constant$new("min_b", .1))$
+#               map_input("max", Constant$new("max_b", .2))
+#   )$
+#   map_input("Tmin", Constant$new("Tmin", 0))$
+#   map_input("temperature",
+#             Normal$new("temp")$
+#               map_input("mu", Constant$new("mu", 15))$
+#               map_input("sigma", Constant$new("sigma", 1))
+#   )$
+#   map_input("c", Constant$new("c", .1))$
+#   map_input("Tmax", Constant$new("Tmax", 20))$
+#   map_input("sigma", Constant$new("sigma_mu", .2))
+#
+# plot_model(mu)
+# mu$simulate(1000)
+# mu$density_plot()
+# mu$discrete_prediction()
+#
+#
+# mu <- CardinalParameterModel$new("aa")$
+#   map_input("Xmin", Constant$new("Tmin", 0))$
+#   map_input("X",
+#             Normal$new("temp")$
+#               map_input("mu", Constant$new("mu", 15))$
+#               map_input("sigma", Constant$new("sigma", 1))
+#   )$
+#   map_input("Xopt", Uniform$new("Xopt")$
+#               map_input("min",
+#                         Constant$new("Xopt_min", 20)
+#                         )$
+#               map_input("max",
+#                         Constant$new("Xopt_max", 30)
+#                         )
+#             )$
+#   map_input("Xmax", Constant$new("Xmax", 40))$
+#   map_input("n", Constant$new("n", 2))
+#
+# plot_model(mu)
+# mu$simulate(1000)
+# mu$density_plot()
+# mu$discrete_prediction()
+#
+# mu <- ZwieteringGamma$new("aa")$
+#   map_input("Xmin", Constant$new("Tmin", 0))$
+#   map_input("X",
+#             Normal$new("temp")$
+#               map_input("mu", Constant$new("mu", 15))$
+#               map_input("sigma", Constant$new("sigma", 1))
+#   )$
+#   map_input("Xopt", Uniform$new("Xopt")$
+#               map_input("min",
+#                         Constant$new("Xopt_min", 20)
+#                         )$
+#               map_input("max",
+#                         Constant$new("Xopt_max", 30)
+#                         )
+#             )$
+#   map_input("n", Constant$new("n", 2))
+#
+# plot_model(mu)
+# mu$simulate(1000)
+# mu$density_plot()
+# mu$discrete_prediction()
 
 
