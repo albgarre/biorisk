@@ -41,6 +41,7 @@ Parent class for modules
 \item \href{#method-new}{\code{RiskModule$new()}}
 \item \href{#method-map_input}{\code{RiskModule$map_input()}}
 \item \href{#method-simulate}{\code{RiskModule$simulate()}}
+\item \href{#method-simulate_2D}{\code{RiskModule$simulate_2D()}}
 \item \href{#method-simulate_level}{\code{RiskModule$simulate_level()}}
 \item \href{#method-discrete_prediction}{\code{RiskModule$discrete_prediction()}}
 \item \href{#method-get_output}{\code{RiskModule$get_output()}}
@@ -136,6 +137,25 @@ Make simulation. Returns a vector of length niter with self.value.
 }
 \subsection{Returns}{
 A vector with the output variable
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-simulate_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-simulate_2D}{}}}
+\subsection{Method \code{simulate_2D()}}{
+2D Monte Carlo simulation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate_2D(niter0, niter1)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{niter0}}{number of iterations on the lower level}
+
+\item{\code{niter1}}{number of iterations on the upper level}
+}
+\if{html}{\out{</div>}}
 }
 }
 \if{html}{\out{<hr>}}

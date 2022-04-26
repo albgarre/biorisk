@@ -37,6 +37,7 @@ A constant that can be used as input by other methods
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles">}\href{../../biorisk/html/RiskModule.html#method-quantiles}{\code{biorisk::RiskModule$quantiles()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_2D">}\href{../../biorisk/html/RiskModule.html#method-simulate_2D}{\code{biorisk::RiskModule$simulate_2D()}}\out{</span>}
 }
 \out{</details>}
 }

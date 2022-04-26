@@ -120,7 +120,24 @@ RiskModule <- R6::R6Class(
 
       private$update_inputs(niter)
       private$update_output(niter)
-      invisible(self$get_output())
+      invisible(self$get_output())  # TODO: Maybe change this to invisible(self)... maybe
+
+    },
+
+    #' @description
+    #' 2D Monte Carlo simulation
+    #'
+    #' @param niter0 number of iterations on the lower level
+    #' @param niter1 number of iterations on the upper level
+    #'
+    simulate_2D = function(niter0, niter1) {
+
+      sims <- 1:niter1 %>%
+        map(.,
+            ~ self$simulate_level(niter0, iter1=., level=0)
+        )
+
+      invisible(self)
 
     },
 

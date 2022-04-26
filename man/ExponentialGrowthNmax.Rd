@@ -31,6 +31,7 @@ Growth module based on exponential growth considering a stationary phase
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate">}\href{../../biorisk/html/RiskModule.html#method-simulate}{\code{biorisk::RiskModule$simulate()}}\out{</span>}
+\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_2D">}\href{../../biorisk/html/RiskModule.html#method-simulate_2D}{\code{biorisk::RiskModule$simulate_2D()}}\out{</span>}
 \item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_level">}\href{../../biorisk/html/RiskModule.html#method-simulate_level}{\code{biorisk::RiskModule$simulate_level()}}\out{</span>}
 }
 \out{</details>}
