@@ -193,6 +193,19 @@ RiskModule <- R6::R6Class(
     },
 
     #' @description
+    #' Get the output of a 2D simulation
+    #'
+    get_output_2D = function(index = 1) {
+
+      column <- self$output[[index]]
+
+      c(1:length(self$simulations_multi)) %>%
+        map( ~ tibble(x = self$simulations_multi[[.]][[column]])) %>%
+        imap_dfr(~ mutate(.x, sim = .y, node = self$name))
+
+    },
+
+    #' @description
     #' Saves the output of the simulation as a vector module
     #' @param name Name of the new module (vctr_from_+self_name by default)
     #' @return An instance of Vector
@@ -229,55 +242,31 @@ RiskModule <- R6::R6Class(
     },
 
     #' @description
+    #' Makes density plot of a 2D Monte Carlo simulation
+    #'
+    density_plot_2D = function() {
+
+      my_sims <- self$get_output_2D()
+
+      p_unc <- geom_density(aes(x), data = my_sims,
+                            fill = "grey", alpha = .5)
+
+      p_var <- my_sims %>%
+        group_by(sim) %>%
+        summarize(x = median(x, na.rm = TRUE)) %>%
+        geom_density(aes(x), data = .,
+                     fill = "steelblue", alpha = .5)
+
+      ggplot() + p_var + p_unc
+
+    },
+
+    #' @description
     #' Makes a density plot of the model output
     #'
-    density_plot = function(type = "1D", summary = TRUE) {
+    density_plot = function(E) {
 
-      if (type == "1D") {
-
-        ggplot() + geom_density(aes(x = self$get_output()))
-
-      } else if (type == "2D") {
-
-        if (!summary) {
-
-          1:length(self$simulations_multi) %>%
-            map_dfc(~ self$get_output(iter1 = .)) %>%
-            pivot_longer(everything()) %>%
-            ggplot() + geom_density(aes(x = value, colour = name)) +
-            theme(legend.position = "none")
-
-        } else {
-
-          ranges <- 1:length(self$simulations_multi) %>%
-            map(~ self$get_output(.)) %>%
-            map_dfr(~ tibble(min = min(.), max = max(.)))
-
-          1:length(self$simulations_multi) %>%
-            map(~ self$get_output(.)) %>%
-            map(~ density(.,
-                          from = median(ranges$min, na.rm = TRUE),  # TODO: think about this
-                          to = median(ranges$max, na.rm = TRUE),
-                          n = 200)) %>%
-            map(., ~ tibble(x = .$x, y = .$y)) %>%
-            imap_dfr(., ~ mutate(.x, sim = .y)) %>%
-            group_by(x) %>%
-            summarize(m_y = median(y, na.rm = TRUE),
-                      q05 = quantile(y, 0.05, na.rm = TRUE),
-                      q95 = quantile(y, 0.95, na.rm = TRUE)) %>%
-            ggplot(aes(x = x)) +
-            geom_line(aes(y = m_y)) +
-            geom_ribbon(aes(ymin = q05, ymax = q95), alpha = .5)
-
-        }
-
-
-
-
-      } else {
-        stop("type must be either '1D' or '2D', got ", type)
-      }
-
+      ggplot() + geom_density(aes(x = self$get_output()))
 
     },
 

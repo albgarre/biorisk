@@ -68,7 +68,64 @@ plot_outputs <- function(node, chosen = NULL, type = "boxplot") {
 
 }
 
+#' @description
+#' Gets the outputs of all the nodes in a 2D model
+#'
+retrieve_outputs_2D <- function(node) {
+
+  # browser()
+
+  if (length(node$depends_on) > 0) {
+    other_outs <- node$depends_on %>%
+      map_dfr(.,
+              ~ retrieve_outputs_2D(.)
+      )
+  } else {
+    other_outs <- NULL
+  }
+
+  x <- node$get_output_2D()
+
+  bind_rows(other_outs, x)
+
+}
+
+#' @description
+#' Makes a plot of the outputs of nodes of a 2D simulation
+#'
+#' @export
+#'
+#' @importFrom ggridges geom_density_ridges
+#'
+plot_outputs_2D <- function(node, chosen = NULL) {
+
+  my_table <- retrieve_outputs_2D(node)
+
+  if (!is.null(chosen)) {
+    my_table <- my_table %>%
+      filter(node %in% chosen) %>%
+      mutate(node = factor(node, levels = chosen))
+  }
+
+  p_unc <- geom_density_ridges(aes(x = x, y = node), data = my_table,
+                               fill = "darkgrey", alpha = .5)
+
+  p_var <- my_table %>%
+    group_by(sim, node) %>%
+    summarize(x = median(x, na.rm = TRUE)) %>%
+    geom_density_ridges(aes(x = x, y = node), data = .,
+                        fill = "steelblue", alpha = .5)
+
+  ggplot() + p_var + p_unc
+
+}
+
+
 #' Compares the output of several nodes
+#'
+#' Different from plot_outputs() because it does not check dependencies. Instead,
+#' nodes are passed explicitly. Therefore, it can be used to compare between different
+#' models.
 #'
 #' @export
 #'
@@ -105,8 +162,8 @@ compare_nodes <- function(node_list, type = "density") {
 
 }
 
-# ################
-#
+# # ################
+# #
 # library(biorisk)
 # library(tidyverse)
 #
@@ -149,9 +206,9 @@ compare_nodes <- function(node_list, type = "density") {
 # plot_outputs(growth_model, chosen = c("logN0", "Inactivation", "Growth"))
 #
 # plot_outputs(growth_model, chosen = c("logN0", "Inactivation", "Growth"),
-#              type = "violin")
+#              type = "boxplot")
 #
-# compare_nodes(list(growth = growth_model, inact = inact_model), type = "boxplot")
+# compare_nodes(list(logN0 = logN0, growth = growth_model, inact = inact_model), type = "boxplot")
 
 
 
