@@ -76,11 +76,14 @@ model_to_graph <- function(node) {
 
   ## Get the node attributes
 
+  # browser()
+
   node_names <- get_names(node) %>%
     left_join(., aes_map)
 
   if (nrow(node_names) != length(unique(node_names$name))) {
-    stop("Node names must be unique")
+    warning("Node names must be unique. Collapsing to unique names")
+    node_names <- distinct(node_names)
   }
 
   ndf <- create_node_df(n = nrow(node_names),
@@ -91,7 +94,8 @@ model_to_graph <- function(node) {
 
   ## Get the edge attributes
 
-  my_edges <- get_edges(node)
+  my_edges <- get_edges(node) %>%
+    distinct()  # I am not too happy with this solution
 
   from_edge <- my_edges %>%
     select(label = from) %>%
