@@ -13,8 +13,8 @@ Ratkowsky_model <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature"),
@@ -22,7 +22,7 @@ Ratkowsky_model <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -100,8 +100,8 @@ Ratkowsky_model_error <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature", "sigma"),
@@ -109,7 +109,7 @@ Ratkowsky_model_error <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -188,8 +188,8 @@ FullRatkowsky_model <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature", "Tmax", "c"),
@@ -197,7 +197,7 @@ FullRatkowsky_model <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -279,8 +279,8 @@ FullRatkowsky_model_error <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("b", "Tmin", "temperature", "Tmax", "c", "sigma"),
@@ -288,7 +288,7 @@ FullRatkowsky_model_error <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -371,8 +371,8 @@ CardinalParameterModel <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("X", "Xmin", "Xopt", "Xmax", "n"),
@@ -380,7 +380,7 @@ CardinalParameterModel <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "gamma",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -465,8 +465,8 @@ ZwieteringGamma <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("X", "Xmin", "Xopt", "n"),
@@ -474,7 +474,7 @@ ZwieteringGamma <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "gamma",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

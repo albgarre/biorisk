@@ -13,8 +13,8 @@ DoseResponse_Exponential <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("r", "dose"),
@@ -22,7 +22,7 @@ DoseResponse_Exponential <- R6::R6Class(
                        module_type = "dose_response",
                        output_var = "P_ill",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -92,8 +92,8 @@ DoseResponse_BetaPoisson <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("beta", "alpha", "dose"),
@@ -101,7 +101,7 @@ DoseResponse_BetaPoisson <- R6::R6Class(
                        module_type = "dose_response",
                        output_var = "P_ill",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

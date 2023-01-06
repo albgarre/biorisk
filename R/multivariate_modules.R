@@ -20,8 +20,7 @@ CorrelatedExpGrowth <- R6::R6Class(
                           mean_temperature, sd_temperature,
                           correlation,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       ## Generic initilization
 
@@ -31,7 +30,7 @@ CorrelatedExpGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
       ## Add the specific fields
 

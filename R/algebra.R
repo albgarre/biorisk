@@ -10,8 +10,8 @@ ModulePlus <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
@@ -19,7 +19,7 @@ ModulePlus <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -81,8 +81,8 @@ ModuleMinus <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
@@ -90,7 +90,7 @@ ModuleMinus <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -152,8 +152,8 @@ ModuleTimes <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
@@ -161,7 +161,7 @@ ModuleTimes <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -223,8 +223,8 @@ ModuleDivision <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
@@ -232,7 +232,7 @@ ModuleDivision <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -294,8 +294,8 @@ ModulePower <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "b"),
@@ -303,7 +303,7 @@ ModulePower <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -365,8 +365,7 @@ ModuleSqrt <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("a"),
@@ -374,7 +373,7 @@ ModuleSqrt <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -436,8 +435,7 @@ ModuleLog <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("a"),
@@ -445,7 +443,7 @@ ModuleLog <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -507,8 +505,7 @@ ModuleLn <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("a"),
@@ -516,7 +513,7 @@ ModuleLn <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -578,8 +575,7 @@ ModuleExp <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("a"),
@@ -587,7 +583,7 @@ ModuleExp <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

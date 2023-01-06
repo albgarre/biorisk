@@ -14,8 +14,7 @@ LogLinInactivation <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "D", "logN0"),
@@ -23,7 +22,7 @@ LogLinInactivation <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -95,8 +94,7 @@ WeibullInactivation <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "delta", "beta", "logN0"),
@@ -104,7 +102,7 @@ WeibullInactivation <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -177,8 +175,7 @@ PelegInactivation <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "b", "n", "logN0"),
@@ -186,7 +183,7 @@ PelegInactivation <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -258,8 +255,7 @@ TrilinearInactivation <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "logN0", "D", "SL", "logNres"),
@@ -267,7 +263,7 @@ TrilinearInactivation <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -351,8 +347,7 @@ GeeraerdInactivation <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "logN0", "D", "SL", "logNres"),
@@ -360,7 +355,7 @@ GeeraerdInactivation <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -436,8 +431,7 @@ GeeraerdInactivation_noSL <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "logN0", "D", "logNres"),
@@ -445,7 +439,7 @@ GeeraerdInactivation_noSL <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

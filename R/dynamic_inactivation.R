@@ -39,8 +39,8 @@ DynamicBigelow_1phase <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("max_time", "D_R", "z", "temp_ref",
@@ -49,7 +49,7 @@ DynamicBigelow_1phase <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -135,8 +135,8 @@ DynamicBigelow_2phase <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t1", "t2", "D_R", "z", "temp_ref",
@@ -145,7 +145,7 @@ DynamicBigelow_2phase <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -234,8 +234,8 @@ DynamicBigelow_3phase <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t1", "t2", "t3", "D_R", "z", "temp_ref",
@@ -244,7 +244,7 @@ DynamicBigelow_3phase <- R6::R6Class(
                        module_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

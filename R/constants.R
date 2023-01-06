@@ -16,14 +16,16 @@ Constant <- R6::R6Class(
 
     initialize = function(name,
                           value,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = NULL,
                        units = NULL,
                        module_type = "constant",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
       self$value <- value
 
     },
@@ -87,14 +89,16 @@ Vector <- R6::R6Class(
 
     initialize = function(name,
                           values,
-                          output_unit = NA) {
+                          output_unit = NA,
+                          level = 0) {
 
       super$initialize(name,
                        input_names = NULL,
                        units = NULL,
                        module_type = "constant",
                        output_var = "x",
-                       output_unit = output_unit)
+                       output_unit = output_unit,
+                       level = level)
 
       self$simulations <- tibble::tibble(x = values)
       self$n <- length(values)

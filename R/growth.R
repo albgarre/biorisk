@@ -12,8 +12,7 @@ ExponentialGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0"),
@@ -21,7 +20,7 @@ ExponentialGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -87,8 +86,8 @@ ExponentialGrowthNmax <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "logNmax"),
@@ -96,7 +95,7 @@ ExponentialGrowthNmax <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -170,8 +169,8 @@ LagExponentialGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "lambda", "mu", "logN0"),
@@ -179,7 +178,7 @@ LagExponentialGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -256,8 +255,8 @@ TrilinealGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "lambda", "mu", "logN0", "logNmax"),
@@ -265,7 +264,7 @@ TrilinealGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -355,8 +354,8 @@ BaranyiGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "lambda", "logNmax"),
@@ -364,7 +363,7 @@ BaranyiGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -445,8 +444,8 @@ modGompertzGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "lambda", "C"),
@@ -454,7 +453,7 @@ modGompertzGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -531,8 +530,8 @@ LogisticGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "lambda", "C"),
@@ -540,7 +539,7 @@ LogisticGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -612,8 +611,8 @@ RichardsGrowth <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("t", "mu", "logN0", "lambda", "C", "nu"),
@@ -621,7 +620,7 @@ RichardsGrowth <- R6::R6Class(
                        module_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

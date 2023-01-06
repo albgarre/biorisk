@@ -15,8 +15,7 @@ MaxFilter <- R6::R6Class(
                           max_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1,
-                          level = 0
+                          rule = 1
     ) {
 
       self$rule = rule
@@ -28,7 +27,7 @@ MaxFilter <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -111,8 +110,7 @@ MinFilter <- R6::R6Class(
                           min_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1,
-                          level = 0
+                          rule = 1
     ) {
 
       self$rule = rule
@@ -124,7 +122,7 @@ MinFilter <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -209,8 +207,7 @@ MinMaxFilter <- R6::R6Class(
                           max_value,
                           units = NA,
                           output_unit = NA,
-                          rule = 1,
-                          level = 0
+                          rule = 1
     ) {
 
       self$rule = rule
@@ -223,7 +220,7 @@ MinMaxFilter <- R6::R6Class(
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

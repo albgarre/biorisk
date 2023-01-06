@@ -13,8 +13,7 @@ Dz_model <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("Dref", "temperature", "z", "Tref"),
@@ -22,7 +21,7 @@ Dz_model <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "D",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -98,8 +97,7 @@ Peleg_secondary <- R6::R6Class(
 
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = c("temperature", "k_b", "temp_crit"),
@@ -107,7 +105,7 @@ Peleg_secondary <- R6::R6Class(
                        module_type = "secondary",
                        output_var = "b",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
     },
 

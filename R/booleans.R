@@ -11,8 +11,8 @@ ModuleGreaterThan <- R6::R6Class(
   public = list(
 
     initialize = function(name,
-                          units = NA,
-                          level = 0) {
+                          units = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
@@ -20,7 +20,7 @@ ModuleGreaterThan <- R6::R6Class(
                        module_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -83,8 +83,8 @@ ModuleLowerThan <- R6::R6Class(
   public = list(
 
     initialize = function(name,
-                          units = NA,
-                          level = 0) {
+                          units = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
@@ -92,7 +92,7 @@ ModuleLowerThan <- R6::R6Class(
                        module_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -155,8 +155,8 @@ ModuleGreaterEqualThan <- R6::R6Class(
   public = list(
 
     initialize = function(name,
-                          units = NA,
-                          level = 0) {
+                          units = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
@@ -164,7 +164,7 @@ ModuleGreaterEqualThan <- R6::R6Class(
                        module_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -227,8 +227,8 @@ ModuleLowerEqualThan <- R6::R6Class(
   public = list(
 
     initialize = function(name,
-                          units = NA,
-                          level = 0) {
+                          units = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
@@ -236,7 +236,7 @@ ModuleLowerEqualThan <- R6::R6Class(
                        module_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
-                       level = level)
+                       level = 0)
 
     },
 
@@ -299,8 +299,8 @@ ModuleEqualTo <- R6::R6Class(
   public = list(
 
     initialize = function(name,
-                          units = NA,
-                          level = 0) {
+                          units = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a", "x"),
@@ -308,7 +308,7 @@ ModuleEqualTo <- R6::R6Class(
                        module_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
-                       level = level)
+                       level = 0)
 
     },
 
