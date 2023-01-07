@@ -1,4 +1,82 @@
 
+#' R6 class describing log-linear inactivation parameterized as k
+#'
+#'
+#' @export
+#'
+LogLinInactivation_k <- R6::R6Class(
+  classname = "LogLinInactivation_k",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA) {
+
+      super$initialize(name,
+                       input_names = c("t", "k", "logN0"),
+                       units = units,
+                       module_type = "inactivation",
+                       output_var = "logN",
+                       output_unit = output_unit,
+                       level = 0)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    discrete_prediction = function() {
+
+      t <- self$depends_on$t$discrete_prediction()
+      k <- self$depends_on$k$discrete_prediction()
+      logN0 <- self$depends_on$logN0$discrete_prediction()
+
+      logN0 - k*t
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          logN = logN0 - k*t
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          logN = logN0 - k*t
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+
 #' R6 class describing log-linear inactivation
 #'
 #' @details
