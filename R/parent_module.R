@@ -126,9 +126,14 @@ RiskModule <- R6::R6Class(
     #' @param check_units Ignored.
     #' @return A vector with the output variable
     #'
-    simulate = function(niter
+    simulate = function(niter,
+                        seed = NULL
                         # check_units = FALSE, force = TRUE  # TODO
                         ) {
+
+      if (!is.null(seed)) {
+        set.seed(seed)
+      }
 
       private$update_inputs(niter)
       private$update_output(niter)
@@ -143,7 +148,12 @@ RiskModule <- R6::R6Class(
     #' @param niter0 number of iterations on the lower level
     #' @param niter1 number of iterations on the upper level
     #'
-    simulate_2D = function(niter0, niter1) {
+    simulate_2D = function(niter0, niter1,
+                           seed = NULL) {
+
+      if (!is.null(seed)) {
+        set.seed(seed)
+      }
 
       sims <- 1:niter1 %>%
         map(.,
@@ -262,36 +272,127 @@ RiskModule <- R6::R6Class(
     },
 
     #' @description
+    #' Plots the empirical density function for 2D simulations
+    #'
+    cummulative_plot_2D = function() {
+
+      r <- range(self$get_output_2D()$x)
+
+      self$get_output_2D() %>%
+        split(.$sim) %>%
+        map(.,
+            ~ ecdf(.$x)
+            ) %>%
+        map_dfr(.,
+                ~ tibble(x = seq(r[[1]], r[[2]], length = 100),
+                         y = .(x))
+                ) %>%
+        group_by(x) %>%
+        summarize(m_y = median(y, na.rm = TRUE),
+                  up = quantile(y, .95, na.rm = TRUE),
+                  down = quantile(y, .05, na.rm = TRUE)) %>%
+        ggplot(aes(x = x, y = m_y)) +
+        geom_line() +
+        geom_ribbon(aes(ymin = down, ymax = up), alpha = .5)
+
+    },
+
+    #' @description
+    #' Plots the empirical density function
+    #'
+    cummulative_plot = function(add_discrete = FALSE) {
+
+      c <- ecdf(self$get_output())
+      r <- range(self$get_output())
+
+      p <- tibble(x = seq(r[[1]], r[[2]], length = 1000),
+             y = c(x)) %>%
+        ggplot() +
+        geom_line(aes(x, y))
+
+      if (add_discrete) {
+        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+                            linetype = 2)
+      }
+
+      p
+
+    },
+
+    #' @description
     #' Makes a density plot of the model output
     #'
-    density_plot = function(E) {
+    density_plot = function(add_discrete = FALSE) {
 
-      ggplot() + geom_density(aes(x = self$get_output()))
+      p <- ggplot() + geom_density(aes(x = self$get_output()))
+
+      if (add_discrete) {
+        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+                            linetype = 2)
+      }
+
+      p
 
     },
 
     #' @description
     #' Makes a histogram of the model output
     #'
-    histogram = function() {
+    histogram = function(add_discrete = FALSE) {
 
-      ggplot() + geom_histogram(aes(x = self$get_output()))
+      p <- ggplot() + geom_histogram(aes(x = self$get_output()))
+
+      if (add_discrete) {
+        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+                            linetype = 2)
+      }
+
+      p
 
     },
 
     #' @description
     #' Makes a boxplot of the model output
     #'
-    boxplot = function() {
-      ggplot() + geom_boxplot(aes(y = self$get_output()))
+    boxplot = function(add_discrete = FALSE) {
+
+      p <- ggplot() + geom_boxplot(aes(y = self$get_output()))
+
+      if (add_discrete) {
+        p <- p + geom_hline(yintercept = self$discrete_prediction(),
+                            linetype = 2)
+      }
+
+      p
     },
 
     #' @description
-    #' Makes a summary table of the model output
+    #' Quantiles of the output variable
     #'
     quantiles = function(probs = c(.01, .1, .5, .9, .99)) {
 
       quantile(self$get_output(), probs = probs)
+
+    },
+
+    #' @description
+    #' Quantiles of a 2D Monte Carlo simulation
+    #'
+    quantiles_2D = function(probs = c(.01, .1, .5, .9, .99)) {
+
+      my_sims <- self$get_output_2D()
+
+      out <- quantile(my_sims$x, probs) %>%
+        set_names(., paste0(probs, "_level0"))
+
+      out2 <- my_sims %>%
+        group_by(sim) %>%
+        summarize(x = median(x, na.rm = TRUE)) %>%
+        pull(x) %>%
+        quantile(., probs) %>%
+        set_names(., paste0(probs, "_level1"))
+
+      c(out, out2)
 
     }
 
