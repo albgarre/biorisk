@@ -1,4 +1,5 @@
 
+#' @description
 #' Builds a table with quantiles of the model outputs
 #'
 #'
@@ -21,6 +22,7 @@ retrieve_table <- function(node, probs=seq(0, 1, 0.25)) {
   bind_rows(other_qs, new_row)
 }
 
+#' @description
 #' Returns a table of the model quantiles
 #'
 #' @export
@@ -29,6 +31,49 @@ quantile_table <- function(node, probs = seq(0, 1, 0.25),
                            chosen = NULL) {
 
   my_table <- retrieve_table(node, probs) %>%
+    select(node, everything())
+
+  if (!is.null(chosen)) {
+    my_table <- my_table %>%
+      filter(node %in% chosen)
+  }
+
+  my_table
+
+}
+
+#' @description
+#' Builds a table with quantiles of the model outputs
+#'
+#'
+retrieve_table_2D <- function(node, probs=seq(0, 1, 0.25)) {
+
+  if (length(node$depends_on) > 0) {
+    other_qs <- node$depends_on %>%
+      map_dfr(.,
+              ~ retrieve_table_2D(., probs = probs)
+      )
+  } else {
+    other_qs <- NULL
+  }
+
+  new_row <- node$quantiles_2D(probs) %>%
+    as.list() %>%
+    as_tibble() %>%
+    mutate(node = node$name)
+
+  bind_rows(other_qs, new_row)
+}
+
+#' @description
+#' Returns a table of the model quantiles
+#'
+#' @export
+#'
+quantile_table_2D <- function(node, probs = seq(0, 1, 0.25),
+                              chosen = NULL) {
+
+  my_table <- retrieve_table_2D(node, probs) %>%
     select(node, everything())
 
   if (!is.null(chosen)) {
