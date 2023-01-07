@@ -7,5 +7,7 @@
 compare_nodes(node_list, type = "density")
 }
 \description{
-Compares the output of several nodes
+Different from plot_outputs() because it does not check dependencies. Instead,
+nodes are passed explicitly. Therefore, it can be used to compare between different
+models.
 }

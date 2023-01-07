@@ -40,25 +40,30 @@ Parent class for modules
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{RiskModule$new()}}
-\item \href{#method-map_input}{\code{RiskModule$map_input()}}
-\item \href{#method-simulate}{\code{RiskModule$simulate()}}
-\item \href{#method-simulate_2D}{\code{RiskModule$simulate_2D()}}
-\item \href{#method-simulate_level}{\code{RiskModule$simulate_level()}}
-\item \href{#method-discrete_prediction}{\code{RiskModule$discrete_prediction()}}
-\item \href{#method-get_output}{\code{RiskModule$get_output()}}
-\item \href{#method-save_as_vector}{\code{RiskModule$save_as_vector()}}
-\item \href{#method-save_as_distribution}{\code{RiskModule$save_as_distribution()}}
-\item \href{#method-density_plot}{\code{RiskModule$density_plot()}}
-\item \href{#method-histogram}{\code{RiskModule$histogram()}}
-\item \href{#method-boxplot}{\code{RiskModule$boxplot()}}
-\item \href{#method-quantiles}{\code{RiskModule$quantiles()}}
-\item \href{#method-clone}{\code{RiskModule$clone()}}
+\item \href{#method-RiskModule-new}{\code{RiskModule$new()}}
+\item \href{#method-RiskModule-map_input}{\code{RiskModule$map_input()}}
+\item \href{#method-RiskModule-simulate}{\code{RiskModule$simulate()}}
+\item \href{#method-RiskModule-simulate_2D}{\code{RiskModule$simulate_2D()}}
+\item \href{#method-RiskModule-simulate_level}{\code{RiskModule$simulate_level()}}
+\item \href{#method-RiskModule-discrete_prediction}{\code{RiskModule$discrete_prediction()}}
+\item \href{#method-RiskModule-get_output}{\code{RiskModule$get_output()}}
+\item \href{#method-RiskModule-get_output_2D}{\code{RiskModule$get_output_2D()}}
+\item \href{#method-RiskModule-save_as_vector}{\code{RiskModule$save_as_vector()}}
+\item \href{#method-RiskModule-save_as_distribution}{\code{RiskModule$save_as_distribution()}}
+\item \href{#method-RiskModule-density_plot_2D}{\code{RiskModule$density_plot_2D()}}
+\item \href{#method-RiskModule-cummulative_plot_2D}{\code{RiskModule$cummulative_plot_2D()}}
+\item \href{#method-RiskModule-cummulative_plot}{\code{RiskModule$cummulative_plot()}}
+\item \href{#method-RiskModule-density_plot}{\code{RiskModule$density_plot()}}
+\item \href{#method-RiskModule-histogram}{\code{RiskModule$histogram()}}
+\item \href{#method-RiskModule-boxplot}{\code{RiskModule$boxplot()}}
+\item \href{#method-RiskModule-quantiles}{\code{RiskModule$quantiles()}}
+\item \href{#method-RiskModule-quantiles_2D}{\code{RiskModule$quantiles_2D()}}
+\item \href{#method-RiskModule-clone}{\code{RiskModule$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-RiskModule-new"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-new}{}}}
 \subsection{Method \code{new()}}{
 Create a new module
 \subsection{Usage}{
@@ -96,8 +101,8 @@ A new instance of the module
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-map_input"></a>}}
-\if{latex}{\out{\hypertarget{method-map_input}{}}}
+\if{html}{\out{<a id="method-RiskModule-map_input"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-map_input}{}}}
 \subsection{Method \code{map_input()}}{
 Map an input to a module
 \subsection{Usage}{
@@ -120,12 +125,12 @@ Self (invisible)
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate}{}}}
+\if{html}{\out{<a id="method-RiskModule-simulate"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-simulate}{}}}
 \subsection{Method \code{simulate()}}{
 Make simulation. Returns a vector of length niter with self.value.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate(niter)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate(niter, seed = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -142,12 +147,12 @@ A vector with the output variable
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate_2D"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate_2D}{}}}
+\if{html}{\out{<a id="method-RiskModule-simulate_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-simulate_2D}{}}}
 \subsection{Method \code{simulate_2D()}}{
 2D Monte Carlo simulation
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate_2D(niter0, niter1)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate_2D(niter0, niter1, seed = NULL)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -161,8 +166,8 @@ A vector with the output variable
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate_level"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate_level}{}}}
+\if{html}{\out{<a id="method-RiskModule-simulate_level"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-simulate_level}{}}}
 \subsection{Method \code{simulate_level()}}{
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{RiskModule$simulate_level(niter0, iter1 = 1, level = 0)}\if{html}{\out{</div>}}
@@ -170,8 +175,8 @@ A vector with the output variable
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-discrete_prediction}{}}}
+\if{html}{\out{<a id="method-RiskModule-discrete_prediction"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-discrete_prediction}{}}}
 \subsection{Method \code{discrete_prediction()}}{
 Gets a discrete (fast and simple) prediction
 \subsection{Usage}{
@@ -180,8 +185,8 @@ Gets a discrete (fast and simple) prediction
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-get_output"></a>}}
-\if{latex}{\out{\hypertarget{method-get_output}{}}}
+\if{html}{\out{<a id="method-RiskModule-get_output"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-get_output}{}}}
 \subsection{Method \code{get_output()}}{
 Get the output
 \subsection{Usage}{
@@ -202,8 +207,18 @@ A vector with the output variable
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-save_as_vector"></a>}}
-\if{latex}{\out{\hypertarget{method-save_as_vector}{}}}
+\if{html}{\out{<a id="method-RiskModule-get_output_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-get_output_2D}{}}}
+\subsection{Method \code{get_output_2D()}}{
+Get the output of a 2D simulation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output_2D(index = 1)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-save_as_vector"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-save_as_vector}{}}}
 \subsection{Method \code{save_as_vector()}}{
 Saves the output of the simulation as a vector module
 \subsection{Usage}{
@@ -222,8 +237,8 @@ An instance of Vector
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-save_as_distribution"></a>}}
-\if{latex}{\out{\hypertarget{method-save_as_distribution}{}}}
+\if{html}{\out{<a id="method-RiskModule-save_as_distribution"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-save_as_distribution}{}}}
 \subsection{Method \code{save_as_distribution()}}{
 Saves the output of the simulation as an empirical distribution.
 \subsection{Usage}{
@@ -242,48 +257,88 @@ An instance of EmpiricalDistr
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-density_plot"></a>}}
-\if{latex}{\out{\hypertarget{method-density_plot}{}}}
+\if{html}{\out{<a id="method-RiskModule-density_plot_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-density_plot_2D}{}}}
+\subsection{Method \code{density_plot_2D()}}{
+Makes density plot of a 2D Monte Carlo simulation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot_2D()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-cummulative_plot_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-cummulative_plot_2D}{}}}
+\subsection{Method \code{cummulative_plot_2D()}}{
+Plots the empirical density function for 2D simulations
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$cummulative_plot_2D()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-cummulative_plot"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-cummulative_plot}{}}}
+\subsection{Method \code{cummulative_plot()}}{
+Plots the empirical density function
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$cummulative_plot(add_discrete = FALSE)}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-density_plot"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-density_plot}{}}}
 \subsection{Method \code{density_plot()}}{
 Makes a density plot of the model output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot(type = "1D", summary = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$density_plot(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-histogram"></a>}}
-\if{latex}{\out{\hypertarget{method-histogram}{}}}
+\if{html}{\out{<a id="method-RiskModule-histogram"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-histogram}{}}}
 \subsection{Method \code{histogram()}}{
 Makes a histogram of the model output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$histogram()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$histogram(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-boxplot"></a>}}
-\if{latex}{\out{\hypertarget{method-boxplot}{}}}
+\if{html}{\out{<a id="method-RiskModule-boxplot"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-boxplot}{}}}
 \subsection{Method \code{boxplot()}}{
 Makes a boxplot of the model output
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$boxplot()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$boxplot(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-quantiles"></a>}}
-\if{latex}{\out{\hypertarget{method-quantiles}{}}}
+\if{html}{\out{<a id="method-RiskModule-quantiles"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-quantiles}{}}}
 \subsection{Method \code{quantiles()}}{
-Makes a summary table of the model output
+Quantiles of the output variable
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{RiskModule$quantiles(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-RiskModule-quantiles_2D"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-quantiles_2D}{}}}
+\subsection{Method \code{quantiles_2D()}}{
+Quantiles of a 2D Monte Carlo simulation
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$quantiles_2D(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{

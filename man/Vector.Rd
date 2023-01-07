@@ -28,40 +28,45 @@ A constant vector that can be used as input by other methods
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Vector$new()}}
-\item \href{#method-simulate}{\code{Vector$simulate()}}
-\item \href{#method-simulate_level}{\code{Vector$simulate_level()}}
-\item \href{#method-clone}{\code{Vector$clone()}}
+\item \href{#method-Vector-new}{\code{Vector$new()}}
+\item \href{#method-Vector-simulate}{\code{Vector$simulate()}}
+\item \href{#method-Vector-simulate_level}{\code{Vector$simulate_level()}}
+\item \href{#method-Vector-clone}{\code{Vector$clone()}}
 }
 }
-\if{html}{
-\out{<details ><summary>Inherited methods</summary>}
-\itemize{
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot">}\href{../../biorisk/html/RiskModule.html#method-boxplot}{\code{biorisk::RiskModule$boxplot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot">}\href{../../biorisk/html/RiskModule.html#method-density_plot}{\code{biorisk::RiskModule$density_plot()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="discrete_prediction">}\href{../../biorisk/html/RiskModule.html#method-discrete_prediction}{\code{biorisk::RiskModule$discrete_prediction()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output">}\href{../../biorisk/html/RiskModule.html#method-get_output}{\code{biorisk::RiskModule$get_output()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram">}\href{../../biorisk/html/RiskModule.html#method-histogram}{\code{biorisk::RiskModule$histogram()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input">}\href{../../biorisk/html/RiskModule.html#method-map_input}{\code{biorisk::RiskModule$map_input()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles">}\href{../../biorisk/html/RiskModule.html#method-quantiles}{\code{biorisk::RiskModule$quantiles()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution">}\href{../../biorisk/html/RiskModule.html#method-save_as_distribution}{\code{biorisk::RiskModule$save_as_distribution()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector">}\href{../../biorisk/html/RiskModule.html#method-save_as_vector}{\code{biorisk::RiskModule$save_as_vector()}}\out{</span>}
-\item \out{<span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_2D">}\href{../../biorisk/html/RiskModule.html#method-simulate_2D}{\code{biorisk::RiskModule$simulate_2D()}}\out{</span>}
-}
-\out{</details>}
-}
+\if{html}{\out{
+<details><summary>Inherited methods</summary>
+<ul>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot_2D'><code>biorisk::RiskModule$density_plot_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="discrete_prediction"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-discrete_prediction'><code>biorisk::RiskModule$discrete_prediction()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output'><code>biorisk::RiskModule$get_output()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_2D'><code>biorisk::RiskModule$get_output_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-histogram'><code>biorisk::RiskModule$histogram()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-map_input'><code>biorisk::RiskModule$map_input()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles'><code>biorisk::RiskModule$quantiles()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles_2D'><code>biorisk::RiskModule$quantiles_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-save_as_distribution'><code>biorisk::RiskModule$save_as_distribution()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-save_as_vector'><code>biorisk::RiskModule$save_as_vector()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-simulate_2D'><code>biorisk::RiskModule$simulate_2D()</code></a></span></li>
+</ul>
+</details>
+}}
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Vector-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Vector-new}{}}}
 \subsection{Method \code{new()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Vector$new(name, values, output_unit = NA)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Vector$new(name, values, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
 }
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate}{}}}
+\if{html}{\out{<a id="method-Vector-simulate"></a>}}
+\if{latex}{\out{\hypertarget{method-Vector-simulate}{}}}
 \subsection{Method \code{simulate()}}{
 Make simulation. Returns the vector saved in the class. If the length
 is different from niter, it raises an error.
@@ -80,8 +85,8 @@ is different from niter, it raises an error.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-simulate_level"></a>}}
-\if{latex}{\out{\hypertarget{method-simulate_level}{}}}
+\if{html}{\out{<a id="method-Vector-simulate_level"></a>}}
+\if{latex}{\out{\hypertarget{method-Vector-simulate_level}{}}}
 \subsection{Method \code{simulate_level()}}{
 Simulation at some level for X-D Monte Carlo
 \subsection{Usage}{
@@ -102,8 +107,8 @@ to facilitate the mutates)}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Vector-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Vector-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
