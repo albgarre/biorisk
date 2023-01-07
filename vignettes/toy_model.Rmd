@@ -391,7 +391,7 @@ plot_model(aa)
 Now, to do 2-d Monte Carlo, instead of using the `$simulate()` method, we use the `simulate_2D()` function -- quite likely, this will become a method in the future. This function takes a node, the number of iterations in the variability level (50 here) and the number of iterations in the uncertainty level (10 here)
 
 ```{r}
-simulate_2D(aa, niter0 = 50, niter1 = 10)
+aa$simulate_2D(50, 10)
 ```
 
 Again, the results of the simulation are stored within the modules themselves. They are stored a list where each element is a simulation in the uncertainty level. Then, each element has a table where rows are the iterations in the variability level. 
@@ -407,6 +407,120 @@ On the other hand, `aa` is defined in the variability level, so it has different
 ```{r}
 aa$simulations_multi[1:3] %>% map(head)
 ```
+
+
+```{r}
+
+output_name <- aa$output
+
+aa$simulations_multi %>%
+  map(~ select(., matches(output_name))) %>%
+  map(~ set_names("x")) %>%
+  map()
+
+my_sims <- aa$simulations_multi %>%
+  imap_dfr(~ mutate(.x, sim = .y)) %>%
+  select(sim, matches(output_name)) %>%
+  set_names(c("sim", "x"))
+
+p1 <- my_sims %>%
+  group_by(sim) %>%
+  summarize(x = median(x, na.rm = TRUE)) %>%
+  geom_density(aes(x), fill = "steelblue", alpha = .5, data = .)
+
+p2 <- my_sims %>%
+  geom_density(aes(x), fill = "black", alpha = .5, data = .)
+
+ggplot() + p1 + p2
+  
+```
+
+
+## List of modules
+
+### Probability distributions
+
+* Beta
+* BetaBinomial
+* Binomial
+* EmpiricalDistr
+* Exponential
+* Gamma
+* GammaPoisson
+* LnNormal
+* LogNormal
+* Normal
+* Pareto
+* Pert
+* Poisson
+* Triangular
+* TriangularSym
+* Weibull
+* ZIPoisson
+* Uniform
+
+### Primary models
+
+* ExponentialGrowth
+* ExponentialGrowthNmax
+* LagExponentialGrowth)
+* LogLinInactivation
+* PelegInactivation
+* WeibullInactivation
+* TrilinealGrowth
+* TrilinearInactivation
+
+### Secondary models
+
+* Dz_model
+* Peleg_secondary
+* Ratkowsky_model
+* Ratkowsky_model_error
+
+### Dose-response models
+
+* DoseResponse_BetaPoisson
+* DoseResponse_Exponential
+
+### Dynamic modules
+
+* DynamicBigelow_1phase
+* DynamicBigelow_2phase
+* DynamicBigelow_3phase
+
+### Multivariate modules
+
+* CorrelatedExpGrowth
+
+## Algebra
+
+* MaxFilter
+* MinFilter
+* MinMaxFilter
+* ModuleDivision)
+* ModuleEqualTo)
+* ModuleExp)
+* ModuleGreaterEqualThan)
+* ModuleGreaterThan)
+* ModuleLn)
+* ModuleLog)
+* ModuleLowerEqualThan)
+* ModuleLowerThan)
+* ModuleMinus)
+* ModulePlus)
+* ModulePow10)
+* ModulePower)
+* ModuleSqrt)
+* ModuleTimes)
+
+
+
+
+
+
+
+
+
 
 
 
