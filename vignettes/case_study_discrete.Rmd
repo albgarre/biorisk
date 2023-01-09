@@ -1,0 +1,182 @@
+---
+title: "case_study_discrete"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{case_study_discrete}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyverse)
+library(biorisk)
+```
+
+## Description of the case study
+
+Milk in a tank. So interesting!! A topic that noone has ever thought about.
+
+
+## Model definition
+
+### Initial concentration
+
+We define the initial concentration in the product as a uniform distribution over 0-1 log CFU/g. For no particular reason.
+
+```{r}
+logN0 <- Uniform$new("logN0")$ 
+  map_input("min", 
+            Constant$new("logN0_min", -1)  # with a constant min. value
+  )$
+  map_input("max", 
+            Constant$new("logN0_max", 0)  # and a constant max. value
+  )
+
+
+```
+
+### Partition
+
+In this case study, we model the microbial concentration as a discrete variable (i.e., we use units of CFU/volume unit not CFU/ml). The first step we model is the packaging of the product from a tank to a milk carton. Because the volume of the tank is much larger than the volume of the milk carton (~100s of liters vs. 1 liter) we can assume that the former is infinite. Then, the sampling can be modelled as a Poisson process. The package includes the `PartitionPoisson` module for this. 
+
+```{r}
+package <- PartitionPoisson$new("Partition")$
+  map_input("logN", logN0)$
+  map_input("volume", 
+            Constant$new("vol_package", 1000)
+            )
+```
+
+Note that the output of this module is now in CFU. So, if we run the simulation we get how many *Listeria* cells are on each milk package.
+
+```{r}
+package$simulate(1000)
+package$histogram()
+```
+
+### Growth during storage
+
+The next stage is the microbial growth that takes place during storage of the product. We have a discrete number of cells, so we cannot (or rather, should not) use a continous growth model. Instead, we need to use a discrete growth model (technically, a birth process of Yule process). The package already includes the `DiscreteGrowth` module for doing this kind of calculation. 
+
+Nonetheless, we first need to deine the storage time. In this case, it will be a uniform distribution from 0 to 120h.
+
+```{r}
+stor_time <- Uniform$new("Storage time")$
+  map_input("min", Constant$new("t_min", 50))$
+  map_input("max", Constant$new("t_max", 150))
+
+```
+
+Then, we define the discrete growth model. For simplicity, we just give a constant value of 0.1 log CFU/h to $\mu$, although we could do something more complicated (e.g., a secondary model).
+
+```{r}
+storage <- DiscreteGrowth$new("Storage")$
+  map_input("N0", package)$
+  map_input("time", stor_time)$
+  map_input("mu", Constant$new("mu", .1))
+```
+
+If we run this part of the model, we see this output:
+
+```{r}
+storage$simulate(1000)
+storage$histogram() + scale_x_log10()
+```
+
+Because we are working on CFU/package, the histogram shows the number of *Listeria* cells on each milk carton. One important thing here is the stationary growth phase. Even if the model is discrete, the bacterial behaviour is still affected by biological limitations, so we need to account for the carrying capacity of the media (and other reasons for the stationary phase). 
+
+However, we need to be a bit careful with the units here. If we assume $\log N_{max} = 8 log CFU/ml$, in a 1000 mL milk carton, we would have $N_{max} = 1e8 \cdot 1e3 = 1e11 CFU/package$. This can be implemented easily in **biorisk** using the `DiscreteGrowthNmax` module.
+
+```{r}
+storage <- DiscreteGrowthNmax$new("Storage")$
+  map_input("N0", package)$
+  map_input("time", stor_time)$
+  map_input("mu", Constant$new("mu", .1))$
+  map_input("Nmax", Constant$new("Nmax", 
+                                 1000*1e8
+                                 ))
+```
+
+If we now run this part of the model...
+
+```{r}
+storage$simulate(1000)
+storage$histogram() + scale_x_log10()
+```
+
+We observe a very large bar on the right. This represents all the packages with a population on the stationary growth phase. This is often quite relevant for descrite growth, because the Yule process uses a negative binomial, which is right-tailed.
+
+### Consumer phase
+
+Next, we need to simulate the number of cells that are consumed per serving. This is again a sampling process. However, here we cannot make the assumption of infinite volume (the glass will be, at least, a 10th of the package). Hence, we need to use a binomial process instead of a Poisson process. Therefore, we use `PartitionBinomial`, where we define the serving size as a uniform distribution between 100 and 500 ml.
+
+```{r}
+dose <- PartitionBinomial$new("Dose")$
+  map_input("N0", storage)$
+  map_input("volume0", 
+            Constant$new("volume0", 1000)
+            )$
+  map_input("volume1",
+            Uniform$new("serving_volume")$
+              map_input("min", Constant$new("min_vol", 100))$
+              map_input("max", Constant$new("max_vol", 500))
+            )
+
+```
+
+### Dose-response & risk characterization
+
+Finally, we introduce the dose-response model
+
+```{r}
+Pill <- DoseResponse_Exponential$new("Pill")$
+  map_input("r", Constant$new("r_dr", 1e-12))$
+  map_input("dose", dose)
+```
+
+and calculate the number of cases assuming that each MC simulation represents one serving.
+
+```{r}
+cases <- Pill2Cases_1$new("cases")$
+  map_input("Pill", Pill)
+```
+
+## Model visualization
+
+As always, it is important to plot the model to check all the dependencies are correct.
+
+```{r}
+plot_model(cases)
+```
+
+## Simulation
+
+We can now simulate the model. We just need to call the `simulate()` method with the number of Monte Carlo iterations.
+
+```{r}
+cases$simulate(1000)
+```
+
+In this model, each MC simulation represents a single serving. Therefore, the output variable only takes binary values (0/1). Therefore, the best way to observe the output is by the mean:
+
+```{r}
+cases$get_output() %>% mean()
+```
+
+That is, 1.1% of the servings will result in disease.
+
+```{r}
+Pill$histogram()
+```
+
+
+
+
+
