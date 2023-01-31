@@ -1,5 +1,5 @@
 ---
-title: "case_study_discrete"
+title: "Case Study II: discrete QMRA"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{case_study_discrete}
@@ -21,14 +21,13 @@ library(biorisk)
 
 ## Description of the case study
 
-Milk in a tank. So interesting!! A topic that noone has ever thought about.
-
+The **biorisk** package also includes functions for simulation and analysis of QMRA models that define the microbial concentration as a discrete variable. As an illustration, we illustrate the calculation of the percentage of milk servings that would cause illness if a tank of milk were contaminated by *Listeria*, a pathogen present in the dairy farm environment. A modular model is proposed, a first stage of packaging of contaminated milk from a tank in cartons followed by a period of refrigeration, and finally the ingestion of this milk. In all these steps, the bacterial concentration is described using discrete random variables (i.e., we cannot have 2.3 cells in a carton).
 
 ## Model definition
 
 ### Initial concentration
 
-We define the initial concentration in the product as a uniform distribution over 0-1 log CFU/g. For no particular reason.
+As an illustration, we define the initial concentration of microorganisms in the milk tank after heat treatment as a uniform distribution over -1 -- 0 log CFU/g.
 
 ```{r}
 logN0 <- Uniform$new("logN0")$ 
@@ -44,28 +43,27 @@ logN0 <- Uniform$new("logN0")$
 
 ### Partition
 
-In this case study, we model the microbial concentration as a discrete variable (i.e., we use units of CFU/volume unit not CFU/ml). The first step we model is the packaging of the product from a tank to a milk carton. Because the volume of the tank is much larger than the volume of the milk carton (~100s of liters vs. 1 liter) we can assume that the former is infinite. Then, the sampling can be modelled as a Poisson process. The package includes the `PartitionPoisson` module for this. 
+In this case study, we model the number of bacterial cellsin the package as a discrete variable (e.g., we use units of CFU/package unit not CFU/ml). The first step we model is the packaging of the product from a tank to a milk carton. Because the volume of the tank is much larger than the volume of the milk carton (~100s of liters vs. 1 liter) we can assume that the former is infinite. Then, the sampling can be modelled as a Poisson process. The package includes the `PartitionPoisson` module for this. 
 
 ```{r}
 package <- PartitionPoisson$new("Partition")$
   map_input("logN", logN0)$
   map_input("volume", 
-            Constant$new("vol_package", 1000)
+            Constant$new("vol_package", 1000) # Volume of the milk carton (ml)
             )
 ```
 
 Note that the output of this module is now in CFU. So, if we run the simulation we get how many *Listeria* cells are on each milk package.
 
 ```{r}
-package$simulate(1000)
-package$histogram()
+package$simulate(5, seed = 123)
+package$simulations
 ```
 
 ### Growth during storage
 
-The next stage is the microbial growth that takes place during storage of the product. We have a discrete number of cells, so we cannot (or rather, should not) use a continous growth model. Instead, we need to use a discrete growth model (technically, a birth process of Yule process). The package already includes the `DiscreteGrowth` module for doing this kind of calculation. 
-
-Nonetheless, we first need to deine the storage time. In this case, it will be a uniform distribution from 0 to 120h.
+The next stage is the microbial growth that takes place during storage of the product. We have a discrete number of cells, so we cannot (or rather, should not) use a continous growth model. Instead, we need to use a discrete growth model (technically, a Yule birth process). The package already includes the `DiscreteGrowth` module for doing this kind of calculation. 
+Nonetheless, we first need to define the storage time. In this case, it will be a uniform distribution from 0 to 120 h.
 
 ```{r}
 stor_time <- Uniform$new("Storage time")$
@@ -74,7 +72,7 @@ stor_time <- Uniform$new("Storage time")$
 
 ```
 
-Then, we define the discrete growth model. For simplicity, we just give a constant value of 0.1 log CFU/h to $\mu$, although we could do something more complicated (e.g., a secondary model).
+Then, we define the discrete growth model. For simplicity, we just give a constant value of 0.1 log CFU/h to $\mu$, although we could do something more complicated (e.g., a secondary model). For the initial concentration, we assign the the module describing the number of cells in the package. Note that, in this case, the input is labelled `"N0"`, not `"logN0"` (as often in continuous modules). This is done to indicate that the input should be a discrete variable (a number of cells), not a microbial concentration (CFU/ml).
 
 ```{r}
 storage <- DiscreteGrowth$new("Storage")$
@@ -86,13 +84,13 @@ storage <- DiscreteGrowth$new("Storage")$
 If we run this part of the model, we see this output:
 
 ```{r}
-storage$simulate(1000)
+storage$simulate(1000, seed = 242)
 storage$histogram() + scale_x_log10()
 ```
 
-Because we are working on CFU/package, the histogram shows the number of *Listeria* cells on each milk carton. One important thing here is the stationary growth phase. Even if the model is discrete, the bacterial behaviour is still affected by biological limitations, so we need to account for the carrying capacity of the media (and other reasons for the stationary phase). 
+Because we are working on CFU/package, the histogram shows the number of *Listeria* cells on each milk carton. One important thing here is the stationary growth phase. Even if the model is discrete, the bacterial behavior is still affected by biological limitations, so we need to account for the carrying capacity of the media (and other reasons for the stationary phase). 
 
-However, we need to be a bit careful with the units here. If we assume $\log N_{max} = 8 log CFU/ml$, in a 1000 mL milk carton, we would have $N_{max} = 1e8 \cdot 1e3 = 1e11 CFU/package$. This can be implemented easily in **biorisk** using the `DiscreteGrowthNmax` module.
+However, we need to be a bit careful with the units here. If we assume $\log N_{max} = 8 log CFU/ml$, in a 1000 ml milk carton, we would have $N_{max} = 1e8 \cdot 1e3 = 1e11 CFU/package$. This can be implemented easily in **biorisk** using the `DiscreteGrowthNmax` module.
 
 ```{r}
 storage <- DiscreteGrowthNmax$new("Storage")$
@@ -107,11 +105,11 @@ storage <- DiscreteGrowthNmax$new("Storage")$
 If we now run this part of the model...
 
 ```{r}
-storage$simulate(1000)
+storage$simulate(1000, seed = 421)
 storage$histogram() + scale_x_log10()
 ```
 
-We observe a very large bar on the right. This represents all the packages with a population on the stationary growth phase. This is often quite relevant for descrite growth, because the Yule process uses a negative binomial, which is right-tailed.
+We observe a very large bar on the right. This represents all the packages with a population on the stationary growth phase. This is often quite relevant for discrete growth, because the Yule process uses a negative binomial, which is right-tailed. As a result, the number of simulations above $N_{max}$ is often larger than calculated using a continuous model.
 
 ### Consumer phase
 
@@ -133,7 +131,7 @@ dose <- PartitionBinomial$new("Dose")$
 
 ### Dose-response & risk characterization
 
-Finally, we introduce the dose-response model
+Finally, we introduce the dose-response model. We use the exponential dose response model with $r = 10^{-12}$, assuming constant pathogen-host survival probability.
 
 ```{r}
 Pill <- DoseResponse_Exponential$new("Pill")$
@@ -156,25 +154,41 @@ As always, it is important to plot the model to check all the dependencies are c
 plot_model(cases)
 ```
 
+Remember that we can always zoom-in on some parts of the model.
+
+```{r}
+plot_model(dose)
+```
+
+
 ## Simulation
 
 We can now simulate the model. We just need to call the `simulate()` method with the number of Monte Carlo iterations.
 
 ```{r}
-cases$simulate(1000)
+cases$simulate(1000, seed = 42124)
 ```
 
-In this model, each MC simulation represents a single serving. Therefore, the output variable only takes binary values (0/1). Therefore, the best way to observe the output is by the mean:
+In this model, each MC simulation represents a single serving. That is, the output variable only takes binary values (0/1). This makes result interpretation a bit harder. For instance, we cannot look at quantiles because they will jump directly from `0` to `1` (although they can be 0.5 at a particular transition quantile):
+
+```{r}
+quantile_table(cases, chosen = "cases", probs = c(.5, .9, .99))
+```
+
+Therefore, probably the best way to observe the output is by its mean:
 
 ```{r}
 cases$get_output() %>% mean()
 ```
 
-That is, 1.1% of the servings will result in disease.
+That is, 1.6% of the servings will result in disease.
+
+We can also look at the distribution of the simulations to evaluate the uncertainty of that estimate; e.g., using a histogram:
 
 ```{r}
 Pill$histogram()
 ```
+
 
 
 
