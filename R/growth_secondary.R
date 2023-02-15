@@ -32,11 +32,11 @@ Ratkowsky_model <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      b <- self$depends_on$b$discrete_prediction()
-      Tmin <- self$depends_on$Tmin$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
+      b <- self$depends_on$b$point_estimate()
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
 
       sq_mu <- b*(temperature - Tmin)
 
@@ -123,11 +123,11 @@ Ratkowsky_model_error <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      b <- self$depends_on$b$discrete_prediction()
-      Tmin <- self$depends_on$Tmin$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
+      b <- self$depends_on$b$point_estimate()
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
 
       sq_mu <- b*(temperature - Tmin)
 
@@ -216,13 +216,13 @@ FullRatkowsky_model <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      b <- self$depends_on$b$discrete_prediction()
-      Tmin <- self$depends_on$Tmin$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
-      Tmax <- self$depends_on$Tmax$discrete_prediction()
-      c <- self$depends_on$c$discrete_prediction()
+      b <- self$depends_on$b$point_estimate()
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      Tmax <- self$depends_on$Tmax$point_estimate()
+      c <- self$depends_on$c$point_estimate()
 
       sq_mu <- b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax)))
 
@@ -313,13 +313,13 @@ FullRatkowsky_model_error <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      b <- self$depends_on$b$discrete_prediction()
-      Tmin <- self$depends_on$Tmin$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
-      Tmax <- self$depends_on$Tmax$discrete_prediction()
-      c <- self$depends_on$c$discrete_prediction()
+      b <- self$depends_on$b$point_estimate()
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      Tmax <- self$depends_on$Tmax$point_estimate()
+      c <- self$depends_on$c$point_estimate()
 
       sq_mu <- b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax)))
 
@@ -410,13 +410,13 @@ CardinalParameterModel <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      X <- self$depends_on$X$discrete_prediction()
-      Xmin <- self$depends_on$Xmin$discrete_prediction()
-      Xmax <- self$depends_on$Xmax$discrete_prediction()
-      Xopt <- self$depends_on$Xopt$discrete_prediction()
-      n <- self$depends_on$n$discrete_prediction()
+      X <- self$depends_on$X$point_estimate()
+      Xmin <- self$depends_on$Xmin$point_estimate()
+      Xmax <- self$depends_on$Xmax$point_estimate()
+      Xopt <- self$depends_on$Xopt$point_estimate()
+      n <- self$depends_on$n$point_estimate()
 
       num <- (X-Xmax)*(X-Xmin)^n
       den <- (Xopt-Xmin)^(n-1)*( (Xopt-Xmin)*(X-Xopt) - (Xopt-Xmax)*((n-1)*Xopt + Xmin-n*X) )
@@ -508,12 +508,12 @@ ZwieteringGamma <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      X <- self$depends_on$X$discrete_prediction()
-      Xmin <- self$depends_on$Xmin$discrete_prediction()
-      Xopt <- self$depends_on$Xopt$discrete_prediction()
-      n <- self$depends_on$n$discrete_prediction()
+      X <- self$depends_on$X$point_estimate()
+      Xmin <- self$depends_on$Xmin$point_estimate()
+      Xopt <- self$depends_on$Xopt$point_estimate()
+      n <- self$depends_on$n$point_estimate()
 
       gamma <- ((X-Xmin)/(Xopt-Xmin))^n
 
@@ -602,7 +602,7 @@ ZwieteringGamma <- R6::R6Class(
 # plot_model(mu)
 # mu$simulate(1000)
 # mu$density_plot()
-# mu$discrete_prediction()
+# mu$point_estimate()
 
 #
 # mu_e <- Ratkowsky_model_error$new("aa")$
@@ -638,7 +638,7 @@ ZwieteringGamma <- R6::R6Class(
 # plot_model(mu)
 # mu$simulate(1000)
 # mu$density_plot()
-# mu$discrete_prediction()
+# mu$point_estimate()
 #
 #
 # mu <- CardinalParameterModel$new("aa")$
@@ -662,7 +662,7 @@ ZwieteringGamma <- R6::R6Class(
 # plot_model(mu)
 # mu$simulate(1000)
 # mu$density_plot()
-# mu$discrete_prediction()
+# mu$point_estimate()
 #
 # mu <- ZwieteringGamma$new("aa")$
 #   map_input("Xmin", Constant$new("Tmin", 0))$
@@ -684,6 +684,6 @@ ZwieteringGamma <- R6::R6Class(
 # plot_model(mu)
 # mu$simulate(1000)
 # mu$density_plot()
-# mu$discrete_prediction()
+# mu$point_estimate()
 
 

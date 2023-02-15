@@ -31,10 +31,10 @@ DoseResponse_Exponential <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      r <- self$depends_on$r$discrete_prediction()
-      dose <- self$depends_on$dose$discrete_prediction()
+      r <- self$depends_on$r$point_estimate()
+      dose <- self$depends_on$dose$point_estimate()
 
       1 - exp(-r*dose)
 
@@ -113,11 +113,11 @@ DoseResponse_BetaPoisson <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      dose <- self$depends_on$dose$discrete_prediction()
-      alpha <- self$depends_on$alpha$discrete_prediction()
-      beta <- self$depends_on$beta$discrete_prediction()
+      dose <- self$depends_on$dose$point_estimate()
+      alpha <- self$depends_on$alpha$point_estimate()
+      beta <- self$depends_on$beta$point_estimate()
 
       1 - (1 + dose/beta)^(-alpha)
 
@@ -194,9 +194,9 @@ Concentration2Dose <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      10^self$depends_on$logN$discrete_prediction() * self$depends_on$size$discrete_prediction()
+      10^self$depends_on$logN$point_estimate() * self$depends_on$size$point_estimate()
 
     }
 
@@ -273,9 +273,9 @@ Concentration2Dose_continuous <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      10^self$depends_on$logN$discrete_prediction() * self$depends_on$size$discrete_prediction()
+      10^self$depends_on$logN$point_estimate() * self$depends_on$size$point_estimate()
 
     }
 
@@ -349,9 +349,9 @@ Pill2Cases_1 <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$Pill$discrete_prediction()
+      self$depends_on$Pill$point_estimate()
 
     }
 
@@ -425,9 +425,9 @@ Pill2Cases_N <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$Pill$discrete_prediction() * self$depends_on$servings$discrete_prediction()
+      self$depends_on$Pill$point_estimate() * self$depends_on$servings$point_estimate()
 
     }
 

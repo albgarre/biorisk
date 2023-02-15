@@ -49,11 +49,11 @@ CorrelatedExpGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
       temperature <- self$mean_temperature
-      b <- self$depends_on$b$discrete_prediction()
-      Tmin <- self$depends_on$Tmin$discrete_prediction()
+      b <- self$depends_on$b$point_estimate()
+      Tmin <- self$depends_on$Tmin$point_estimate()
 
       if (temperature < Tmin) {
         return(logN0)
@@ -63,7 +63,7 @@ CorrelatedExpGrowth <- R6::R6Class(
       mu <- sq_mu^2
 
       t <- self$mean_time
-      logN0 <- self$depends_on$logN0$discrete_prediction()
+      logN0 <- self$depends_on$logN0$point_estimate()
 
       logN0 + t*mu
 

@@ -29,11 +29,11 @@ LogLinInactivation_k <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      k <- self$depends_on$k$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      k <- self$depends_on$k$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
 
       logN0 - k*t
 
@@ -113,11 +113,11 @@ LogLinInactivation <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      D <- self$depends_on$D$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      D <- self$depends_on$D$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
 
       logN0 - t/D
 
@@ -197,12 +197,12 @@ WeibullInactivation <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      delta <- self$depends_on$delta$discrete_prediction()
-      beta <- self$depends_on$beta$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      delta <- self$depends_on$delta$point_estimate()
+      beta <- self$depends_on$beta$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
 
       logN0 - (t/delta)^beta
 
@@ -282,12 +282,12 @@ PelegInactivation <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      b <- self$depends_on$b$discrete_prediction()
-      n <- self$depends_on$n$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      b <- self$depends_on$b$point_estimate()
+      n <- self$depends_on$n$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
 
       logN0 - b*t^n
 
@@ -367,13 +367,13 @@ TrilinearInactivation <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      D <- self$depends_on$D$discrete_prediction()
-      SL <- self$depends_on$SL$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      logNres <- self$depends_on$logNres$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      D <- self$depends_on$D$point_estimate()
+      SL <- self$depends_on$SL$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      logNres <- self$depends_on$logNres$point_estimate()
 
       logN0 - b*t^n
 
@@ -464,13 +464,13 @@ GeeraerdInactivation <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      D <- self$depends_on$D$discrete_prediction()
-      SL <- self$depends_on$SL$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      logNres <- self$depends_on$logNres$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      D <- self$depends_on$D$point_estimate()
+      SL <- self$depends_on$SL$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      logNres <- self$depends_on$logNres$point_estimate()
 
       k <- log(10)/D
 
@@ -552,13 +552,13 @@ GeeraerdInactivation_noSL <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      D <- self$depends_on$D$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      D <- self$depends_on$D$point_estimate()
       SL <- 0
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      logNres <- self$depends_on$logNres$discrete_prediction()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      logNres <- self$depends_on$logNres$point_estimate()
 
       k <- log(10)/D
 
@@ -777,7 +777,7 @@ GeeraerdInactivation_noSL <- R6::R6Class(
 # inact_model$histogram()
 #
 #
-# inact_model$discrete_prediction()
+# inact_model$point_estimate()
 #
 # time <- Normal$new("t")$
 #   map_input("mu", Constant$new("mu_t", 5))$
@@ -802,7 +802,7 @@ GeeraerdInactivation_noSL <- R6::R6Class(
 # inact_model$histogram()
 #
 #
-# inact_model$discrete_prediction()
+# inact_model$point_estimate()
 
 
 

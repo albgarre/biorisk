@@ -30,9 +30,9 @@ ExponentialGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$logN0$discrete_prediction() + self$depends_on$t$discrete_prediction() * self$depends_on$mu$discrete_prediction()
+      self$depends_on$logN0$point_estimate() + self$depends_on$t$point_estimate() * self$depends_on$mu$point_estimate()
 
     }
 
@@ -109,12 +109,12 @@ ExponentialGrowthNmax <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      logNmax <- self$depends_on$logNmax$discrete_prediction()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      logNmax <- self$depends_on$logNmax$point_estimate()
 
       logN <- logN0 + t*mu
 
@@ -196,12 +196,12 @@ LagExponentialGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
 
       logN <- logN0 + t*mu
 
@@ -287,13 +287,13 @@ TrilinealGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
-      logNamx <- self$depends_on$logNmax$discrete_prediction()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
+      logNamx <- self$depends_on$logNmax$point_estimate()
 
       if (t < lambda) {
 
@@ -391,13 +391,13 @@ BaranyiGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
-      logNmax <- self$depends_on$logNmax$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
+      logNmax <- self$depends_on$logNmax$point_estimate()
 
       num <- 1 + exp(log(10)*mu*(t - lambda)) - exp(-log(10)*mu*lambda)
       den <- exp(log(10)*mu*(t-lambda)) - exp(-log(10)*mu*lambda) + 10^(logNmax - logN0)
@@ -486,13 +486,13 @@ modGompertzGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
-      C <- self$depends_on$C$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
+      C <- self$depends_on$C$point_estimate()
 
       exponent <- (mu/C)*exp(1)*(lambda - t) +1
 
@@ -577,13 +577,13 @@ LogisticGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
-      C <- self$depends_on$C$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
+      C <- self$depends_on$C$point_estimate()
 
       logN0 + C/(1 + exp(4*mu/C*(lambda-t) + 2))
 
@@ -664,14 +664,14 @@ RichardsGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      t <- self$depends_on$t$discrete_prediction()
-      mu <- self$depends_on$mu$discrete_prediction()
-      logN0 <- self$depends_on$logN0$discrete_prediction()
-      lambda <- self$depends_on$lambda$discrete_prediction()
-      C <- self$depends_on$C$discrete_prediction()
-      nu <- self$depends_on$nu$discrete_prediction()
+      t <- self$depends_on$t$point_estimate()
+      mu <- self$depends_on$mu$point_estimate()
+      logN0 <- self$depends_on$logN0$point_estimate()
+      lambda <- self$depends_on$lambda$point_estimate()
+      C <- self$depends_on$C$point_estimate()
+      nu <- self$depends_on$nu$point_estimate()
 
       exp_part <- 1 + nu + mu/C*(1+nu)^(1 + 1/nu)*(lambda-t)
 
@@ -764,7 +764,7 @@ RichardsGrowth <- R6::R6Class(
 #
 # growth_model$simulate(100)
 # growth_model$density_plot()
-# growth_model$discrete_prediction()
+# growth_model$point_estimate()
 #
 #
 # growth_model <- modGompertzGrowth$new("Growth")$
@@ -776,7 +776,7 @@ RichardsGrowth <- R6::R6Class(
 #
 # growth_model$simulate(100)
 # growth_model$density_plot()
-# growth_model$discrete_prediction()
+# growth_model$point_estimate()
 #
 # growth_model <- LogisticGrowth$new("Growth")$
 #   map_input("t", time)$
@@ -787,7 +787,7 @@ RichardsGrowth <- R6::R6Class(
 #
 # growth_model$simulate(100)
 # growth_model$density_plot()
-# growth_model$discrete_prediction()
+# growth_model$point_estimate()
 #
 # growth_model <- RichardsGrowth$new("Growth")$
 #   map_input("t", time)$
@@ -799,5 +799,5 @@ RichardsGrowth <- R6::R6Class(
 #
 # growth_model$simulate(100)
 # growth_model$density_plot()
-# growth_model$discrete_prediction()
+# growth_model$point_estimate()
 

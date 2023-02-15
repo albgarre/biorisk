@@ -61,7 +61,7 @@ Constant <- R6::R6Class(
     #' @description
     #' Returns the value of the constant
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
       self$value
     }
 

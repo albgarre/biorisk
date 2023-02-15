@@ -32,12 +32,12 @@ Dz_model <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      Dref <- self$depends_on$Dref$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
-      z <- self$depends_on$z$discrete_prediction()
-      Tref <- self$depends_on$Tref$discrete_prediction()
+      Dref <- self$depends_on$Dref$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      z <- self$depends_on$z$point_estimate()
+      Tref <- self$depends_on$Tref$point_estimate()
 
       logD <- log10(Dref) - (temperature - Tref)/z
       10^logD
@@ -119,11 +119,11 @@ Peleg_secondary <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      k_b <- self$depends_on$k_b$discrete_prediction()
-      temperature <- self$depends_on$temperature$discrete_prediction()
-      temp_crit <- self$depends_on$temp_crit$discrete_prediction()
+      k_b <- self$depends_on$k_b$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      temp_crit <- self$depends_on$temp_crit$point_estimate()
 
       log(1 + exp(k_b * (temperature - temp_crit)))
 

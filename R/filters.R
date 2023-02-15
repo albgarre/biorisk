@@ -42,9 +42,9 @@ MaxFilter <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      stop("discrete_prediction not implemented for filters")
+      stop("point_estimate not implemented for filters")
 
     }
 
@@ -145,9 +145,9 @@ MinFilter <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      stop("discrete_prediction not implemented for filters")
+      stop("point_estimate not implemented for filters")
 
     }
 
@@ -251,9 +251,9 @@ MinMaxFilter <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      stop("discrete_prediction not implemented for filters")
+      stop("point_estimate not implemented for filters")
 
     }
 

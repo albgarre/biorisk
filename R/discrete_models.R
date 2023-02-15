@@ -30,9 +30,9 @@ DiscreteGrowth <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      increase <- self$depends_on$time$discrete_prediction() * self$depends_on$mu$discrete_prediction()
-      self$depends_on$N0$discrete_prediction() + increase
+    point_estimate = function() {
+      increase <- self$depends_on$time$point_estimate() * self$depends_on$mu$point_estimate()
+      self$depends_on$N0$point_estimate() + increase
     }
   ),
 
@@ -108,10 +108,10 @@ DiscreteGrowthNmax <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      increase <- self$depends_on$time$discrete_prediction() * self$depends_on$mu$discrete_prediction()
-      N <- self$depends_on$N0$discrete_prediction() + increase
-      min(c(self$depends_on$Nmax$discrete_prediction(), N))
+    point_estimate = function() {
+      increase <- self$depends_on$time$point_estimate() * self$depends_on$mu$point_estimate()
+      N <- self$depends_on$N0$point_estimate() + increase
+      min(c(self$depends_on$Nmax$point_estimate(), N))
     }
   ),
 

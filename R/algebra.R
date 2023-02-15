@@ -42,8 +42,8 @@ ModulePlus <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$a$discrete_prediction() + self$depends_on$b$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$a$point_estimate() + self$depends_on$b$point_estimate()
     }
 
   ),
@@ -129,8 +129,8 @@ ModuleMinus <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$a$discrete_prediction() - self$depends_on$b$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$a$point_estimate() - self$depends_on$b$point_estimate()
     }
 
   ),
@@ -216,8 +216,8 @@ ModuleTimes <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$a$discrete_prediction() * self$depends_on$b$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$a$point_estimate() * self$depends_on$b$point_estimate()
     }
 
   ),
@@ -303,8 +303,8 @@ ModuleDivision <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$a$discrete_prediction() / self$depends_on$b$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$a$point_estimate() / self$depends_on$b$point_estimate()
     }
 
   ),
@@ -390,8 +390,8 @@ ModulePower <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$a$discrete_prediction() ^ self$depends_on$b$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$a$point_estimate() ^ self$depends_on$b$point_estimate()
     }
 
   ),
@@ -468,8 +468,8 @@ ModuleSqrt <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      sqrt(self$depends_on$a$discrete_prediction())
+    point_estimate = function() {
+      sqrt(self$depends_on$a$point_estimate())
     }
 
   ),
@@ -546,8 +546,8 @@ ModuleLog <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      log10(self$depends_on$a$discrete_prediction())
+    point_estimate = function() {
+      log10(self$depends_on$a$point_estimate())
     }
 
   ),
@@ -624,8 +624,8 @@ ModuleLn <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      log(self$depends_on$a$discrete_prediction())
+    point_estimate = function() {
+      log(self$depends_on$a$point_estimate())
     }
 
   ),
@@ -702,8 +702,8 @@ ModuleExp <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      exp(self$depends_on$a$discrete_prediction())
+    point_estimate = function() {
+      exp(self$depends_on$a$point_estimate())
     }
 
   ),
@@ -781,8 +781,8 @@ ModulePow10 <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      10^(self$depends_on$a$discrete_prediction())
+    point_estimate = function() {
+      10^(self$depends_on$a$point_estimate())
     }
 
   ),

@@ -30,8 +30,8 @@ Normal <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$mu$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$mu$point_estimate()
     }
 
   ),
@@ -103,8 +103,8 @@ LnNormal <- R6::R6Class(
     #' @description
     #' Returns the median
     #'
-    discrete_prediction = function() {
-      exp(self$depends_on$mu_ln$discrete_prediction())
+    point_estimate = function() {
+      exp(self$depends_on$mu_ln$point_estimate())
     }
 
   ),
@@ -176,8 +176,8 @@ LogNormal <- R6::R6Class(
     #' @description
     #' Returns the median
     #'
-    discrete_prediction = function() {
-      10^(self$depends_on$mu_log10$discrete_prediction())
+    point_estimate = function() {
+      10^(self$depends_on$mu_log10$point_estimate())
     }
 
   ),
@@ -251,8 +251,8 @@ Weibull <- R6::R6Class(
     #' @description
     #' Returns the median
     #'
-    discrete_prediction = function() {
-      self$depends_on$scale$discrete_prediction()*log(2)^(1/self$depends_on$shape$discrete_prediction())
+    point_estimate = function() {
+      self$depends_on$scale$point_estimate()*log(2)^(1/self$depends_on$shape$point_estimate())
     }
   ),
 
@@ -323,9 +323,9 @@ Beta <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      a <- self$depends_on$shape1$discrete_prediction()
-      b <- self$depends_on$shape2$discrete_prediction()
+    point_estimate = function() {
+      a <- self$depends_on$shape1$point_estimate()
+      b <- self$depends_on$shape2$point_estimate()
 
       a/(a+b)
     }
@@ -398,9 +398,9 @@ Gamma <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$shape$discrete_prediction() * self$depends_on$scale$discrete_prediction()
+      self$depends_on$shape$point_estimate() * self$depends_on$scale$point_estimate()
 
     }
 
@@ -472,9 +472,9 @@ Exponential <- R6::R6Class(
     #' @description
     #' Returns the median
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      log(2)/self$depends_on$rate$discrete_prediction()
+      log(2)/self$depends_on$rate$point_estimate()
 
     }
   ),
@@ -546,9 +546,9 @@ Uniform <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      (self$depends_on$min$discrete_prediction() * self$depends_on$max$discrete_prediction())/2
+      (self$depends_on$min$point_estimate() * self$depends_on$max$point_estimate())/2
 
     }
 
@@ -622,9 +622,9 @@ Triangular <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      (self$depends_on$a$discrete_prediction() + self$depends_on$b$discrete_prediction() + self$depends_on$c$discrete_prediction() )/3
+      (self$depends_on$a$point_estimate() + self$depends_on$b$point_estimate() + self$depends_on$c$point_estimate() )/3
 
     }
   ),
@@ -696,9 +696,9 @@ TriangularSym <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      (self$depends_on$a$discrete_prediction() * self$depends_on$b$discrete_prediction())/2
+      (self$depends_on$a$point_estimate() * self$depends_on$b$point_estimate())/2
 
     }
   ),
@@ -770,9 +770,9 @@ Pareto <- R6::R6Class(
     #' @description
     #' Returns the model
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$b$discrete_prediction()
+      self$depends_on$b$point_estimate()
 
     }
 
@@ -845,9 +845,9 @@ Pert <- R6::R6Class(
     #' @description
     #' Returns the mode
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$mode$discrete_prediction()
+      self$depends_on$mode$point_estimate()
 
     }
   ),

@@ -27,8 +27,8 @@ PartitionPoisson <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      10^self$depends_on$logN$discrete_prediction() * self$depends_on$volume$discrete_prediction()
+    point_estimate = function() {
+      10^self$depends_on$logN$point_estimate() * self$depends_on$volume$point_estimate()
     }
   ),
 
@@ -101,8 +101,8 @@ PartitionBinomial <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$N0$discrete_prediction() * self$depends_on$volume1$discrete_prediction() / self$depends_on$volume0$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$N0$point_estimate() * self$depends_on$volume1$point_estimate() / self$depends_on$volume0$point_estimate()
     }
   ),
 

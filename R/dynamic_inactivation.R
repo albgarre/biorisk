@@ -64,7 +64,7 @@ DynamicBigelow_1phase <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
       stop("Discrete predictions not (yet) implemented for dynamic modules")
 
@@ -170,7 +170,7 @@ DynamicBigelow_2phase <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
       stop("Discrete predictions not (yet) implemented for dynamic modules")
 
@@ -281,7 +281,7 @@ DynamicBigelow_3phase <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
       stop("Discrete predictions not (yet) implemented for dynamic modules")
 

@@ -34,7 +34,7 @@ EmpiricalDistr <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
       median(self$values)
     }
 
@@ -101,8 +101,8 @@ Poisson <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$lambda$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$lambda$point_estimate()
     }
   ),
 
@@ -173,8 +173,8 @@ Binomial <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      self$depends_on$size$discrete_prediction() * self$depends_on$prob$discrete_prediction()
+    point_estimate = function() {
+      self$depends_on$size$point_estimate() * self$depends_on$prob$point_estimate()
     }
   ),
 
@@ -245,8 +245,8 @@ ZIPoisson <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      (1 - self$depends_on$pi$discrete_prediction())*self$depends_on$lambda$discrete_prediction()
+    point_estimate = function() {
+      (1 - self$depends_on$pi$point_estimate())*self$depends_on$lambda$point_estimate()
     }
   ),
 
@@ -318,11 +318,11 @@ BetaBinomial <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      n <- self$depends_on$size$discrete_prediction()
-      a <- self$depends_on$alpha$discrete_prediction()
-      b <- self$depends_on$beta$discrete_prediction()
+      n <- self$depends_on$size$point_estimate()
+      a <- self$depends_on$alpha$point_estimate()
+      b <- self$depends_on$beta$point_estimate()
 
       n*a/(a + b)
     }
@@ -395,9 +395,9 @@ GammaPoisson <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$shape$discrete_prediction() * self$depends_on$scale$discrete_prediction()
+      self$depends_on$shape$point_estimate() * self$depends_on$scale$point_estimate()
 
     }
   ),

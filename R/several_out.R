@@ -34,8 +34,10 @@ BiNormal <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
-      # self$depends_on$mu$discrete_prediction()
+    point_estimate = function() {
+      # self$depends_on$mu$point_estimate()
+
+      stop("point_estimate not defined for BiNormal module")
     }
 
   ),

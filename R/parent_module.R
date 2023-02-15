@@ -181,7 +181,7 @@ RiskModule <- R6::R6Class(
     #' @description
     #' Gets a discrete (fast and simple) prediction
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
       stop("Discrete prediction not available for this module")
     },
 
@@ -317,7 +317,7 @@ RiskModule <- R6::R6Class(
         geom_line(aes(x, y))
 
       if (add_discrete) {
-        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+        p <- p + geom_vline(xintercept = self$point_estimate(),
                             linetype = 2)
       }
 
@@ -333,7 +333,7 @@ RiskModule <- R6::R6Class(
       p <- ggplot() + geom_density(aes(x = self$get_output()))
 
       if (add_discrete) {
-        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+        p <- p + geom_vline(xintercept = self$point_estimate(),
                             linetype = 2)
       }
 
@@ -349,7 +349,7 @@ RiskModule <- R6::R6Class(
       p <- ggplot() + geom_histogram(aes(x = self$get_output()))
 
       if (add_discrete) {
-        p <- p + geom_vline(xintercept = self$discrete_prediction(),
+        p <- p + geom_vline(xintercept = self$point_estimate(),
                             linetype = 2)
       }
 
@@ -365,7 +365,7 @@ RiskModule <- R6::R6Class(
       p <- ggplot() + geom_boxplot(aes(y = self$get_output()))
 
       if (add_discrete) {
-        p <- p + geom_hline(yintercept = self$discrete_prediction(),
+        p <- p + geom_hline(yintercept = self$point_estimate(),
                             linetype = 2)
       }
 

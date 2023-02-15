@@ -30,9 +30,9 @@ LinealModel <- R6::R6Class(
     #' @description
     #' Returns the expected value
     #'
-    discrete_prediction = function() {
+    point_estimate = function() {
 
-      self$depends_on$a$discrete_prediction() + self$depends_on$b$discrete_prediction() * self$depends_on$x$discrete_prediction()
+      self$depends_on$a$point_estimate() + self$depends_on$b$point_estimate() * self$depends_on$x$point_estimate()
 
     }
 
