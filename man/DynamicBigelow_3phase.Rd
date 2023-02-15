@@ -20,7 +20,7 @@ temp0, temp1, temp2, temp3.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-DynamicBigelow_3phase-new}{\code{DynamicBigelow_3phase$new()}}
-\item \href{#method-DynamicBigelow_3phase-discrete_prediction}{\code{DynamicBigelow_3phase$discrete_prediction()}}
+\item \href{#method-DynamicBigelow_3phase-point_estimate}{\code{DynamicBigelow_3phase$point_estimate()}}
 \item \href{#method-DynamicBigelow_3phase-clone}{\code{DynamicBigelow_3phase$clone()}}
 }
 }
@@ -28,12 +28,14 @@ temp0, temp1, temp2, temp3.
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot_2D'><code>biorisk::RiskModule$density_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output'><code>biorisk::RiskModule$get_output()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_2D'><code>biorisk::RiskModule$get_output_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_type"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_type'><code>biorisk::RiskModule$get_output_type()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-histogram'><code>biorisk::RiskModule$histogram()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-map_input'><code>biorisk::RiskModule$map_input()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles'><code>biorisk::RiskModule$quantiles()</code></a></span></li>
@@ -56,12 +58,12 @@ temp0, temp1, temp2, temp3.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-DynamicBigelow_3phase-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-DynamicBigelow_3phase-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-DynamicBigelow_3phase-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-DynamicBigelow_3phase-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{DynamicBigelow_3phase$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{DynamicBigelow_3phase$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

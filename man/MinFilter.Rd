@@ -15,7 +15,8 @@ Filters the output of a module according to a minimum value
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-MinFilter-new}{\code{MinFilter$new()}}
-\item \href{#method-MinFilter-discrete_prediction}{\code{MinFilter$discrete_prediction()}}
+\item \href{#method-MinFilter-get_output_type}{\code{MinFilter$get_output_type()}}
+\item \href{#method-MinFilter-point_estimate}{\code{MinFilter$point_estimate()}}
 \item \href{#method-MinFilter-clone}{\code{MinFilter$clone()}}
 }
 }
@@ -23,6 +24,7 @@ Filters the output of a module according to a minimum value
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
@@ -51,12 +53,22 @@ Filters the output of a module according to a minimum value
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-MinFilter-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-MinFilter-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-MinFilter-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-MinFilter-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{MinFilter$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-MinFilter-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-MinFilter-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{MinFilter$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{MinFilter$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

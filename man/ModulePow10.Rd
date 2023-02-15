@@ -15,7 +15,8 @@ Ten to the power of the output of a module
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ModulePow10-new}{\code{ModulePow10$new()}}
-\item \href{#method-ModulePow10-discrete_prediction}{\code{ModulePow10$discrete_prediction()}}
+\item \href{#method-ModulePow10-get_output_type}{\code{ModulePow10$get_output_type()}}
+\item \href{#method-ModulePow10-point_estimate}{\code{ModulePow10$point_estimate()}}
 \item \href{#method-ModulePow10-clone}{\code{ModulePow10$clone()}}
 }
 }
@@ -23,6 +24,7 @@ Ten to the power of the output of a module
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
@@ -51,12 +53,22 @@ Ten to the power of the output of a module
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ModulePow10-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-ModulePow10-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-ModulePow10-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-ModulePow10-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ModulePow10$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ModulePow10-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-ModulePow10-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ModulePow10$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ModulePow10$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

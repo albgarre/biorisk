@@ -19,7 +19,7 @@ delta, beta.
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-WeibullInactivation-new}{\code{WeibullInactivation$new()}}
-\item \href{#method-WeibullInactivation-discrete_prediction}{\code{WeibullInactivation$discrete_prediction()}}
+\item \href{#method-WeibullInactivation-point_estimate}{\code{WeibullInactivation$point_estimate()}}
 \item \href{#method-WeibullInactivation-clone}{\code{WeibullInactivation$clone()}}
 }
 }
@@ -27,12 +27,14 @@ delta, beta.
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot_2D'><code>biorisk::RiskModule$density_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output'><code>biorisk::RiskModule$get_output()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_2D'><code>biorisk::RiskModule$get_output_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_type"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_type'><code>biorisk::RiskModule$get_output_type()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-histogram'><code>biorisk::RiskModule$histogram()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-map_input'><code>biorisk::RiskModule$map_input()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles'><code>biorisk::RiskModule$quantiles()</code></a></span></li>
@@ -55,12 +57,12 @@ delta, beta.
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-WeibullInactivation-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-WeibullInactivation-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-WeibullInactivation-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-WeibullInactivation-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{WeibullInactivation$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{WeibullInactivation$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

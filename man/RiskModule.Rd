@@ -21,6 +21,8 @@ Parent class for modules
 
 \item{\code{depended_by}}{A list of modules that use this instance as input}
 
+\item{\code{input_types}}{A list with the preferred data type for each input (discrete/continuous/any)}
+
 \item{\code{output}}{Name of the output variable}
 
 \item{\code{output_unit}}{Unit of the output variable}
@@ -45,7 +47,7 @@ Parent class for modules
 \item \href{#method-RiskModule-simulate}{\code{RiskModule$simulate()}}
 \item \href{#method-RiskModule-simulate_2D}{\code{RiskModule$simulate_2D()}}
 \item \href{#method-RiskModule-simulate_level}{\code{RiskModule$simulate_level()}}
-\item \href{#method-RiskModule-discrete_prediction}{\code{RiskModule$discrete_prediction()}}
+\item \href{#method-RiskModule-point_estimate}{\code{RiskModule$point_estimate()}}
 \item \href{#method-RiskModule-get_output}{\code{RiskModule$get_output()}}
 \item \href{#method-RiskModule-get_output_2D}{\code{RiskModule$get_output_2D()}}
 \item \href{#method-RiskModule-save_as_vector}{\code{RiskModule$save_as_vector()}}
@@ -58,6 +60,8 @@ Parent class for modules
 \item \href{#method-RiskModule-boxplot}{\code{RiskModule$boxplot()}}
 \item \href{#method-RiskModule-quantiles}{\code{RiskModule$quantiles()}}
 \item \href{#method-RiskModule-quantiles_2D}{\code{RiskModule$quantiles_2D()}}
+\item \href{#method-RiskModule-get_output_type}{\code{RiskModule$get_output_type()}}
+\item \href{#method-RiskModule-check_input_types}{\code{RiskModule$check_input_types()}}
 \item \href{#method-RiskModule-clone}{\code{RiskModule$clone()}}
 }
 }
@@ -72,6 +76,7 @@ Create a new module
   input_names = NA,
   units = NA,
   module_type = "",
+  input_types = list(),
   output_var = "",
   output_unit = "",
   output_type = "",
@@ -175,12 +180,12 @@ A vector with the output variable
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-RiskModule-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-RiskModule-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-RiskModule-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Gets a discrete (fast and simple) prediction
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{RiskModule$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }
@@ -333,6 +338,29 @@ Quantiles of the output variable
 Quantiles of a 2D Monte Carlo simulation
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{RiskModule$quantiles_2D(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+This is a default implementation (just return the output type). For other modules,
+(e.g., sum) the type depends on the type of the inputs. So, they have their
+own implementation.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-RiskModule-check_input_types"></a>}}
+\if{latex}{\out{\hypertarget{method-RiskModule-check_input_types}{}}}
+\subsection{Method \code{check_input_types()}}{
+Checks that the type of the inputs is consistent
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{RiskModule$check_input_types(recursive = FALSE)}\if{html}{\out{</div>}}
 }
 
 }

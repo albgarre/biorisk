@@ -15,7 +15,8 @@ Division of the output of two modules (a/b)
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ModuleDivision-new}{\code{ModuleDivision$new()}}
-\item \href{#method-ModuleDivision-discrete_prediction}{\code{ModuleDivision$discrete_prediction()}}
+\item \href{#method-ModuleDivision-get_output_type}{\code{ModuleDivision$get_output_type()}}
+\item \href{#method-ModuleDivision-point_estimate}{\code{ModuleDivision$point_estimate()}}
 \item \href{#method-ModuleDivision-clone}{\code{ModuleDivision$clone()}}
 }
 }
@@ -23,6 +24,7 @@ Division of the output of two modules (a/b)
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
@@ -51,12 +53,22 @@ Division of the output of two modules (a/b)
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ModuleDivision-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-ModuleDivision-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-ModuleDivision-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleDivision-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ModuleDivision$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ModuleDivision-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleDivision-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ModuleDivision$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ModuleDivision$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

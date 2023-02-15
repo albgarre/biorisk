@@ -22,15 +22,17 @@ Parent for modules with continuous outputs
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot_2D'><code>biorisk::RiskModule$density_plot_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="discrete_prediction"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-discrete_prediction'><code>biorisk::RiskModule$discrete_prediction()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output'><code>biorisk::RiskModule$get_output()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_2D'><code>biorisk::RiskModule$get_output_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_type"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_type'><code>biorisk::RiskModule$get_output_type()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-histogram'><code>biorisk::RiskModule$histogram()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-map_input'><code>biorisk::RiskModule$map_input()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="point_estimate"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-point_estimate'><code>biorisk::RiskModule$point_estimate()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles'><code>biorisk::RiskModule$quantiles()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles_2D'><code>biorisk::RiskModule$quantiles_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-save_as_distribution'><code>biorisk::RiskModule$save_as_distribution()</code></a></span></li>
@@ -54,6 +56,7 @@ Parent for modules with continuous outputs
   output_var = "",
   output_unit = "",
   output_type = "",
+  input_types = list(),
   level = 0
 )}\if{html}{\out{</div>}}
 }

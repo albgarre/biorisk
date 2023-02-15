@@ -15,7 +15,8 @@ Square root of the output of a modules
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ModuleSqrt-new}{\code{ModuleSqrt$new()}}
-\item \href{#method-ModuleSqrt-discrete_prediction}{\code{ModuleSqrt$discrete_prediction()}}
+\item \href{#method-ModuleSqrt-get_output_type}{\code{ModuleSqrt$get_output_type()}}
+\item \href{#method-ModuleSqrt-point_estimate}{\code{ModuleSqrt$point_estimate()}}
 \item \href{#method-ModuleSqrt-clone}{\code{ModuleSqrt$clone()}}
 }
 }
@@ -23,6 +24,7 @@ Square root of the output of a modules
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
@@ -51,12 +53,22 @@ Square root of the output of a modules
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ModuleSqrt-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-ModuleSqrt-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-ModuleSqrt-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleSqrt-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ModuleSqrt$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ModuleSqrt-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleSqrt-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ModuleSqrt$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ModuleSqrt$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }

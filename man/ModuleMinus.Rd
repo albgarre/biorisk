@@ -15,7 +15,8 @@ Substraction of the output of two modules
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-ModuleMinus-new}{\code{ModuleMinus$new()}}
-\item \href{#method-ModuleMinus-discrete_prediction}{\code{ModuleMinus$discrete_prediction()}}
+\item \href{#method-ModuleMinus-get_output_type}{\code{ModuleMinus$get_output_type()}}
+\item \href{#method-ModuleMinus-point_estimate}{\code{ModuleMinus$point_estimate()}}
 \item \href{#method-ModuleMinus-clone}{\code{ModuleMinus$clone()}}
 }
 }
@@ -23,6 +24,7 @@ Substraction of the output of two modules
 <details><summary>Inherited methods</summary>
 <ul>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
 <li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
@@ -51,12 +53,22 @@ Substraction of the output of two modules
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-ModuleMinus-discrete_prediction"></a>}}
-\if{latex}{\out{\hypertarget{method-ModuleMinus-discrete_prediction}{}}}
-\subsection{Method \code{discrete_prediction()}}{
+\if{html}{\out{<a id="method-ModuleMinus-get_output_type"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleMinus-get_output_type}{}}}
+\subsection{Method \code{get_output_type()}}{
+Get the data type of the output.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{ModuleMinus$get_output_type()}\if{html}{\out{</div>}}
+}
+
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-ModuleMinus-point_estimate"></a>}}
+\if{latex}{\out{\hypertarget{method-ModuleMinus-point_estimate}{}}}
+\subsection{Method \code{point_estimate()}}{
 Returns the expected value
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{ModuleMinus$discrete_prediction()}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{ModuleMinus$point_estimate()}\if{html}{\out{</div>}}
 }
 
 }
