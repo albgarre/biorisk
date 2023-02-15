@@ -13,6 +13,7 @@ EmpiricalDistr <- R6::R6Class(
     values = NULL,
 
     initialize = function(name,
+                          values,
                           units = NA,
                           output_unit = NA,
                           level = 0) {
@@ -24,6 +25,7 @@ EmpiricalDistr <- R6::R6Class(
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
+
       self$values <- values
 
     },
