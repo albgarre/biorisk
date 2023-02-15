@@ -17,6 +17,12 @@ BiNormal <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("mu1", "sigma1", "mu2", "sigma2", "rho"),
+                       input_types = list(mu1 = "continuous",
+                                          sigma1 = "continuous",
+                                          mu2 = "continuous",
+                                          sigma2 = "continuous",
+                                          rho = "continuous"
+                                          ),
                        units = units,
                        module_type = "distribution",
                        output_var = c("x1", "x2"),
@@ -108,5 +114,8 @@ BiNormal <- R6::R6Class(
 #
 # bb$simulate(100)
 # bb$simulations
+# plot_model(bb)
 # bb$histogram()
+# bb$density_plot()
+# plot_outputs(bb)
 # aa$histogram()

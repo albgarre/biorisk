@@ -16,6 +16,9 @@ DiscreteGrowth <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("N0", "time", "mu"),
+                       input_types = list(N0 = "discrete",
+                                          time = "continuous",
+                                          mu = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "N",
@@ -90,6 +93,10 @@ DiscreteGrowthNmax <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("N0", "time", "mu", "Nmax"),
+                       input_types = list(N0 = "discrete",
+                                          time = "continuous",
+                                          mu = "continuous",
+                                          Nmax = "discrete"),
                        units = units,
                        module_type = "distribution",
                        output_var = "N",

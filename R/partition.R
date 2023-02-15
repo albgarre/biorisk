@@ -14,6 +14,8 @@ PartitionPoisson <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("logN", "volume"),
+                       input_types = list(logN = "continuous",
+                                          volume = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "N",
@@ -85,6 +87,9 @@ PartitionBinomial <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("N0", "volume0", "volume1"),
+                       input_types = list(N0 = "discrete",
+                                          volume0 = "discrete",
+                                          volume1 = "discrete"),
                        units = units,
                        module_type = "distribution",
                        output_var = "N",

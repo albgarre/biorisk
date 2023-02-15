@@ -23,12 +23,20 @@ MaxFilter <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -118,12 +126,20 @@ MinFilter <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -216,12 +232,20 @@ MinMaxFilter <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description

@@ -17,6 +17,8 @@ Normal <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("mu", "sigma"),
+                       input_types = list(mu = "continuous",
+                                          sigma = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -88,6 +90,8 @@ LnNormal <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("mu_ln", "sigma_ln"),
+                       input_types = list(mu_ln = "continuous",
+                                          sigma_ln = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -159,6 +163,8 @@ LogNormal <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("mu_log10", "sigma_log10"),
+                       input_types = list(mu_log10 = "continuous",
+                                          sigma_log10 = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -232,6 +238,8 @@ Weibull <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("shape", "scale"),
+                       input_types = list(shape = "continuous",
+                                          scale = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -302,6 +310,8 @@ Beta <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("shape1", "shape2"),
+                       input_types = list(shape1 = "continuous",
+                                          shape2 = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -375,6 +385,8 @@ Gamma <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("shape", "scale"),
+                       input_types = list(shape = "continuous",
+                                          scale = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -448,6 +460,7 @@ Exponential <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("rate"),
+                       input_types = list(rate = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -520,6 +533,8 @@ Uniform <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("min", "max"),
+                       input_types = list(min = "continuous",
+                                          max = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -593,6 +608,9 @@ Triangular <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b", "c"),
+                       input_types = list(a = "continuous",
+                                          b = "continuous",
+                                          c = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -665,6 +683,8 @@ TriangularSym <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "continuous",
+                                          b = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -737,6 +757,8 @@ Pareto <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "continuous",
+                                          b = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -808,6 +830,10 @@ Pert <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("min", "mode", "max", "shape"),
+                       input_types = list(min = "continuous",
+                                          mode = "continuous",
+                                          max = "continuous",
+                                          shape = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",

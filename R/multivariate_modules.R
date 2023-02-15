@@ -26,6 +26,9 @@ CorrelatedExpGrowth <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("Tmin", "b", "logN0"),
+                       input_types = list(Tmin = "continuous",
+                                          b = "continuous",
+                                          logN0 = "continuous"),
                        units = units,
                        module_type = "growth",
                        output_var = "logN",

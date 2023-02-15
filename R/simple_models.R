@@ -16,6 +16,9 @@ LinealModel <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("x", "a", "b"),
+                       input_types = list(x = "any",
+                                          a = "continuous",
+                                          b = "continuous"),
                        units = units,
                        module_type = "simple",
                        output_var = "y",

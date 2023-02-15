@@ -15,12 +15,28 @@ ModulePlus <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "any",
+                                          b = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      type1 <- self$depends_on$a$get_output_type()
+      type2 <- self$depends_on$b$get_output_type()
+
+      if (type1 == "continuous" || type2 == "continuous") {
+        "continuous"
+      } else {
+        "discrete"
+      }
     },
 
     #' @description
@@ -86,12 +102,28 @@ ModuleMinus <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "any",
+                                          b = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      type1 <- self$depends_on$a$get_output_type()
+      type2 <- self$depends_on$b$get_output_type()
+
+      if (type1 == "continuous" || type2 == "continuous") {
+        "continuous"
+      } else {
+        "discrete"
+      }
     },
 
     #' @description
@@ -157,12 +189,28 @@ ModuleTimes <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "any",
+                                          b = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      type1 <- self$depends_on$a$get_output_type()
+      type2 <- self$depends_on$b$get_output_type()
+
+      if (type1 == "continuous" || type2 == "continuous") {
+        "continuous"
+      } else {
+        "discrete"
+      }
     },
 
     #' @description
@@ -228,12 +276,28 @@ ModuleDivision <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "any",
+                                          b = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      type1 <- self$depends_on$a$get_output_type()
+      type2 <- self$depends_on$b$get_output_type()
+
+      if (type1 == "continuous" || type2 == "continuous") {
+        "continuous"
+      } else {
+        "discrete"
+      }
     },
 
     #' @description
@@ -299,12 +363,28 @@ ModulePower <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "b"),
+                       input_types = list(a = "any",
+                                          b = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      type1 <- self$depends_on$a$get_output_type()
+      type2 <- self$depends_on$b$get_output_type()
+
+      if (type1 == "continuous" || type2 == "continuous") {
+        "continuous"
+      } else {
+        "discrete"
+      }
     },
 
     #' @description
@@ -369,12 +449,20 @@ ModuleSqrt <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -439,12 +527,20 @@ ModuleLog <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -509,12 +605,20 @@ ModuleLn <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -579,12 +683,20 @@ ModuleExp <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -650,12 +762,20 @@ ModulePow10 <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a"),
+                       input_types = list(a = "any"),
                        units = units,
                        module_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #'
+    get_output_type = function() {
+      self$depends_on$a$get_output_type()
     },
 
     #' @description
@@ -709,13 +829,22 @@ ModulePow10 <- R6::R6Class(
 #   map_input("mu", Constant$new("mu_1", 1))$
 #   map_input("sigma", Constant$new("sd_1", 1))
 #
+# N1 <- Poisson$new("aa1")$
+#   map_input("lambda", Constant$new("aaa1", 3))
+#
 # N2 <- Normal$new("N2")$
 #   map_input("mu", Constant$new("mu_2", 5))$
 #   map_input("sigma", Constant$new("sd_2", 4))
 #
+# N2 <- Poisson$new("aa")$
+#   map_input("lambda", Constant$new("bb", 3))
+#
 # aa <- ModulePlus$new("sum")$
 #   map_input("a", N1)$
 #   map_input("b", N2)
+#
+# aa$check_input_types()
+# aa$get_output_type()
 #
 # aa$simulate(1000)
 # aa$density_plot()

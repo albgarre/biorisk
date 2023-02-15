@@ -89,6 +89,7 @@ Poisson <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("lambda"),
+                       input_types = list(lambda = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -159,6 +160,8 @@ Binomial <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("size", "prob"),
+                       input_types = list(size = "discrete",
+                                          prob = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -229,6 +232,8 @@ ZIPoisson <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("lambda", "pi"),
+                       input_types = list(lambda = "continuous",
+                                          pi = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -299,6 +304,9 @@ BetaBinomial <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("size", "alpha", "beta"),
+                       input_types = list(size = "continuous",
+                                          alpha = "continuous",
+                                          beta = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",
@@ -374,6 +382,8 @@ GammaPoisson <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("shape", "scale"),
+                       input_types = list(shape = "continuous",
+                                          scale = "continuous"),
                        units = units,
                        module_type = "distribution",
                        output_var = "x",

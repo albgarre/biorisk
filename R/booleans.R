@@ -16,6 +16,8 @@ ModuleGreaterThan <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "x"),
+                       input_types = list(a = "continuous",
+                                          x = "continuous"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
@@ -88,6 +90,8 @@ ModuleLowerThan <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "x"),
+                       input_types = list(a = "continuous",
+                                          x = "continuous"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
@@ -160,6 +164,8 @@ ModuleGreaterEqualThan <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "x"),
+                       input_types = list(a = "continuous",
+                                          x = "continuous"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
@@ -232,6 +238,8 @@ ModuleLowerEqualThan <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "x"),
+                       input_types = list(a = "continuous",
+                                          x = "continuous"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",
@@ -304,6 +312,8 @@ ModuleEqualTo <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("a", "x"),
+                       input_types = list(a = "continuous",
+                                          x = "continuous"),
                        units = units,
                        module_type = "boolean",
                        output_var = "y",

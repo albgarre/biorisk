@@ -17,6 +17,10 @@ Dz_model <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("Dref", "temperature", "z", "Tref"),
+                       input_types = list(Dref = "continuous",
+                                          temperature = "continuous",
+                                          z = "continuous",
+                                          Tref = "continuous"),
                        units = units,
                        module_type = "secondary",
                        output_var = "D",
@@ -101,6 +105,9 @@ Peleg_secondary <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("temperature", "k_b", "temp_crit"),
+                       input_types = list(k_b = "continuous",
+                                          temperature = "continuous",
+                                          temp_crit = "continuous"),
                        units = units,
                        module_type = "secondary",
                        output_var = "b",

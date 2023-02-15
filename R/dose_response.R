@@ -18,6 +18,8 @@ DoseResponse_Exponential <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("r", "dose"),
+                       input_types = list(r = "continuous",
+                                          dose = "discrete"),
                        units = units,
                        module_type = "dose_response",
                        output_var = "P_ill",
@@ -97,6 +99,9 @@ DoseResponse_BetaPoisson <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("beta", "alpha", "dose"),
+                       input_types = list(beta = "continuous",
+                                          alpha = "continuous",
+                                          dose = "discrete"),
                        units = units,
                        module_type = "dose_response",
                        output_var = "P_ill",
@@ -176,6 +181,8 @@ Concentration2Dose <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("logN", "size"),
+                       input_types = list(logN = "continuous",
+                                          size = "continuous"),
                        units = units,
                        module_type = "simple",
                        output_var = "dose",
@@ -253,6 +260,8 @@ Concentration2Dose_continuous <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("logN", "size"),
+                       input_types = list(logN = "continuous",
+                                          size = "continuous"),
                        units = units,
                        module_type = "simple",
                        output_var = "dose",
@@ -328,6 +337,7 @@ Pill2Cases_1 <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("Pill"),
+                       input_types = list(Pill = "continuous"),
                        units = units,
                        module_type = "simple",
                        output_var = "case",
@@ -402,6 +412,8 @@ Pill2Cases_N <- R6::R6Class(
 
       super$initialize(name,
                        input_names = c("Pill", "servings"),
+                       input_types = list(Pill = "continuous",
+                                          servings = "discrete"),
                        units = units,
                        module_type = "simple",
                        output_var = "case",

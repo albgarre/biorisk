@@ -28,6 +28,10 @@ RiskModule <- R6::R6Class(
     #' @field depended_by A list of modules that use this instance as input
     depended_by = c(),
 
+    #' @field input_types A list with the preferred data type for each input (discrete/continuous/any)
+
+    input_types = list(),
+
     #' @field output Name of the output variable
     output = "",
 
@@ -65,6 +69,7 @@ RiskModule <- R6::R6Class(
                           input_names = NA,
                           units = NA,
                           module_type = "",
+                          input_types = list(),
                           output_var = "",
                           output_unit = "",
                           output_type = "",
@@ -73,7 +78,7 @@ RiskModule <- R6::R6Class(
       self$name <- name
       self$type <- module_type
       self$inputs <- tibble(var = input_names, units = units)
-      self$depends_on <-rep(NA, length(input_names)) %>%
+      self$depends_on <- rep(NA, length(input_names)) %>%
         set_names(input_names) %>%
         as.list()
 
@@ -82,6 +87,7 @@ RiskModule <- R6::R6Class(
         as.list()
 
       self$output <- output_var
+      self$input_types <- input_types
       self$output_unit <- output_unit
       self$output_type <- output_type
       self$level <- level
@@ -394,6 +400,65 @@ RiskModule <- R6::R6Class(
 
       c(out, out2)
 
+    },
+
+    #' @description
+    #' Get the data type of the output.
+    #' This is a default implementation (just return the output type). For other modules,
+    #' (e.g., sum) the type depends on the type of the inputs. So, they have their
+    #' own implementation.
+    #'
+    get_output_type = function() {
+      self$output_type
+    },
+
+    #' @description
+    #' Checks that the type of the inputs is consistent
+    #'
+    check_input_types = function(recursive = FALSE) {
+
+      for (each_par in names(self$input_types)) {
+
+        this_module <- self$depends_on[[each_par]]
+
+        # browser()
+
+        if (!R6::is.R6(this_module)) {  # The dependency has not been defined
+
+          stop("In module ", self$name,
+               ": input ", each_par,
+               " not defined.")
+
+        }
+
+        if (this_module$type == "constant") {  # Nothing to check for constants
+          next
+        }
+
+        up_type <- this_module$get_output_type()
+        this_type <- self$input_types[[each_par]]
+
+        if (this_type == "any") {  # Nothing to check
+          next
+        }
+
+        if (this_type != up_type) {
+          warning("In module ", self$name,
+                  ": the module expects ", this_type,
+                  " for input ", each_par,
+                  ". Got ", up_type,
+                  " instead from ", this_module$name
+          )
+        }
+
+        ## Call the dependency if it is recursive
+
+        if (recursive) {
+          this_module$check_input_types()
+        }
+
+      }
+
     }
 
   ),
@@ -457,6 +522,7 @@ DiscreteModule <- R6::R6Class(
                           output_var = "",
                           output_unit = "",
                           output_type = "",
+                          input_types = list(),
                           level = 0) {
 
       super$initialize(name,
@@ -466,6 +532,7 @@ DiscreteModule <- R6::R6Class(
                        output_var = output_var,
                        output_unit = output_unit,
                        output_type = "discrete",
+                       input_types = input_types,
                        level = level)
 
     }
@@ -486,6 +553,7 @@ ContinuousModule <- R6::R6Class(
                           output_var = "",
                           output_unit = "",
                           output_type = "",
+                          input_types = list(),
                           level = 0) {
 
       super$initialize(name,
@@ -495,6 +563,7 @@ ContinuousModule <- R6::R6Class(
                        output_var = output_var,
                        output_unit = output_unit,
                        output_type = "continuous",
+                       input_types = input_types,
                        level = level)
 
     }
