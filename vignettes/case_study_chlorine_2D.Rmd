@@ -195,7 +195,15 @@ cases <- Pill2Cases_N$new("cases")$
 
 ```
 
-## Simulation and visualization
+## Checks, simulation and visualization
+
+The package includes the `$check_input_types` method, which checks whether the dependencies in the model are consistent with respect to variables types. If we run it for this model, we get a warning.
+
+```{r}
+cases$check_input_types(recursive = TRUE)
+```
+
+The message says that the dose-response model used for the calculation of `Pill` expects the microbial dose to be a discrete variable. This makes sense, as one can consume 321 or 322 CFU but not 321.1.  In the vignette with the second case study, we show how the dose can be calculated as a discrete variable using discrete models. Notheless, the model can still be simulated, as these simplifications are often required in QMRA.
 
 ### Model visualization
 
@@ -216,7 +224,7 @@ plot_model(k_chlorine)
 Although the model has been defined as a 2D Monte Carlo, **biorisk** also allows simpler simulations without having to modify the model. For instance, we can get an approximate, discrete prediction for the output.
 
 ```{r}
-cases$discrete_prediction()
+cases$point_estimate()
 ```
 
 ### Simulation as a 1D Monte Carlo

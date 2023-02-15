@@ -146,7 +146,14 @@ cases <- Pill2Cases_1$new("cases")$
   map_input("Pill", Pill)
 ```
 
-## Model visualization
+## Checks and model visualization
+
+We can first check the consistency of the input types. Unlike in Case Study I, we do not get any warning in this case because the dose is modelled as a discrete variable.
+
+```{r}
+cases$check_input_types(recursive = TRUE)
+```
+
 
 As always, it is important to plot the model to check all the dependencies are correct.
 
