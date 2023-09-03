@@ -243,7 +243,11 @@ FullRatkowsky_model <- R6::R6Class(
       sims <- self$simulations %>%
         dplyr::mutate(
           sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
-          mu = ifelse(temperature < Tmin, 0, sq_mu)
+          mu = ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu^2,
+            0
+          )
         )
 
       self$simulations <- sims
@@ -259,7 +263,11 @@ FullRatkowsky_model <- R6::R6Class(
       sims <- self$simulations_multi[[iter1]] %>%
         dplyr::mutate(
           sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
-          mu = ifelse(temperature < Tmin, 0, sq_mu)
+          mu = ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu^2,
+            0
+          )
         )
 
       ## Save it
@@ -285,7 +293,7 @@ FullRatkowsky_model <- R6::R6Class(
 #' @export
 #'
 FullRatkowsky_model_error <- R6::R6Class(
-  classname = "FullRatkowsky_model",
+  classname = "FullRatkowsky_model_error",
   inherit = ContinuousModule,
   public = list(
 
@@ -341,7 +349,11 @@ FullRatkowsky_model_error <- R6::R6Class(
         dplyr::mutate(
           sq_mu_mean = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
           sq_mu = rnorm(n = niter, mean = sq_mu_mean, sd = sigma),
-          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
+          ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu^2,
+            0
+          )
         )
 
       self$simulations <- sims
@@ -358,7 +370,11 @@ FullRatkowsky_model_error <- R6::R6Class(
         dplyr::mutate(
           sq_mu_mean = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))),
           sq_mu = rnorm(n = niter0, mean = sq_mu_mean, sd = sigma),
-          mu = ifelse(sq_mu < 0, 0, sq_mu^2)
+          ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu^2,
+            0
+          )
         )
 
       ## Save it
@@ -549,6 +565,142 @@ ZwieteringGamma <- R6::R6Class(
       sims <- self$simulations_multi[[iter1]] %>%
         dplyr::mutate(
           gamma = ((X-Xmin)/(Xopt-Xmin))^n
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+#' R6 class describing the secondary Full Ratkowsky model
+#'
+#' @details
+#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, Tmax, c,
+#' pHmax, pHmin, temperature and pH.
+#'
+#' @export
+#'
+FullRatkowsky_pH_model <- R6::R6Class(
+  classname = "FullRatkowsky_pH_model",
+  inherit = ContinuousModule,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA
+    ) {
+
+      super$initialize(name,
+                       input_names = c("b",
+                                       "Tmin", "temperature", "Tmax", "c",
+                                       "pHmax", "pHmin", "pH"
+                                       ),
+                       input_types = list(b = "continuous",
+                                          Tmin = "continuous",
+                                          temperature = "continuous",
+                                          c = "continuous",
+                                          Tmax = "continuous",
+                                          pHmax = "continuous",
+                                          pHmin = "continuous",
+                                          pH = "continuous"
+                                          ),
+                       units = units,
+                       module_type = "secondary",
+                       output_var = "mu",
+                       output_unit = output_unit,
+                       level = 0)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    point_estimate = function() {
+
+      b <- self$depends_on$b$point_estimate()
+
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      Tmax <- self$depends_on$Tmax$point_estimate()
+      c <- self$depends_on$c$point_estimate()
+
+      pHmax <- self$depends_on$pHmax$point_estimate()
+      pHmin <- self$depends_on$pHmin$point_estimate()
+      pH <- self$depends_on$pH$point_estimate()
+
+      sq_mu <- b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))) * (1-10^(pHmin - pH))*(1-10^(pH - pHmax))
+
+      sq_mu <- ifelse(
+        between(temperature, Tmin, Tmax),
+        sq_mu,
+        0
+      )
+
+      ifelse(
+        between(pH, pHmin, pHmax),
+        sq_mu^2,
+        0
+      )
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))) * (1-10^(pHmin - pH))*(1-10^(pH - pHmax))
+        ) %>%
+        mutate(
+          sq_mu = ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu,
+            0
+          ),
+          mu = ifelse(
+            between(pH, pHmin, pHmax),
+            sq_mu^2,
+            0
+          )
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          sq_mu = b*(temperature - Tmin)*(1 - exp(c*(temperature - Tmax))) * (1-10^(pHmin - pH))*(1-10^(pH - pHmax))
+        ) %>%
+        mutate(
+          sq_mu = ifelse(
+            between(temperature, Tmin, Tmax),
+            sq_mu,
+            0
+          ),
+          mu = ifelse(
+            between(pH, pHmin, pHmax),
+            sq_mu^2,
+            0
+          )
         )
 
       ## Save it
