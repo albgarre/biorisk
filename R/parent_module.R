@@ -1,6 +1,4 @@
 
-
-
 #' Parent class for modules
 #'
 #'

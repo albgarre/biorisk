@@ -581,7 +581,7 @@ ZwieteringGamma <- R6::R6Class(
 
 )
 
-#' R6 class describing the secondary Full Ratkowsky model
+#' R6 class describing the secondary Full Ratkowsky model including the pH effect
 #'
 #' @details
 #' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, Tmax, c,
