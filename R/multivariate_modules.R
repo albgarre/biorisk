@@ -1,11 +1,11 @@
 
-#' Growth module based on exponential growth including time/temperature correlation
+#' Growth element based on exponential growth including time/temperature correlation
 #'
 #' @export
 #'
 CorrelatedExpGrowth <- R6::R6Class(
   classname = "CorrelatedExpGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     ## Fields to describe the MVNorm
@@ -30,7 +30,7 @@ CorrelatedExpGrowth <- R6::R6Class(
                                           b = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)

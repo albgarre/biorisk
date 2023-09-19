@@ -1,5 +1,5 @@
 
-#' A module describing exponential growth as a discrete (negbinomial) process
+#' A element describing exponential growth as a discrete (negbinomial) process
 #'
 #' This describes a birth process (Yule's process)
 #'
@@ -7,7 +7,7 @@
 #'
 DiscreteGrowth <- R6::R6Class(
   classname = "DiscreteGrowth",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -20,7 +20,7 @@ DiscreteGrowth <- R6::R6Class(
                                           time = "continuous",
                                           mu = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "N",
                        output_unit = output_unit,
                        level = 0)
@@ -76,7 +76,7 @@ DiscreteGrowth <- R6::R6Class(
 
 )
 
-#' A module describing exponential growth as a discrete (negbinomial) process with Nmax
+#' A element describing exponential growth as a discrete (negbinomial) process with Nmax
 #'
 #' This describes a birth process (Yule's process) with Nmax
 #'
@@ -84,7 +84,7 @@ DiscreteGrowth <- R6::R6Class(
 #'
 DiscreteGrowthNmax <- R6::R6Class(
   classname = "DiscreteGrowthNmax",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -98,7 +98,7 @@ DiscreteGrowthNmax <- R6::R6Class(
                                           mu = "continuous",
                                           Nmax = "discrete"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "N",
                        output_unit = output_unit,
                        level = 0)

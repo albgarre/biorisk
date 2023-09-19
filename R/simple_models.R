@@ -7,7 +7,7 @@
 #'
 LinealModel <- R6::R6Class(
   classname = "LinealModel",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -20,7 +20,7 @@ LinealModel <- R6::R6Class(
                                           a = "continuous",
                                           b = "continuous"),
                        units = units,
-                       module_type = "simple",
+                       element_type = "simple",
                        output_var = "y",
                        output_unit = output_unit,
                        level = 0)

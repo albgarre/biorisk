@@ -43,7 +43,7 @@ logN0 <- Uniform$new("logN0")$
 
 ### Partition
 
-In this case study, we model the number of bacterial cellsin the package as a discrete variable (e.g., we use units of CFU/package unit not CFU/ml). The first step we model is the packaging of the product from a tank to a milk carton. Because the volume of the tank is much larger than the volume of the milk carton (~100s of liters vs. 1 liter) we can assume that the former is infinite. Then, the sampling can be modelled as a Poisson process. The package includes the `PartitionPoisson` module for this. 
+In this case study, we model the number of bacterial cellsin the package as a discrete variable (e.g., we use units of CFU/package unit not CFU/ml). The first step we model is the packaging of the product from a tank to a milk carton. Because the volume of the tank is much larger than the volume of the milk carton (~100s of liters vs. 1 liter) we can assume that the former is infinite. Then, the sampling can be modelled as a Poisson process. The package includes the `PartitionPoisson` element for this. 
 
 ```{r}
 package <- PartitionPoisson$new("Partition")$
@@ -53,7 +53,7 @@ package <- PartitionPoisson$new("Partition")$
             )
 ```
 
-Note that the output of this module is now in CFU. So, if we run the simulation we get how many *Listeria* cells are on each milk package.
+Note that the output of this element is now in CFU. So, if we run the simulation we get how many *Listeria* cells are on each milk package.
 
 ```{r}
 package$simulate(5, seed = 123)
@@ -62,7 +62,7 @@ package$simulations
 
 ### Growth during storage
 
-The next stage is the microbial growth that takes place during storage of the product. We have a discrete number of cells, so we cannot (or rather, should not) use a continous growth model. Instead, we need to use a discrete growth model (technically, a Yule birth process). The package already includes the `DiscreteGrowth` module for doing this kind of calculation. 
+The next stage is the microbial growth that takes place during storage of the product. We have a discrete number of cells, so we cannot (or rather, should not) use a continous growth model. Instead, we need to use a discrete growth model (technically, a Yule birth process). The package already includes the `DiscreteGrowth` element for doing this kind of calculation. 
 Nonetheless, we first need to define the storage time. In this case, it will be a uniform distribution from 0 to 120 h.
 
 ```{r}
@@ -72,7 +72,7 @@ stor_time <- Uniform$new("Storage time")$
 
 ```
 
-Then, we define the discrete growth model. For simplicity, we just give a constant value of 0.1 log CFU/h to $\mu$, although we could do something more complicated (e.g., a secondary model). For the initial concentration, we assign the the module describing the number of cells in the package. Note that, in this case, the input is labelled `"N0"`, not `"logN0"` (as often in continuous modules). This is done to indicate that the input should be a discrete variable (a number of cells), not a microbial concentration (CFU/ml).
+Then, we define the discrete growth model. For simplicity, we just give a constant value of 0.1 log CFU/h to $\mu$, although we could do something more complicated (e.g., a secondary model). For the initial concentration, we assign the the element describing the number of cells in the package. Note that, in this case, the input is labelled `"N0"`, not `"logN0"` (as often in continuous elements). This is done to indicate that the input should be a discrete variable (a number of cells), not a microbial concentration (CFU/ml).
 
 ```{r}
 storage <- DiscreteGrowth$new("Storage")$
@@ -90,7 +90,7 @@ storage$histogram() + scale_x_log10()
 
 Because we are working on CFU/package, the histogram shows the number of *Listeria* cells on each milk carton. One important thing here is the stationary growth phase. Even if the model is discrete, the bacterial behavior is still affected by biological limitations, so we need to account for the carrying capacity of the media (and other reasons for the stationary phase). 
 
-However, we need to be a bit careful with the units here. If we assume $\log N_{max} = 8 log CFU/ml$, in a 1000 ml milk carton, we would have $N_{max} = 1e8 \cdot 1e3 = 1e11 CFU/package$. This can be implemented easily in **biorisk** using the `DiscreteGrowthNmax` module.
+However, we need to be a bit careful with the units here. If we assume $\log N_{max} = 8 log CFU/ml$, in a 1000 ml milk carton, we would have $N_{max} = 1e8 \cdot 1e3 = 1e11 CFU/package$. This can be implemented easily in **biorisk** using the `DiscreteGrowthNmax` element.
 
 ```{r}
 storage <- DiscreteGrowthNmax$new("Storage")$

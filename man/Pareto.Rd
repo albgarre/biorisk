@@ -2,14 +2,14 @@
 % Please edit documentation in R/distributions.R
 \name{Pareto}
 \alias{Pareto}
-\title{A module simulating a Pareto distribution}
+\title{A element simulating a Pareto distribution}
 \description{
-A module simulating a Pareto distribution
+A element simulating a Pareto distribution
 
-A module simulating a Pareto distribution
+A element simulating a Pareto distribution
 }
 \section{Super classes}{
-\code{\link[biorisk:RiskModule]{biorisk::RiskModule}} -> \code{biorisk::NA} -> \code{Pareto}
+\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Pareto}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -22,24 +22,24 @@ A module simulating a Pareto distribution
 \if{html}{\out{
 <details><summary>Inherited methods</summary>
 <ul>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="boxplot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-boxplot'><code>biorisk::RiskModule$boxplot()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="check_input_types"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-check_input_types'><code>biorisk::RiskModule$check_input_types()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot'><code>biorisk::RiskModule$cummulative_plot()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-cummulative_plot_2D'><code>biorisk::RiskModule$cummulative_plot_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot'><code>biorisk::RiskModule$density_plot()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="density_plot_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-density_plot_2D'><code>biorisk::RiskModule$density_plot_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output'><code>biorisk::RiskModule$get_output()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_2D'><code>biorisk::RiskModule$get_output_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="get_output_type"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-get_output_type'><code>biorisk::RiskModule$get_output_type()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="histogram"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-histogram'><code>biorisk::RiskModule$histogram()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="map_input"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-map_input'><code>biorisk::RiskModule$map_input()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles'><code>biorisk::RiskModule$quantiles()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="quantiles_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-quantiles_2D'><code>biorisk::RiskModule$quantiles_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_distribution"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-save_as_distribution'><code>biorisk::RiskModule$save_as_distribution()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="save_as_vector"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-save_as_vector'><code>biorisk::RiskModule$save_as_vector()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-simulate'><code>biorisk::RiskModule$simulate()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_2D"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-simulate_2D'><code>biorisk::RiskModule$simulate_2D()</code></a></span></li>
-<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskModule" data-id="simulate_level"><a href='../../biorisk/html/RiskModule.html#method-RiskModule-simulate_level'><code>biorisk::RiskModule$simulate_level()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="boxplot"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-boxplot'><code>biorisk::RiskElement$boxplot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="check_input_types"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-check_input_types'><code>biorisk::RiskElement$check_input_types()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="cummulative_plot"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-cummulative_plot'><code>biorisk::RiskElement$cummulative_plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="cummulative_plot_2D"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-cummulative_plot_2D'><code>biorisk::RiskElement$cummulative_plot_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="density_plot"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-density_plot'><code>biorisk::RiskElement$density_plot()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="density_plot_2D"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-density_plot_2D'><code>biorisk::RiskElement$density_plot_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="get_output"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-get_output'><code>biorisk::RiskElement$get_output()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="get_output_2D"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-get_output_2D'><code>biorisk::RiskElement$get_output_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="get_output_type"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-get_output_type'><code>biorisk::RiskElement$get_output_type()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="histogram"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-histogram'><code>biorisk::RiskElement$histogram()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="map_input"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-map_input'><code>biorisk::RiskElement$map_input()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="quantiles"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-quantiles'><code>biorisk::RiskElement$quantiles()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="quantiles_2D"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-quantiles_2D'><code>biorisk::RiskElement$quantiles_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="save_as_distribution"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-save_as_distribution'><code>biorisk::RiskElement$save_as_distribution()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="save_as_vector"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-save_as_vector'><code>biorisk::RiskElement$save_as_vector()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="simulate"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-simulate'><code>biorisk::RiskElement$simulate()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="simulate_2D"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-simulate_2D'><code>biorisk::RiskElement$simulate_2D()</code></a></span></li>
+<li><span class="pkg-link" data-pkg="biorisk" data-topic="RiskElement" data-id="simulate_level"><a href='../../biorisk/html/RiskElement.html#method-RiskElement-simulate_level'><code>biorisk::RiskElement$simulate_level()</code></a></span></li>
 </ul>
 </details>
 }}

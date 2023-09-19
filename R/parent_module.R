@@ -1,9 +1,9 @@
 
-#' Parent class for modules
+#' Parent class for elements
 #'
 #'
-RiskModule <- R6::R6Class(
-  classname = "RiskModule",
+RiskElement <- R6::R6Class(
+  classname = "RiskElement",
 
   ## Public methods ------------------------------------------------------------
 
@@ -14,7 +14,7 @@ RiskModule <- R6::R6Class(
     #' @field name A character giving a name to this constant
     name = "",
 
-    #' @field inputs A tibble with the inputs of the module and its units
+    #' @field inputs A tibble with the inputs of the element and its units
     inputs = NULL,
 
     #' @field depends_on List describing the dependencies for each input
@@ -23,7 +23,7 @@ RiskModule <- R6::R6Class(
     #' @field depends_index List with the indexes for each independency
     depends_index = NULL,
 
-    #' @field depended_by A list of modules that use this instance as input
+    #' @field depended_by A list of elements that use this instance as input
     depended_by = c(),
 
     #' @field input_types A list with the preferred data type for each input (discrete/continuous/any)
@@ -42,7 +42,7 @@ RiskModule <- R6::R6Class(
     #' @field simulations A tibble with the results of the simulations
     simulations = tibble::tibble(),
 
-    #' @field type A character describing the type of the module
+    #' @field type A character describing the type of the element
     type = NULL,
 
     #' @field level Description of the level for X-D Monte Carlo
@@ -54,19 +54,19 @@ RiskModule <- R6::R6Class(
     ## Methods -----------------------------------------------------------------
 
     #' @description
-    #' Create a new module
+    #' Create a new element
     #' @param name Name
     #' @param input_names A character vector with the names of the inputs
     #' @param units A character vector of units for each input
-    #' @param module_type A character with the type of module
+    #' @param element_type A character with the type of element
     #' @param output_var A character with the name of the output variable
     #' @param output_unit A character with the unit of the output
-    #' @return A new instance of the module
+    #' @return A new instance of the element
     #'
     initialize = function(name,
                           input_names = NA,
                           units = NA,
-                          module_type = "",
+                          element_type = "",
                           input_types = list(),
                           output_var = "",
                           output_unit = "",
@@ -74,7 +74,7 @@ RiskModule <- R6::R6Class(
                           level = 0) {
 
       self$name <- name
-      self$type <- module_type
+      self$type <- element_type
       self$inputs <- tibble(var = input_names, units = units)
       self$depends_on <- rep(NA, length(input_names)) %>%
         set_names(input_names) %>%
@@ -94,13 +94,13 @@ RiskModule <- R6::R6Class(
     },
 
     #' @description
-    #' Map an input to a module
+    #' Map an input to a element
     #' @param input A character identifying the input variable
-    #' @param module An instance of a module to use as input
+    #' @param element An instance of a element to use as input
     #' @param check_units Ignored
     #' @return Self (invisible)
     #'
-    map_input = function(input, module, check_units = FALSE, index = 1) {
+    map_input = function(input, element, check_units = FALSE, index = 1) {
 
       if (! (input %in% names(self$depends_on))) {
         stop("Unkonwn input: ", input)
@@ -108,15 +108,15 @@ RiskModule <- R6::R6Class(
 
       ## Add the dependency
 
-      self$depends_on[[input]] <- module
+      self$depends_on[[input]] <- element
 
       ## Add the index
 
       self$depends_index[[input]] <- index
 
-      ## Reflect it on the other module
+      ## Reflect it on the other element
 
-      module$depended_by <- c(module$depended_by, self)
+      element$depended_by <- c(element$depended_by, self)
 
       ## Return self
 
@@ -180,7 +180,7 @@ RiskModule <- R6::R6Class(
     #' Gets a discrete (fast and simple) prediction
     #'
     point_estimate = function() {
-      stop("Discrete prediction not available for this module")
+      stop("Discrete prediction not available for this element")
     },
 
     #' @description
@@ -220,8 +220,8 @@ RiskModule <- R6::R6Class(
     },
 
     #' @description
-    #' Saves the output of the simulation as a vector module
-    #' @param name Name of the new module (vctr_from_+self_name by default)
+    #' Saves the output of the simulation as a vector element
+    #' @param name Name of the new element (vctr_from_+self_name by default)
     #' @return An instance of Vector
     save_as_vector = function(name = NULL) {
 
@@ -239,7 +239,7 @@ RiskModule <- R6::R6Class(
 
     #' @description
     #' Saves the output of the simulation as an empirical distribution.
-    #' @param name Name of the new module (distr_from_+self_name by default)
+    #' @param name Name of the new element (distr_from_+self_name by default)
     #' @return An instance of EmpiricalDistr
     save_as_distribution = function(name = NULL) {
 
@@ -402,7 +402,7 @@ RiskModule <- R6::R6Class(
 
     #' @description
     #' Get the data type of the output.
-    #' This is a default implementation (just return the output type). For other modules,
+    #' This is a default implementation (just return the output type). For other elements,
     #' (e.g., sum) the type depends on the type of the inputs. So, they have their
     #' own implementation.
     #'
@@ -417,23 +417,23 @@ RiskModule <- R6::R6Class(
 
       for (each_par in names(self$input_types)) {
 
-        this_module <- self$depends_on[[each_par]]
+        this_element <- self$depends_on[[each_par]]
 
         # browser()
 
-        if (!R6::is.R6(this_module)) {  # The dependency has not been defined
+        if (!R6::is.R6(this_element)) {  # The dependency has not been defined
 
-          stop("In module ", self$name,
+          stop("In element ", self$name,
                ": input ", each_par,
                " not defined.")
 
         }
 
-        if (this_module$type == "constant") {  # Nothing to check for constants
+        if (this_element$type == "constant") {  # Nothing to check for constants
           next
         }
 
-        up_type <- this_module$get_output_type()
+        up_type <- this_element$get_output_type()
         this_type <- self$input_types[[each_par]]
 
         if (this_type == "any") {  # Nothing to check
@@ -441,18 +441,18 @@ RiskModule <- R6::R6Class(
         }
 
         if (this_type != up_type) {
-          warning("In module ", self$name,
-                  ": the module expects ", this_type,
+          warning("In element ", self$name,
+                  ": the element expects ", this_type,
                   " for input ", each_par,
                   ". Got ", up_type,
-                  " instead from ", this_module$name
+                  " instead from ", this_element$name
           )
         }
 
         ## Call the dependency if it is recursive
 
         if (recursive) {
-          this_module$check_input_types()
+          this_element$check_input_types()
         }
 
       }
@@ -507,16 +507,16 @@ RiskModule <- R6::R6Class(
 
 
 
-#' Parent for modules with discrete outputs
+#' Parent for elements with discrete outputs
 #'
-DiscreteModule <- R6::R6Class(
-  inherit = RiskModule,
+DiscreteElement <- R6::R6Class(
+  inherit = RiskElement,
 
   public = list(
     initialize = function(name,
                           input_names = NA,
                           units = NA,
-                          module_type = "",
+                          element_type = "",
                           output_var = "",
                           output_unit = "",
                           output_type = "",
@@ -526,7 +526,7 @@ DiscreteModule <- R6::R6Class(
       super$initialize(name,
                        input_names = input_names,
                        units = units,
-                       module_type = module_type,
+                       element_type = element_type,
                        output_var = output_var,
                        output_unit = output_unit,
                        output_type = "discrete",
@@ -538,16 +538,16 @@ DiscreteModule <- R6::R6Class(
 
 )
 
-#' Parent for modules with continuous outputs
+#' Parent for elements with continuous outputs
 #'
-ContinuousModule <- R6::R6Class(
-  inherit = RiskModule,
+ContinuousElement <- R6::R6Class(
+  inherit = RiskElement,
 
   public = list(
     initialize = function(name,
                           input_names = NA,
                           units = NA,
-                          module_type = "",
+                          element_type = "",
                           output_var = "",
                           output_unit = "",
                           output_type = "",
@@ -557,7 +557,7 @@ ContinuousModule <- R6::R6Class(
       super$initialize(name,
                        input_names = input_names,
                        units = units,
-                       module_type = module_type,
+                       element_type = element_type,
                        output_var = output_var,
                        output_unit = output_unit,
                        output_type = "continuous",

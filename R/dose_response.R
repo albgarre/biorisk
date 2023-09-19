@@ -2,13 +2,13 @@
 #' R6 class describing the exponential dose-response model
 #'
 #' @details
-#' A risk module describing the exponential dose-response model. It has 2 inputs: r, dose
+#' A risk element describing the exponential dose-response model. It has 2 inputs: r, dose
 #'
 #' @export
 #'
 DoseResponse_Exponential <- R6::R6Class(
   classname = "DoseResponse_Exponential",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -21,7 +21,7 @@ DoseResponse_Exponential <- R6::R6Class(
                        input_types = list(r = "continuous",
                                           dose = "discrete"),
                        units = units,
-                       module_type = "dose_response",
+                       element_type = "dose_response",
                        output_var = "P_ill",
                        output_unit = output_unit,
                        level = 0)
@@ -83,13 +83,13 @@ DoseResponse_Exponential <- R6::R6Class(
 #' R6 class describing the beta-Poisson dose-response model
 #'
 #' @details
-#' A risk module describing the beta-Poisson dose-response model. It has 3 inputs: beta, alpha, dose
+#' A risk element describing the beta-Poisson dose-response model. It has 3 inputs: beta, alpha, dose
 #'
 #' @export
 #'
 DoseResponse_BetaPoisson <- R6::R6Class(
   classname = "DoseResponse_BetaPoisson",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -103,7 +103,7 @@ DoseResponse_BetaPoisson <- R6::R6Class(
                                           alpha = "continuous",
                                           dose = "discrete"),
                        units = units,
-                       module_type = "dose_response",
+                       element_type = "dose_response",
                        output_var = "P_ill",
                        output_unit = output_unit,
                        level = 0)
@@ -164,14 +164,14 @@ DoseResponse_BetaPoisson <- R6::R6Class(
 )
 
 
-#' Helper-module to convert from concentration to dose
+#' Helper-element to convert from concentration to dose
 #'
 #'
 #' @export
 #'
 Concentration2Dose <- R6::R6Class(
   classname = "Concentration2Dose",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -184,7 +184,7 @@ Concentration2Dose <- R6::R6Class(
                        input_types = list(logN = "continuous",
                                           size = "continuous"),
                        units = units,
-                       module_type = "simple",
+                       element_type = "simple",
                        output_var = "dose",
                        output_unit = output_unit,
                        level = 0)
@@ -243,14 +243,14 @@ Concentration2Dose <- R6::R6Class(
 )
 
 
-#' Helper-module to convert from concentration to dose
+#' Helper-element to convert from concentration to dose
 #'
 #'
 #' @export
 #'
 Concentration2Dose_continuous <- R6::R6Class(
   classname = "Concentration2Dose_continuous",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -263,7 +263,7 @@ Concentration2Dose_continuous <- R6::R6Class(
                        input_types = list(logN = "continuous",
                                           size = "continuous"),
                        units = units,
-                       module_type = "simple",
+                       element_type = "simple",
                        output_var = "dose",
                        output_unit = output_unit,
                        level = 0)
@@ -320,14 +320,14 @@ Concentration2Dose_continuous <- R6::R6Class(
 )
 
 
-#' Helper-module to convert from Pill to number of cases (1 per simulation)
+#' Helper-element to convert from Pill to number of cases (1 per simulation)
 #'
 #'
 #' @export
 #'
 Pill2Cases_1 <- R6::R6Class(
   classname = "Pill2Cases_1",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -339,7 +339,7 @@ Pill2Cases_1 <- R6::R6Class(
                        input_names = c("Pill"),
                        input_types = list(Pill = "continuous"),
                        units = units,
-                       module_type = "simple",
+                       element_type = "simple",
                        output_var = "case",
                        output_unit = output_unit,
                        level = 0)
@@ -395,14 +395,14 @@ Pill2Cases_1 <- R6::R6Class(
 
 )
 
-#' Helper-module to convert from Pill to number of cases (N per simulation)
+#' Helper-element to convert from Pill to number of cases (N per simulation)
 #'
 #'
 #' @export
 #'
 Pill2Cases_N <- R6::R6Class(
   classname = "Pill2Cases_N",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -415,7 +415,7 @@ Pill2Cases_N <- R6::R6Class(
                        input_types = list(Pill = "continuous",
                                           servings = "discrete"),
                        units = units,
-                       module_type = "simple",
+                       element_type = "simple",
                        output_var = "case",
                        output_unit = output_unit,
                        level = 0)

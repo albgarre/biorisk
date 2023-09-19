@@ -1,5 +1,5 @@
 
-#' Growth module based on exponential growth
+#' Growth element based on exponential growth
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -7,7 +7,7 @@
 #'
 ExponentialGrowth <- R6::R6Class(
   classname = "ExponentialGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -20,7 +20,7 @@ ExponentialGrowth <- R6::R6Class(
                                           mu = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -76,7 +76,7 @@ ExponentialGrowth <- R6::R6Class(
 
 )
 
-#' Growth module based on exponential growth considering a stationary phase
+#' Growth element based on exponential growth considering a stationary phase
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -84,7 +84,7 @@ ExponentialGrowth <- R6::R6Class(
 #'
 ExponentialGrowthNmax <- R6::R6Class(
   classname = "ExponentialGrowthNmax",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -99,7 +99,7 @@ ExponentialGrowthNmax <- R6::R6Class(
                                           logN0 = "continuous",
                                           logNmax = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -170,7 +170,7 @@ ExponentialGrowthNmax <- R6::R6Class(
 #'
 LagExponentialGrowth <- R6::R6Class(
   "LagExponentialGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
 
   public = list(
 
@@ -186,7 +186,7 @@ LagExponentialGrowth <- R6::R6Class(
                                           logN0 = "continuous",
                                           lambda = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -260,7 +260,7 @@ LagExponentialGrowth <- R6::R6Class(
 #'
 TrilinealGrowth <- R6::R6Class(
   "TrilinealGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
 
   public = list(
 
@@ -277,7 +277,7 @@ TrilinealGrowth <- R6::R6Class(
                                           lambda = "continuous",
                                           logNmax = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -357,7 +357,7 @@ TrilinealGrowth <- R6::R6Class(
 
 )
 
-#' Growth module based on the Baranyi model
+#' Growth element based on the Baranyi model
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -365,7 +365,7 @@ TrilinealGrowth <- R6::R6Class(
 #'
 BaranyiGrowth <- R6::R6Class(
   classname = "BaranyiGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -381,7 +381,7 @@ BaranyiGrowth <- R6::R6Class(
                                           lambda = "continuous",
                                           logNmax = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -452,7 +452,7 @@ BaranyiGrowth <- R6::R6Class(
 
 )
 
-#' Growth module based on the modified Gompertz model
+#' Growth element based on the modified Gompertz model
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -460,7 +460,7 @@ BaranyiGrowth <- R6::R6Class(
 #'
 modGompertzGrowth <- R6::R6Class(
   classname = "modGompertzGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -476,7 +476,7 @@ modGompertzGrowth <- R6::R6Class(
                                           lambda = "continuous",
                                           C = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -543,7 +543,7 @@ modGompertzGrowth <- R6::R6Class(
 
 )
 
-#' Growth module based on the logistic growth model
+#' Growth element based on the logistic growth model
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -551,7 +551,7 @@ modGompertzGrowth <- R6::R6Class(
 #'
 LogisticGrowth <- R6::R6Class(
   classname = "LogisticGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -567,7 +567,7 @@ LogisticGrowth <- R6::R6Class(
                                           lambda = "continuous",
                                           C = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -629,7 +629,7 @@ LogisticGrowth <- R6::R6Class(
 
 )
 
-#' Growth module based on the Richards growth model
+#' Growth element based on the Richards growth model
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -637,7 +637,7 @@ LogisticGrowth <- R6::R6Class(
 #'
 RichardsGrowth <- R6::R6Class(
   classname = "RichardsGrowth",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -654,7 +654,7 @@ RichardsGrowth <- R6::R6Class(
                                           C = "continuous",
                                           nu = "continuous"),
                        units = units,
-                       module_type = "growth",
+                       element_type = "growth",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)

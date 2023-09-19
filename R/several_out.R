@@ -1,5 +1,5 @@
 
-#' A module simulating a 2D normal distribution
+#' A element simulating a 2D normal distribution
 #'
 #' @importFrom tibble tibble
 #' @importFrom R6 R6Class
@@ -7,7 +7,7 @@
 #'
 BiNormal <- R6::R6Class(
   classname = "Normal",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -24,7 +24,7 @@ BiNormal <- R6::R6Class(
                                           rho = "continuous"
                                           ),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = c("x1", "x2"),
                        output_unit = output_unit,
                        level = level)
@@ -37,7 +37,7 @@ BiNormal <- R6::R6Class(
     point_estimate = function() {
       # self$depends_on$mu$point_estimate()
 
-      stop("point_estimate not defined for BiNormal module")
+      stop("point_estimate not defined for BiNormal element")
     }
 
   ),
@@ -110,7 +110,7 @@ BiNormal <- R6::R6Class(
 #
 # aa$get_output(index = 2)
 #
-# bb <- ModulePlus$new("bb")$
+# bb <- ElementPlus$new("bb")$
 #   map_input("a", aa, index = 1)$
 #   map_input("b", aa, index = 2)
 #

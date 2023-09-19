@@ -22,9 +22,9 @@ library(tidyverse)
 The idea of this document is to give a short introduction to **biorisk**. This package is  to facilitate the implementation, simulation and analysis of QMRA models based on Monte Carlo simulations. It is currently in pre-alpha. This means that the overall structure and philosophy is the package is well-defined, but we still need to refine some features and add additional ones. This document provides a general overview of how models are built, simulated and analysed/visualized.
 
 
-## Building QMRA models with biorisk: the module
+## Building QMRA models with biorisk: the element
 
-In **biorisk**, everything is a module. You want to define a normal distribution? You use a module. You want a linear inactivation model? You use a module. You want a constant value? You use a module. You want a growth module with correlation between storage time and temperature? You guessed it right; you need a module! This has two disadvantages. The first one is that, if you just want to fix some value to `2` in your model, you do not write
+In **biorisk**, everything is a element. You want to define a normal distribution? You use a element. You want a linear inactivation model? You use a element. You want a constant value? You use a element. You want a growth element with correlation between storage time and temperature? You guessed it right; you need a element! This has two disadvantages. The first one is that, if you just want to fix some value to `2` in your model, you do not write
 
 ```{r}
 x <- 2
@@ -36,7 +36,7 @@ You have to write
 x <- Constant$new("x", 2)
 ```
 
-which is a bit more convoluted. But the advantage of this module-based philosophy is that everything has the same complexity. If you want to define a log-linear inactivation model, you write
+which is a bit more convoluted. But the advantage of this element-based philosophy is that everything has the same complexity. If you want to define a log-linear inactivation model, you write
 
 ```{r}
 inactivation <- LogLinInactivation$new("inactivation")
@@ -60,11 +60,11 @@ Or a distribution
 x <- GammaPoisson$new("something")
 ```
 
-So, regardless of what you define (distributions, microbial processes, constants, dose-response models...), you will be using modules. This means that learning how to work with **biorisk** means learning how to work with modules. You may have caught the hint that **biorisk** uses Object Oriented programming. Namely, it uses R6 classes. You can still use the packaging without understanding much of OO programming, as **biorisk** does all the heavy lifting on the background. Nonetheless, a quick look at the documentation of R6  (https://r6.r-lib.org) will help you understand some of the "odd" things the package does (such as the `$new()`). 
+So, regardless of what you define (distributions, microbial processes, constants, dose-response models...), you will be using elements. This means that learning how to work with **biorisk** means learning how to work with elements. You may have caught the hint that **biorisk** uses Object Oriented programming. Namely, it uses R6 classes. You can still use the packaging without understanding much of OO programming, as **biorisk** does all the heavy lifting on the background. Nonetheless, a quick look at the documentation of R6  (https://r6.r-lib.org) will help you understand some of the "odd" things the package does (such as the `$new()`). 
 
-Modules in **biorisk** have two parts. The first one comprises the mathematical calculations (e.g. solving an equation or getting a random value according to some distribution). This is done inside the module and you don't have to worry about it. Your only worry is choosing the right module. This is done by writing the name of the module followed "$new" (the name of every module is given at the end of the document). Then, adding within quotes (`"`) the name assigned to the module (this is just used for output results, so it is not relevant for the calculations). Moreover, due to the way R works, it is often a good idea to assign modules to a variable. We do that writing the name of the variable followed by `<-`. 
+Elements in **biorisk** have two parts. The first one comprises the mathematical calculations (e.g. solving an equation or getting a random value according to some distribution). This is done inside the element and you don't have to worry about it. Your only worry is choosing the right element. This is done by writing the name of the element followed "$new" (the name of every element is given at the end of the document). Then, adding within quotes (`"`) the name assigned to the element (this is just used for output results, so it is not relevant for the calculations). Moreover, due to the way R works, it is often a good idea to assign elements to a variable. We do that writing the name of the variable followed by `<-`. 
 
-This may sound complicated, but it is quite simple. So, we are going to create a module describing a normal distribution. We are going to call this module "logN0" and we are going to assign it to a variable named `logN0` (names do not have to match, but at this point it may be easier to understand if they do).
+This may sound complicated, but it is quite simple. So, we are going to create a element describing a normal distribution. We are going to call this element "logN0" and we are going to assign it to a variable named `logN0` (names do not have to match, but at this point it may be easier to understand if they do).
 
 ```{r}
 logN0 <- Normal$new("logN0")
@@ -72,17 +72,17 @@ logN0 <- Normal$new("logN0")
 
 And that's a normal distribution!
 
-The second part of the module are its input/outputs. Every calculations in QMRA requires a number of model parameters (e.g. the D-value for microbial inactivation) and variables describing environmental/logistic factors (e.g. the temperature). In a similar way, probability distributions also need some parameters (e.g. the mean and variance of a normal distribution). All of these are called *inputs* in **biorisk**.
+The second part of the element are its input/outputs. Every calculations in QMRA requires a number of model parameters (e.g. the D-value for microbial inactivation) and variables describing environmental/logistic factors (e.g. the temperature). In a similar way, probability distributions also need some parameters (e.g. the mean and variance of a normal distribution). All of these are called *inputs* in **biorisk**.
 
-Depending on the type of calculation, each module has different inputs. To know their names, you just have to type `$inputs` after the name of a variable storing a module. So, because our normal distribution is called `logN0`...
+Depending on the type of calculation, each element has different inputs. To know their names, you just have to type `$inputs` after the name of a variable storing a element. So, because our normal distribution is called `logN0`...
 
 ```{r}
 logN0$inputs
 ```
 
-This means that the module describing normal distribution needs a mean value (`mu`) and a standard deviation (`sigma`). One key aspect of **biorisk** is that modules are assigned to inputs of other modules. This gives a lot of flexibility because the input modules can be practically anything: a probability distribution, a growth model, a dose-response model... or a constant. Indeed, regardless of the complexity of the QMRA model, we will always have a constant on top of the chain of dependencies (e.g., constant parameters for a distribution). 
+This means that the element describing normal distribution needs a mean value (`mu`) and a standard deviation (`sigma`). One key aspect of **biorisk** is that elements are assigned to inputs of other elements. This gives a lot of flexibility because the input elements can be practically anything: a probability distribution, a growth model, a dose-response model... or a constant. Indeed, regardless of the complexity of the QMRA model, we will always have a constant on top of the chain of dependencies (e.g., constant parameters for a distribution). 
 
-In this first example, we are going two define two constants for our normal distribution: one for the mean and one for the standard deviation. They are defined in a very similar way as the normal distribution (they are also a module!). We write the name of the module (`Constant`) plus `$new` and, finally, a name within brackets. The only difference is that, for constants, we need to assign a value by putting a coma after the name.
+In this first example, we are going two define two constants for our normal distribution: one for the mean and one for the standard deviation. They are defined in a very similar way as the normal distribution (they are also a element!). We write the name of the element (`Constant`) plus `$new` and, finally, a name within brackets. The only difference is that, for constants, we need to assign a value by putting a coma after the name.
 
 So, we are going to define a constant value of `0` for the expected value
 
@@ -96,7 +96,7 @@ And a constant value of `0.5` for its standard deviation
 sigma_logN0 <- Constant$new("sigma_logN0", .5)
 ```
 
-So, right now we have defined a module with a normal distribution, a module for its (constant) mean and a third module for its (constant) standard deviation. However, right now, they are totally independent. So, in order to do the calculations, we need to assign the constant modules to the inputs of the normal distribution. We do that using the `$map_input` method. I think it is easier to show it directly with an example...
+So, right now we have defined a element with a normal distribution, a element for its (constant) mean and a third element for its (constant) standard deviation. However, right now, they are totally independent. So, in order to do the calculations, we need to assign the constant elements to the inputs of the normal distribution. We do that using the `$map_input` method. I think it is easier to show it directly with an example...
 
 This bit of code:
 
@@ -104,25 +104,25 @@ This bit of code:
 logN0$map_input("mu", mu_logN0)
 ```
 
-maps the input named `"mu"` of module `logN0` (our normal distribution) to another module saved as `mu_logN0` (the constant we defined before with value `0`). 
+maps the input named `"mu"` of element `logN0` (our normal distribution) to another element saved as `mu_logN0` (the constant we defined before with value `0`). 
 
-Regardless of the type of modules or inputs, we will always use the `$map_input` method for mappings. Simple enough, right?  So, to map the input named `"sigma"` to our constant `0.5` we do
+Regardless of the type of elements or inputs, we will always use the `$map_input` method for mappings. Simple enough, right?  So, to map the input named `"sigma"` to our constant `0.5` we do
 
 ```{r}
 logN0$map_input("sigma", sigma_logN0)
 ```
 
-Because models are often hard to see just with code, **biorisk** includes several functions to make life easier. For instance, `plot_model()` plots the structure of the modules. So, if we pass our `logN0` to this function
+Because models are often hard to see just with code, **biorisk** includes several functions to make life easier. For instance, `plot_model()` plots the structure of the elements. So, if we pass our `logN0` to this function
 
 ```{r}
 plot_model(logN0)
 ```
 
-we can see how the modules are mapped. In this case, our module called `"logN0"` depends on modules `"mu_logN0"` and `"sigma_logN0"`. In this plot, the shapes and colours show the type of module. A grey triangle is a constant, whereas a blue circle is a distribution. There are other shapes included in the package (e.g. for inactivation, growth, dose-response...) -- in the near future, I will also add the name of the input--.
+we can see how the elements are mapped. In this case, our element called `"logN0"` depends on elements `"mu_logN0"` and `"sigma_logN0"`. In this plot, the shapes and colours show the type of element. A grey triangle is a constant, whereas a blue circle is a distribution. There are other shapes included in the package (e.g. for inactivation, growth, dose-response...) -- in the near future, I will also add the name of the input--.
 
 ### Code shortcuts (advanced)
 
-The **biorisk** package is implemented in a way that allows several shortcuts. For instance, it allows *method chaining*, a coding style where you can chain operations. This means you can include the mapping right after the definition of the module. In other words, this bit of code:
+The **biorisk** package is implemented in a way that allows several shortcuts. For instance, it allows *method chaining*, a coding style where you can chain operations. This means you can include the mapping right after the definition of the element. In other words, this bit of code:
 
 ```{r}
 mu_logN0 <- Constant$new("mu_logN0", 0)
@@ -144,7 +144,7 @@ logN0$map_input("mu", mu_logN0)
 logN0$map_input("sigma", sigma_logN0)
 ```
 
-The second shortcut is that you do not need to assign every module to a variable. Instead, they can be defined directly within `$map_input()` This is quite useful for constant because they are quite uninteresting (they do not have dependencies, they do not have distributions...). So, this bit of code is also equivalent to the previous ones
+The second shortcut is that you do not need to assign every element to a variable. Instead, they can be defined directly within `$map_input()` This is quite useful for constant because they are quite uninteresting (they do not have dependencies, they do not have distributions...). So, this bit of code is also equivalent to the previous ones
 
 ```{r}
 logN0 <- Normal$new("logN0")$
@@ -166,7 +166,7 @@ Normal distributions are nice but boring. So, let's illustrate the package with 
 inact <- LogLinInactivation$new("Inactivation")
 ```
 
-And how do we check its inputs? By writing `$inputs` after the variable name (note that the variable name `inact` is now different than the module name `"Inactivation"`)
+And how do we check its inputs? By writing `$inputs` after the variable name (note that the variable name `inact` is now different than the element name `"Inactivation"`)
 
 ```{r}
 inact$inputs
@@ -188,7 +188,7 @@ inact$map_input("t",
                 )
 ```
 
-And to the D-value we are going to assign a log-normal distribution. The good news here is that **biorisk** includes a `LogNormal` module:
+And to the D-value we are going to assign a log-normal distribution. The good news here is that **biorisk** includes a `LogNormal` element:
 
 ```{r}
 D <- LogNormal$new("D")$
@@ -196,7 +196,7 @@ D <- LogNormal$new("D")$
   map_input("sigma_log10", Constant$new("sigma_logD", 0.2))
 ```
 
-And now we assign this distribution to the `inact` module.
+And now we assign this distribution to the `inact` element.
 
 ```{r}
 inact$map_input("D", D)
@@ -208,7 +208,7 @@ That was a lot to take in one go. That's why, it is often a good idea to call `p
 plot_model(inact)
 ```
 
-Note that `plot_model()` uses the name of the module, not the name of the variable where the module is saved. For instance, the inactivation module is saved in a variable called `inact`, but its name is "Inactivation" (`inact <- LogLinInactivation$new("Inactivation")`). Remember that the name within quotation is the one **biporisk** uses for every output. It is often a good idea that every module within a model have unique names (e.g., not having 2 modules named "time") because some plotting functions will not work correctly.
+Note that `plot_model()` uses the name of the element, not the name of the variable where the element is saved. For instance, the inactivation element is saved in a variable called `inact`, but its name is "Inactivation" (`inact <- LogLinInactivation$new("Inactivation")`). Remember that the name within quotation is the one **biporisk** uses for every output. It is often a good idea that every element within a model have unique names (e.g., not having 2 elements named "time") because some plotting functions will not work correctly.
 
 ## Model simulations
 
@@ -219,13 +219,13 @@ set.seed(1241)
 inact$simulate(1000)
 ```
 
-and **biorisk** takes care of doing 1,000 simulations of the module and all its dependencies. By default, the method does not return anything. Instead, the results of each MC iteration are stored within each module
+and **biorisk** takes care of doing 1,000 simulations of the element and all its dependencies. By default, the method does not return anything. Instead, the results of each MC iteration are stored within each element
 
 ```{r}
 inact$simulations %>% head()
 ```
 
-Note that **biorisk** takes care of doing the calculations for all the dependencies of the module. For instance, it updates the simulations for the distribution of the D-value:
+Note that **biorisk** takes care of doing the calculations for all the dependencies of the element. For instance, it updates the simulations for the distribution of the D-value:
 
 ```{r}
 D$simulations %>% head()
@@ -237,9 +237,9 @@ Also note that **biorisk** only does the calculation for the upstream dependenci
 
 Looking at the results of individual MC simulations is not very useful For that reason, **biorisk** includes several tools to visualize and summarize the results.
 
-### Output of individual modules
+### Output of individual elements
 
-Every module has a `$histogram()`, `$boxplot()` and `$density_plot()` module that allows checking its output
+Every element has a `$histogram()`, `$boxplot()` and `$density_plot()` element that allows checking its output
 
 ```{r}
 inact$histogram()
@@ -253,9 +253,9 @@ D$histogram()
 logN0$density_plot()
 ```
 
-### Outputs of several modules
+### Outputs of several elements
 
-However, in most situations, we are not just intersted in the output of a single module. For that reason,  `plot_outputs()` compares the distribution of the output variable of every module in the QMRA model
+However, in most situations, we are not just intersted in the output of a single element. For that reason,  `plot_outputs()` compares the distribution of the output variable of every element in the QMRA model
 
 ```{r}
 plot_outputs(inact)
@@ -281,7 +281,7 @@ plot_outputs(inact, chosen = c("logN0", "Inactivation"), type = "density")
 
 ### Quantile tables
 
-Although plots can help us understand the output of a QMRA model, we often need also numeric values. For that reason, we can use `quantile_table()` to create a table with the quantiles of the outputs of every module
+Although plots can help us understand the output of a QMRA model, we often need also numeric values. For that reason, we can use `quantile_table()` to create a table with the quantiles of the outputs of every element
 
 ```{r}
 quantile_table(inact)
@@ -308,7 +308,7 @@ The package also includes tornado plots for sensitivity analysis with the `torna
 tornado_plot(inact)
 ```
 
-Again, it allows choosing what module is included in the calculation (not too useful in this example because there are not enough levels)
+Again, it allows choosing what element is included in the calculation (not too useful in this example because there are not enough levels)
 
 ```{r}
 tornado_plot(inact, chosen = "logN0")
@@ -318,7 +318,7 @@ tornado_plot(inact, chosen = "logN0")
 
 ### Defining and simulating 2D Monte Carlo models
 
-In **biorisk**, we have also included functions for doing 2D Monte Carlo analysis. In order to define a 2D model, the only difference is that we need to pass the `level` argument to the modules describing distributions. As a very simple example, this is a model with 2 normal distributions, one on the variability level (level 0) and another one in the uncertainty level (level 1):
+In **biorisk**, we have also included functions for doing 2D Monte Carlo analysis. In order to define a 2D model, the only difference is that we need to pass the `level` argument to the elements describing distributions. As a very simple example, this is a model with 2 normal distributions, one on the variability level (level 0) and another one in the uncertainty level (level 1):
 
 ```{r}
 bb <- Normal$new("mu_mu", level = 1)$
@@ -339,7 +339,7 @@ Now, to do 2-d Monte Carlo, instead of using the `$simulate()` method, we use th
 aa$simulate_2D(50, 10)
 ```
 
-Again, the results of the simulation are stored within the modules themselves. They are stored a list where each element is a simulation in the uncertainty level. Then, each element has a table where rows are the iterations in the variability level. 
+Again, the results of the simulation are stored within the elements themselves. They are stored a list where each element is a simulation in the uncertainty level. Then, each element has a table where rows are the iterations in the variability level. 
 
 To illustrate this, let's look at the results of our simulations. The distribution `bb` is defined in the uncertainty level. This means that within each variability simulation (each element in the list), it remains constant (i.e., every row is the same). However, it still varies between elements of the list.
 
@@ -374,9 +374,9 @@ quantile_table_2D(aa,
                   chosen = c("aa", "mu_mu"))
 ```
 
-In this case, for each quantile selected (in `probs`), the function returns two values: the quantile on the uncertainty level (level 0) and the one on the variability level (level 1). Note that, because module `bb` (`"mu_mu"`) is defined on the uncertainty level, the quantiles for both levels are the same.
+In this case, for each quantile selected (in `probs`), the function returns two values: the quantile on the uncertainty level (level 0) and the one on the variability level (level 1). Note that, because element `bb` (`"mu_mu"`) is defined on the uncertainty level, the quantiles for both levels are the same.
 
-## List of modules (incomplete)
+## List of elements (incomplete)
 
 ### Probability distributions
 
@@ -422,13 +422,13 @@ In this case, for each quantile selected (in `probs`), the function returns two 
 * DoseResponse_BetaPoisson
 * DoseResponse_Exponential
 
-### Dynamic modules
+### Dynamic elements
 
 * DynamicBigelow_1phase
 * DynamicBigelow_2phase
 * DynamicBigelow_3phase
 
-### Multivariate modules
+### Multivariate elements
 
 * CorrelatedExpGrowth
 
@@ -437,21 +437,21 @@ In this case, for each quantile selected (in `probs`), the function returns two 
 * MaxFilter
 * MinFilter
 * MinMaxFilter
-* ModuleDivision)
-* ModuleEqualTo)
-* ModuleExp)
-* ModuleGreaterEqualThan)
-* ModuleGreaterThan)
-* ModuleLn)
-* ModuleLog)
-* ModuleLowerEqualThan)
-* ModuleLowerThan)
-* ModuleMinus)
-* ModulePlus)
-* ModulePow10)
-* ModulePower)
-* ModuleSqrt)
-* ModuleTimes)
+* ElementDivision)
+* ElementEqualTo)
+* ElementExp)
+* ElementGreaterEqualThan)
+* ElementGreaterThan)
+* ElementLn)
+* ElementLog)
+* ElementLowerEqualThan)
+* ElementLowerThan)
+* ElementMinus)
+* ElementPlus)
+* ElementPow10)
+* ElementPower)
+* ElementSqrt)
+* ElementTimes)
 
 
 

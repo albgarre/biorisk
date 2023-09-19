@@ -5,9 +5,9 @@
 #'
 #' @export
 #'
-ModuleGreaterThan <- R6::R6Class(
-  classname = "ModuleGreaterThan",
-  inherit = RiskModule,
+ElementGreaterThan <- R6::R6Class(
+  classname = "ElementGreaterThan",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -19,7 +19,7 @@ ModuleGreaterThan <- R6::R6Class(
                        input_types = list(a = "continuous",
                                           x = "continuous"),
                        units = units,
-                       module_type = "boolean",
+                       element_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
                        level = 0)
@@ -79,9 +79,9 @@ ModuleGreaterThan <- R6::R6Class(
 #'
 #' @export
 #'
-ModuleLowerThan <- R6::R6Class(
-  classname = "ModuleLowerThan",
-  inherit = RiskModule,
+ElementLowerThan <- R6::R6Class(
+  classname = "ElementLowerThan",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -93,7 +93,7 @@ ModuleLowerThan <- R6::R6Class(
                        input_types = list(a = "continuous",
                                           x = "continuous"),
                        units = units,
-                       module_type = "boolean",
+                       element_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
                        level = 0)
@@ -153,9 +153,9 @@ ModuleLowerThan <- R6::R6Class(
 #'
 #' @export
 #'
-ModuleGreaterEqualThan <- R6::R6Class(
-  classname = "ModuleGreaterEqualThan",
-  inherit = RiskModule,
+ElementGreaterEqualThan <- R6::R6Class(
+  classname = "ElementGreaterEqualThan",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -167,7 +167,7 @@ ModuleGreaterEqualThan <- R6::R6Class(
                        input_types = list(a = "continuous",
                                           x = "continuous"),
                        units = units,
-                       module_type = "boolean",
+                       element_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
                        level = 0)
@@ -227,9 +227,9 @@ ModuleGreaterEqualThan <- R6::R6Class(
 #'
 #' @export
 #'
-ModuleLowerEqualThan <- R6::R6Class(
-  classname = "ModuleLowerEqualThan",
-  inherit = RiskModule,
+ElementLowerEqualThan <- R6::R6Class(
+  classname = "ElementLowerEqualThan",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -241,7 +241,7 @@ ModuleLowerEqualThan <- R6::R6Class(
                        input_types = list(a = "continuous",
                                           x = "continuous"),
                        units = units,
-                       module_type = "boolean",
+                       element_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
                        level = 0)
@@ -301,9 +301,9 @@ ModuleLowerEqualThan <- R6::R6Class(
 #'
 #' @export
 #'
-ModuleEqualTo <- R6::R6Class(
-  classname = "ModuleEqualTo",
-  inherit = RiskModule,
+ElementEqualTo <- R6::R6Class(
+  classname = "ElementEqualTo",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -315,7 +315,7 @@ ModuleEqualTo <- R6::R6Class(
                        input_types = list(a = "continuous",
                                           x = "continuous"),
                        units = units,
-                       module_type = "boolean",
+                       element_type = "boolean",
                        output_var = "y",
                        output_unit = NA,
                        level = 0)
@@ -379,7 +379,7 @@ ModuleEqualTo <- R6::R6Class(
 #   map_input("mu", Constant$new("mu_2", 2))$
 #   map_input("sigma", Constant$new("sd_2", 1))
 #
-# aa <- ModuleGreaterThan$new("aa")$
+# aa <- ElementGreaterThan$new("aa")$
 #   map_input("a", N1)$
 #   map_input("x", N2)
 #
@@ -387,21 +387,21 @@ ModuleEqualTo <- R6::R6Class(
 # aa$simulate(1000) %>% mean()
 # aa$simulations
 #
-# bb <- ModuleLowerThan$new("bb")$
+# bb <- ElementLowerThan$new("bb")$
 #   map_input("a", N1)$
 #   map_input("x", N2)
 #
 # bb$simulate(10)
 # bb$simulations
 #
-# cc <- ModuleGreaterEqualThan$new("cc")$
+# cc <- ElementGreaterEqualThan$new("cc")$
 #   map_input("a", N1)$
 #   map_input("x", N2)
 #
 # cc$simulate(10)
 # cc$simulations
 #
-# dd <- ModuleLowerEqualThan$new("dd")$
+# dd <- ElementLowerEqualThan$new("dd")$
 #   map_input("a", N1)$
 #   map_input("x", N2)
 #
@@ -411,7 +411,7 @@ ModuleEqualTo <- R6::R6Class(
 # xx <- Poisson$new("xx")$
 #   map_input("lambda", Constant$new("lambda", 2))
 #
-# aa <- ModuleEqualTo$new("aa")$
+# aa <- ElementEqualTo$new("aa")$
 #   map_input("x", xx)$
 #   map_input("a", Constant$new("a", 2))
 #

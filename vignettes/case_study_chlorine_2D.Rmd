@@ -31,7 +31,7 @@ The model is developed only with the purpose of illustrating the capabilities of
 
 ### Initial concentration
 
-We define the initial concentration of microorganisms in the product as a uniform distribution over 0-1 log CFU/g (`Uniform` module). As an illustration, it is defined on the variability level (`level = 0`).
+We define the initial concentration of microorganisms in the product as a uniform distribution over 0-1 log CFU/g (`Uniform` element). As an illustration, it is defined on the variability level (`level = 0`).
 
 ```{r}
 logN0 <- Uniform$new("logN0",  # A uniform distribution
@@ -64,7 +64,7 @@ To implement the model in **biorisk**, we first need to define the secondary mod
 chlorine <- Constant$new("chlorine", 50)
 ```
 
-Next, we need to define a module for the model equation. The package includes several modules that describe simple model equations commonly used in the literature. In this case, we need a `LinealModel`. We will define a fixed intercept (`-0.1811`), whereas the slope will be defined as a normal distribution. For no particular reason, we assume this distribution represents variability only (`level = 1`):
+Next, we need to define a element for the model equation. The package includes several elements that describe simple model equations commonly used in the literature. In this case, we need a `LinealModel`. We will define a fixed intercept (`-0.1811`), whereas the slope will be defined as a normal distribution. For no particular reason, we assume this distribution represents variability only (`level = 1`):
 
 ```{r}
 k_slope <- Normal$new("k_slope", level = 1)$
@@ -79,7 +79,7 @@ k_chlorine <- LinealModel$new("k_chlorine")$
   map_input("x", chlorine)
 ```
 
-Once we have the secondary model, we can define the primary model. Log-linear inactivation parameterized based on the inactivation rate ($k$) is named  `LogLinInactivation_k` in **biorisk**. Besides the initial concentration (`"logN0"`) and the inactivation rate (`"k"`), this module needs the treatment time. We define a constant value (20 s) for it:
+Once we have the secondary model, we can define the primary model. Log-linear inactivation parameterized based on the inactivation rate ($k$) is named  `LogLinInactivation_k` in **biorisk**. Besides the initial concentration (`"logN0"`) and the inactivation rate (`"k"`), this element needs the treatment time. We define a constant value (20 s) for it:
 
 ```{r}
 t_chlorine <- Constant$new("t_chlorine", 20)  # the treatment time (s)
@@ -105,7 +105,7 @@ $$
 \mu = 0.014(T - 1.6)^2
 $$
 
-As above, we first need to define the secondary model. Luckily, **biorisk** includes the `Ratkowsky_model` module that implements this model. It has several inputs (treatment temperature, $T_{min}$ and $b$). For the temperature, we assign a normal distribution that represents uncertainty (`level = 1`) with expected value `6.35` and standard deviation `2.83`. 
+As above, we first need to define the secondary model. Luckily, **biorisk** includes the `Ratkowsky_model` element that implements this model. It has several inputs (treatment temperature, $T_{min}$ and $b$). For the temperature, we assign a normal distribution that represents uncertainty (`level = 1`) with expected value `6.35` and standard deviation `2.83`. 
 
 ```{r}
 temp_distrib <- Normal$new("temp_distrib", 
@@ -118,7 +118,7 @@ temp_distrib <- Normal$new("temp_distrib",
   )
 ```
 
-Then, we define the Ratkowsky model (`Ratkowsky_model`), mapping the temperature to the module we just defined. In this case, we assume there is no variability or uncertainty in the model parameters.
+Then, we define the Ratkowsky model (`Ratkowsky_model`), mapping the temperature to the element we just defined. In this case, we assume there is no variability or uncertainty in the model parameters.
 
 ```{r}
 mu_distrib <- Ratkowsky_model$new("mu_distrib")$  # the Ratkowsky secondary model
@@ -133,7 +133,7 @@ mu_distrib <- Ratkowsky_model$new("mu_distrib")$  # the Ratkowsky secondary mode
   )
 ```
 
-After that, we define the primary growth model. The package implements the `ExponentialGrowthNmax` model, which is exactly what we need. This modules needs as input the storage time, for which we assume an exponential distribution with rate parameter `1/29`.
+After that, we define the primary growth model. The package implements the `ExponentialGrowthNmax` model, which is exactly what we need. This elements needs as input the storage time, for which we assume an exponential distribution with rate parameter `1/29`.
 
 ```{r}
 time_distrib <- Exponential$new("time_distrib")$  # an exponential distribution
@@ -142,15 +142,15 @@ time_distrib <- Exponential$new("time_distrib")$  # an exponential distribution
   )
 ```
 
-Finally, we define the primary growth model (`ExponentialGrowthNmax`). This module has several inputs. For the treatment time, we use the exponential distribution we just defined. The growth rate (`"mu"`) is mapped to the output of the Ratkowsky model. Then, the initial concentration at storage is mapped to the output of the inactivation model. Finally, we will define a constant $N_{max}$ of 8 log CFU/g.
+Finally, we define the primary growth model (`ExponentialGrowthNmax`). This element has several inputs. For the treatment time, we use the exponential distribution we just defined. The growth rate (`"mu"`) is mapped to the output of the Ratkowsky model. Then, the initial concentration at storage is mapped to the output of the inactivation model. Finally, we will define a constant $N_{max}$ of 8 log CFU/g.
 
 ```{r}
 growth_distrib <- ExponentialGrowthNmax$new("growth_distrib")$  
   map_input("t", 
-            time_distrib  # we assign the module from above to define the time
+            time_distrib  # we assign the element from above to define the time
   )$
   map_input("mu", 
-            mu_distrib  # we assign the module from above to define the growth rate
+            mu_distrib  # we assign the element from above to define the growth rate
   )$
   map_input("logN0", 
             inactivation  # and logN0 to the output of the chlorine now
@@ -162,9 +162,9 @@ growth_distrib <- ExponentialGrowthNmax$new("growth_distrib")$
 
 ### Consumer phase
 
-The next step is to convert the microbial concentration (in log CFU/g) to microbial dose consumed. The package includes the `Concentration2Dose` module to help in this calculation. Note that this module considers the fact that the dose is a sampling process (i.e., the output is a discrete number of cells). In order to obtain continuous values for the dose (e.g., a dose of 0.23 cells), one must use `Concentration2Dose_continous`.
+The next step is to convert the microbial concentration (in log CFU/g) to microbial dose consumed. The package includes the `Concentration2Dose` element to help in this calculation. Note that this element considers the fact that the dose is a sampling process (i.e., the output is a discrete number of cells). In order to obtain continuous values for the dose (e.g., a dose of 0.23 cells), one must use `Concentration2Dose_continous`.
 
-This module has two inputs, the microbial concentration at exposure and the serving size. For the latter, we use a uniform distribution that represents uncertainty (`level = 1`). For the microbial concentration, we map the output of the growth module from above.
+This element has two inputs, the microbial concentration at exposure and the serving size. For the latter, we use a uniform distribution that represents uncertainty (`level = 1`). For the microbial concentration, we map the output of the growth element from above.
 
 ```{r}
 serving_size <- Uniform$new("size", level = 1)$
@@ -186,7 +186,7 @@ Pill <- DoseResponse_Exponential$new("Pill")$
   map_input("dose", consumer_dose)
 ```
 
-Then, we can estimate the number of cases. For that, **biorisk** includes the `Pill2Cases_N` module to convert from probability of illness to number of cases. This module considers for each Monte Carlo iteration that the $n_{servings}$ have the same probability of illness. On the other hand, the module `Pill2Cases_1` considers a single serving per $P_{ill}$. In this case, we will make the calculations per $10^{12}$ servings.
+Then, we can estimate the number of cases. For that, **biorisk** includes the `Pill2Cases_N` element to convert from probability of illness to number of cases. This element considers for each Monte Carlo iteration that the $n_{servings}$ have the same probability of illness. On the other hand, the element `Pill2Cases_1` considers a single serving per $P_{ill}$. In this case, we will make the calculations per $10^{12}$ servings.
 
 ```{r}
 cases <- Pill2Cases_N$new("cases")$
@@ -243,7 +243,7 @@ cases$histogram(add_discrete = TRUE) + scale_x_log10()
 
 By passing `add_discrete = TRUE`, the plot includes a dashed line with the discrete prediction. Note that this is quite biased with respect to the histogram. The reasons for this is the use of asymmetric distributions and the nonlinear models. 
 
-We can also easily visualize the output of other modules besides the final outcome. For instance, we can observe the microbial concentration at the end of storage as a density plot.
+We can also easily visualize the output of other elements besides the final outcome. For instance, we can observe the microbial concentration at the end of storage as a density plot.
 
 ```{r}
 growth_distrib$density_plot(TRUE)
@@ -256,7 +256,7 @@ quantile_table(cases, chosen = c("cases", "Pill", "dose", "growth_distrib"),
                probs = c(.5, .9, .99))
 ```
 
-We can also generate a plot to check the variation of the microbial concentration on each step using `plot_outputs()`. Note that, by default, this function plots the output of every module. Considering that this mixes different units, it is recommended to always defined the modules to plot using the `chosen` argument.
+We can also generate a plot to check the variation of the microbial concentration on each step using `plot_outputs()`. Note that, by default, this function plots the output of every element. Considering that this mixes different units, it is recommended to always defined the elements to plot using the `chosen` argument.
 
 ```{r}
 plot_outputs(cases, 
@@ -272,7 +272,7 @@ To run the 2D-MC simulation, we just need to call the `simulate_2D()` method. Th
 cases$simulate_2D(1000, 100, seed = 792)
 ```
 
-Again, we can visualize the output of any module. For instance, we can depict the concentration after storage as a density plot. Note that, to represent both uncertainty and variability, we need to call the `density_plot_2D()` method.
+Again, we can visualize the output of any element. For instance, we can depict the concentration after storage as a density plot. Note that, to represent both uncertainty and variability, we need to call the `density_plot_2D()` method.
 
 ```{r}
 growth_distrib$density_plot_2D()

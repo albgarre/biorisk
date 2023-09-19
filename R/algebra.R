@@ -1,11 +1,11 @@
 
-#' Sum of the output of two modules
+#' Sum of the output of two elements
 #'
 #' @export
 #'
-ModulePlus <- R6::R6Class(
-  classname = "ModulePlus",
-  inherit = RiskModule,
+ElementPlus <- R6::R6Class(
+  classname = "ElementPlus",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -18,7 +18,7 @@ ModulePlus <- R6::R6Class(
                        input_types = list(a = "any",
                                           b = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -86,13 +86,13 @@ ModulePlus <- R6::R6Class(
 
 )
 
-#' Substraction of the output of two modules
+#' Substraction of the output of two elements
 #'
 #' @export
 #'
-ModuleMinus <- R6::R6Class(
-  classname = "ModuleMinus",
-  inherit = RiskModule,
+ElementMinus <- R6::R6Class(
+  classname = "ElementMinus",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -105,7 +105,7 @@ ModuleMinus <- R6::R6Class(
                        input_types = list(a = "any",
                                           b = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -173,13 +173,13 @@ ModuleMinus <- R6::R6Class(
 
 )
 
-#' Multiplication of the output of two modules
+#' Multiplication of the output of two elements
 #'
 #' @export
 #'
-ModuleTimes <- R6::R6Class(
-  classname = "ModuleTimes",
-  inherit = RiskModule,
+ElementTimes <- R6::R6Class(
+  classname = "ElementTimes",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -192,7 +192,7 @@ ModuleTimes <- R6::R6Class(
                        input_types = list(a = "any",
                                           b = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -260,13 +260,13 @@ ModuleTimes <- R6::R6Class(
 
 )
 
-#' Division of the output of two modules (a/b)
+#' Division of the output of two elements (a/b)
 #'
 #' @export
 #'
-ModuleDivision <- R6::R6Class(
-  classname = "ModuleDivision",
-  inherit = RiskModule,
+ElementDivision <- R6::R6Class(
+  classname = "ElementDivision",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -279,7 +279,7 @@ ModuleDivision <- R6::R6Class(
                        input_types = list(a = "any",
                                           b = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -347,13 +347,13 @@ ModuleDivision <- R6::R6Class(
 
 )
 
-#' Power of the output of two modules (a^b)
+#' Power of the output of two elements (a^b)
 #'
 #' @export
 #'
-ModulePower <- R6::R6Class(
-  classname = "ModulePower",
-  inherit = RiskModule,
+ElementPower <- R6::R6Class(
+  classname = "ElementPower",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -366,7 +366,7 @@ ModulePower <- R6::R6Class(
                        input_types = list(a = "any",
                                           b = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -434,13 +434,13 @@ ModulePower <- R6::R6Class(
 
 )
 
-#' Square root of the output of a modules
+#' Square root of the output of a elements
 #'
 #' @export
 #'
-ModuleSqrt <- R6::R6Class(
-  classname = "ModuleSqrt",
-  inherit = RiskModule,
+ElementSqrt <- R6::R6Class(
+  classname = "ElementSqrt",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -451,7 +451,7 @@ ModuleSqrt <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -512,13 +512,13 @@ ModuleSqrt <- R6::R6Class(
 
 )
 
-#' Decimal logarithm of the output of a module
+#' Decimal logarithm of the output of a element
 #'
 #' @export
 #'
-ModuleLog <- R6::R6Class(
-  classname = "ModuleLog",
-  inherit = RiskModule,
+ElementLog <- R6::R6Class(
+  classname = "ElementLog",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -529,7 +529,7 @@ ModuleLog <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -590,13 +590,13 @@ ModuleLog <- R6::R6Class(
 
 )
 
-#' Natural logarithm of the output of a module
+#' Natural logarithm of the output of a element
 #'
 #' @export
 #'
-ModuleLn <- R6::R6Class(
-  classname = "ModuleLn",
-  inherit = RiskModule,
+ElementLn <- R6::R6Class(
+  classname = "ElementLn",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -607,7 +607,7 @@ ModuleLn <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -668,13 +668,13 @@ ModuleLn <- R6::R6Class(
 
 )
 
-#' Exponential of the output of a module
+#' Exponential of the output of a element
 #'
 #' @export
 #'
-ModuleExp <- R6::R6Class(
-  classname = "ModuleExp",
-  inherit = RiskModule,
+ElementExp <- R6::R6Class(
+  classname = "ElementExp",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -685,7 +685,7 @@ ModuleExp <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -746,13 +746,13 @@ ModuleExp <- R6::R6Class(
 
 )
 
-#' Ten to the power of the output of a module
+#' Ten to the power of the output of a element
 #'
 #' @export
 #'
-ModulePow10 <- R6::R6Class(
-  classname = "ModulePow10",
-  inherit = RiskModule,
+ElementPow10 <- R6::R6Class(
+  classname = "ElementPow10",
+  inherit = RiskElement,
   public = list(
 
     initialize = function(name,
@@ -764,7 +764,7 @@ ModulePow10 <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -839,7 +839,7 @@ ModulePow10 <- R6::R6Class(
 # N2 <- Poisson$new("aa")$
 #   map_input("lambda", Constant$new("bb", 3))
 #
-# aa <- ModulePlus$new("sum")$
+# aa <- ElementPlus$new("sum")$
 #   map_input("a", N1)$
 #   map_input("b", N2)
 #
@@ -849,21 +849,21 @@ ModulePow10 <- R6::R6Class(
 # aa$simulate(1000)
 # aa$density_plot()
 #
-# aa <- ModuleMinus$new("sum")$
+# aa <- ElementMinus$new("sum")$
 #   map_input("a", N1)$
 #   map_input("b", N2)
 #
 # aa$simulate(1000)
 # aa$density_plot()
 #
-# aa <- ModuleTimes$new("sum")$
+# aa <- ElementTimes$new("sum")$
 #   map_input("a", N1)$
 #   map_input("b", N2)
 #
 # aa$simulate(1000)
 # aa$density_plot()
 #
-# aa <- ModuleDivision$new("sum")$
+# aa <- ElementDivision$new("sum")$
 #   map_input("a", N1)$
 #   map_input("b", N2)
 #
@@ -871,36 +871,36 @@ ModulePow10 <- R6::R6Class(
 # aa$density_plot()
 #
 #
-# aa <- ModulePower$new("-")$
+# aa <- ElementPower$new("-")$
 #   map_input("a", N1)$
 #   map_input("b", Constant$new("a", 2))
 #
 # aa$simulate(1000)
 # aa$histogram()
 #
-# aa <-ModuleSqrt$new("-")$
+# aa <-ElementSqrt$new("-")$
 #   map_input("a", N2)
 # aa$simulate(1000)
 # aa$histogram()
 #
-# aa <- ModuleLog$new("-")$
+# aa <- ElementLog$new("-")$
 #   map_input("a", N2)
 #
 # aa$simulate(1000)
 # aa$histogram()
 #
-# aa <- ModuleLn$new("")$
+# aa <- ElementLn$new("")$
 #   map_input("a", N2)
 #
 # aa$simulate(100)
 # aa$density_plot()
 #
-# aa <- ModuleExp$new("")$
+# aa <- ElementExp$new("")$
 #   map_input("a", N1)
 # aa$simulate(100)
 # aa$histogram()
 #
-# aa <- ModulePow10$new("")$
+# aa <- ElementPow10$new("")$
 #   map_input("a", N2)
 # aa$simulate(52)
 # aa$histogram()

@@ -1,11 +1,11 @@
 
-#' Filters the output of a module according to a maximum value
+#' Filters the output of a element according to a maximum value
 #'
 #' @export
 #'
 MaxFilter <- R6::R6Class(
   classname = "MaxFilter",
-  inherit = RiskModule,
+  inherit = RiskElement,
   public = list(
 
     max_value = NULL,
@@ -25,7 +25,7 @@ MaxFilter <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -102,13 +102,13 @@ MaxFilter <- R6::R6Class(
 
 )
 
-#' Filters the output of a module according to a minimum value
+#' Filters the output of a element according to a minimum value
 #'
 #' @export
 #'
 MinFilter <- R6::R6Class(
   classname = "MinFilter",
-  inherit = RiskModule,
+  inherit = RiskElement,
   public = list(
 
     min_value = NULL,
@@ -128,7 +128,7 @@ MinFilter <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)
@@ -205,13 +205,13 @@ MinFilter <- R6::R6Class(
 
 )
 
-#' Filters the output of a module according to both a minimum and maximum value
+#' Filters the output of a element according to both a minimum and maximum value
 #'
 #' @export
 #'
 MinMaxFilter <- R6::R6Class(
   classname = "MinMaxFilter",
-  inherit = RiskModule,
+  inherit = RiskElement,
   public = list(
 
     max_value = NULL,
@@ -234,7 +234,7 @@ MinMaxFilter <- R6::R6Class(
                        input_names = c("a"),
                        input_types = list(a = "any"),
                        units = units,
-                       module_type = "algebra",
+                       element_type = "algebra",
                        output_var = "x",
                        output_unit = output_unit,
                        level = 0)

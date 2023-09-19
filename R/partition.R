@@ -1,11 +1,11 @@
 
-#' A module to describe partition as a Poisson process
+#' A element to describe partition as a Poisson process
 #'
 #' @export
 #'
 PartitionPoisson <- R6::R6Class(
   classname = "PartitionPoisson",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -17,7 +17,7 @@ PartitionPoisson <- R6::R6Class(
                        input_types = list(logN = "continuous",
                                           volume = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "N",
                        output_unit = output_unit,
                        level = 0)
@@ -72,13 +72,13 @@ PartitionPoisson <- R6::R6Class(
 
 )
 
-#' A module to describe partition as a binomial process
+#' A element to describe partition as a binomial process
 #'
 #' @export
 #'
 PartitionBinomial <- R6::R6Class(
   classname = "PartitionBinomial",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -91,7 +91,7 @@ PartitionBinomial <- R6::R6Class(
                                           volume0 = "discrete",
                                           volume1 = "discrete"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "N",
                        output_unit = output_unit,
                        level = 0)

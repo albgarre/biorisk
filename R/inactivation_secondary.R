@@ -2,13 +2,13 @@
 #' R6 class describing the secondary model for the D/z model
 #'
 #' @details
-#' A risk module describing the D/z model. It has 4 inputs: Dref, temperature, z and Tref.
+#' A risk element describing the D/z model. It has 4 inputs: Dref, temperature, z and Tref.
 #'
 #' @export
 #'
 Dz_model <- R6::R6Class(
   classname = "Dz_model",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -22,7 +22,7 @@ Dz_model <- R6::R6Class(
                                           z = "continuous",
                                           Tref = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "D",
                        output_unit = output_unit,
                        level = 0)
@@ -89,14 +89,14 @@ Dz_model <- R6::R6Class(
 #' R6 class describing the secondary model for the Peleg model
 #'
 #' @details
-#' A risk module describing the secondary model of the Peleg model. It has 3 inputs:
+#' A risk element describing the secondary model of the Peleg model. It has 3 inputs:
 #' k_b, temperature, temp_crit.
 #'
 #' @export
 #'
 Peleg_secondary <- R6::R6Class(
   classname = "Peleg_secondary",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -109,7 +109,7 @@ Peleg_secondary <- R6::R6Class(
                                           temperature = "continuous",
                                           temp_crit = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "b",
                        output_unit = output_unit,
                        level = 0)

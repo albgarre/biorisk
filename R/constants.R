@@ -8,7 +8,7 @@
 #'
 Constant <- R6::R6Class(
   classname = "Constant",
-  inherit = RiskModule,
+  inherit = RiskElement,
   public = list(
 
     #' @field value The value of the constant
@@ -22,7 +22,7 @@ Constant <- R6::R6Class(
       super$initialize(name,
                        input_names = NULL,
                        units = NULL,
-                       module_type = "constant",
+                       element_type = "constant",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -78,7 +78,7 @@ Constant <- R6::R6Class(
 #'
 Vector <- R6::R6Class(
   classname = "Vector",
-  inherit = RiskModule,
+  inherit = RiskElement,
   public = list(
 
     #' @field value The value of the constant
@@ -95,7 +95,7 @@ Vector <- R6::R6Class(
       super$initialize(name,
                        input_names = NULL,
                        units = NULL,
-                       module_type = "constant",
+                       element_type = "constant",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)

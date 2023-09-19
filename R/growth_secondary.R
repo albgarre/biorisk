@@ -2,13 +2,13 @@
 #' R6 class describing the secondary Ratkowsky model (suboptimal)
 #'
 #' @details
-#' A risk module describing the (suboptimal) Ratkowsky model. It has 3 inputs: b, Tmin, temperature.
+#' A risk element describing the (suboptimal) Ratkowsky model. It has 3 inputs: b, Tmin, temperature.
 #'
 #' @export
 #'
 Ratkowsky_model <- R6::R6Class(
   classname = "Ratkowsky_model",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -22,7 +22,7 @@ Ratkowsky_model <- R6::R6Class(
                                           Tmin = "continuous",
                                           temperature = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
                        level = 0)
@@ -91,14 +91,14 @@ Ratkowsky_model <- R6::R6Class(
 #' R6 class describing the secondary Ratkowsky model (suboptimal) including error term
 #'
 #' @details
-#' A risk module describing the (suboptimal) Ratkowsky model including an error term.
+#' A risk element describing the (suboptimal) Ratkowsky model including an error term.
 #' It has 4 inputs: b, Tmin, temperature, sigma.
 #'
 #' @export
 #'
 Ratkowsky_model_error <- R6::R6Class(
   classname = "Ratkowsky_model_error",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -113,7 +113,7 @@ Ratkowsky_model_error <- R6::R6Class(
                                           temperature = "continuous",
                                           sigma = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
                        level = 0)
@@ -184,13 +184,13 @@ Ratkowsky_model_error <- R6::R6Class(
 #' R6 class describing the secondary Full Ratkowsky model
 #'
 #' @details
-#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
+#' A risk element describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
 #'
 #' @export
 #'
 FullRatkowsky_model <- R6::R6Class(
   classname = "FullRatkowsky_model",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -206,7 +206,7 @@ FullRatkowsky_model <- R6::R6Class(
                                           c = "continuous",
                                           Tmax = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
                        level = 0)
@@ -288,13 +288,13 @@ FullRatkowsky_model <- R6::R6Class(
 #' R6 class describing the secondary Full Ratkowsky model
 #'
 #' @details
-#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
+#' A risk element describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
 #'
 #' @export
 #'
 FullRatkowsky_model_error <- R6::R6Class(
   classname = "FullRatkowsky_model_error",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -311,7 +311,7 @@ FullRatkowsky_model_error <- R6::R6Class(
                                           Tmax = "continuous",
                                           sigma = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
                        level = 0)
@@ -394,13 +394,13 @@ FullRatkowsky_model_error <- R6::R6Class(
 #' R6 class describing the secondary Cardinal Parameter Model
 #'
 #' @details
-#' A risk module describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
+#' A risk element describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
 #'
 #' @export
 #'
 CardinalParameterModel <- R6::R6Class(
   classname = "CardinalParameterModel",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -416,7 +416,7 @@ CardinalParameterModel <- R6::R6Class(
                                           Xmax = "continuous",
                                           n = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "gamma",
                        output_unit = output_unit,
                        level = 0)
@@ -493,13 +493,13 @@ CardinalParameterModel <- R6::R6Class(
 #' R6 class describing the gamma coefficient using the Zwietering parameterization
 #'
 #' @details
-#' A risk module describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
+#' A risk element describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
 #'
 #' @export
 #'
 ZwieteringGamma <- R6::R6Class(
   classname = "ZwieteringGamma",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -514,7 +514,7 @@ ZwieteringGamma <- R6::R6Class(
                                           Xopt = "continuous",
                                           n = "continuous"),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "gamma",
                        output_unit = output_unit,
                        level = 0)
@@ -584,14 +584,14 @@ ZwieteringGamma <- R6::R6Class(
 #' R6 class describing the secondary Full Ratkowsky model including the pH effect
 #'
 #' @details
-#' A risk module describing the fullRatkowsky model. It has 3 inputs: b, Tmin, Tmax, c,
+#' A risk element describing the fullRatkowsky model. It has 3 inputs: b, Tmin, Tmax, c,
 #' pHmax, pHmin, temperature and pH.
 #'
 #' @export
 #'
 FullRatkowsky_pH_model <- R6::R6Class(
   classname = "FullRatkowsky_pH_model",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -614,7 +614,7 @@ FullRatkowsky_pH_model <- R6::R6Class(
                                           pH = "continuous"
                                           ),
                        units = units,
-                       module_type = "secondary",
+                       element_type = "secondary",
                        output_var = "mu",
                        output_unit = output_unit,
                        level = 0)

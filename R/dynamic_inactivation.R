@@ -26,7 +26,7 @@ predict_Bigelow_ramp <- function(max_time, D_R, z, temp_ref, logN0,
 #' R6 class describing log-linear inactivation under dynamic conditions for a ramp
 #'
 #' @details
-#' A risk module describing log-linear inactivation under dynamic conditions considering
+#' A risk element describing log-linear inactivation under dynamic conditions considering
 #' a heating (or cooling) profile. It has 7 inputs: treat_time, D_R, z, temp_ref, logN0, temp_start,
 #' temp_end
 #'
@@ -34,7 +34,7 @@ predict_Bigelow_ramp <- function(max_time, D_R, z, temp_ref, logN0,
 #'
 DynamicBigelow_1phase <- R6::R6Class(
   classname = "DynamicBigelow_1phase",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -54,7 +54,7 @@ DynamicBigelow_1phase <- R6::R6Class(
                                           temp_end = "continuous"
                                           ),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -66,7 +66,7 @@ DynamicBigelow_1phase <- R6::R6Class(
     #'
     point_estimate = function() {
 
-      stop("Discrete predictions not (yet) implemented for dynamic modules")
+      stop("Discrete predictions not (yet) implemented for dynamic elements")
 
     }
 
@@ -131,14 +131,14 @@ predict_Bigelow_biphasic <- function(t1, t2, D_R, z, temp_ref, logN0,
 #' R6 class describing log-linear inactivation under dynamic conditions for a ramp
 #'
 #' @details
-#' A risk module describing log-linear inactivation under dynamic conditions considering
+#' A risk element describing log-linear inactivation under dynamic conditions considering
 #' a heating (or cooling) profile. It has 9 inputs: t1, t2, D_R, z, temp_ref, logN0, temp0, temp1, temp2,
 #'
 #' @export
 #'
 DynamicBigelow_2phase <- R6::R6Class(
   classname = "DynamicBigelow_2phase",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -160,7 +160,7 @@ DynamicBigelow_2phase <- R6::R6Class(
                                           temp2 = "continuous"
                        ),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -172,7 +172,7 @@ DynamicBigelow_2phase <- R6::R6Class(
     #'
     point_estimate = function() {
 
-      stop("Discrete predictions not (yet) implemented for dynamic modules")
+      stop("Discrete predictions not (yet) implemented for dynamic elements")
 
     }
 
@@ -239,7 +239,7 @@ predict_Bigelow_triphasic <- function(t1, t2, t3, D_R, z, temp_ref, logN0,
 #' R6 class describing log-linear inactivation under dynamic conditions for a ramp
 #'
 #' @details
-#' A risk module describing log-linear inactivation under dynamic conditions considering
+#' A risk element describing log-linear inactivation under dynamic conditions considering
 #' a heating (or cooling) profile. It has 11 inputs: t1, t2, t3, D_R, z, temp_ref, logN0,
 #' temp0, temp1, temp2, temp3.
 #'
@@ -247,7 +247,7 @@ predict_Bigelow_triphasic <- function(t1, t2, t3, D_R, z, temp_ref, logN0,
 #'
 DynamicBigelow_3phase <- R6::R6Class(
   classname = "DynamicBigelow_3phase",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -271,7 +271,7 @@ DynamicBigelow_3phase <- R6::R6Class(
                                           temp3 = "continuous"
                        ),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -283,7 +283,7 @@ DynamicBigelow_3phase <- R6::R6Class(
     #'
     point_estimate = function() {
 
-      stop("Discrete predictions not (yet) implemented for dynamic modules")
+      stop("Discrete predictions not (yet) implemented for dynamic elements")
 
     }
 

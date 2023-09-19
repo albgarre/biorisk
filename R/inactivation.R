@@ -6,7 +6,7 @@
 #'
 LogLinInactivation_k <- R6::R6Class(
   classname = "LogLinInactivation_k",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -19,7 +19,7 @@ LogLinInactivation_k <- R6::R6Class(
                                           k = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -83,14 +83,14 @@ LogLinInactivation_k <- R6::R6Class(
 #' R6 class describing log-linear inactivation
 #'
 #' @details
-#' A risk module describing log-linear inactivation. It has 3 inputs: logN0, t
+#' A risk element describing log-linear inactivation. It has 3 inputs: logN0, t
 #' and D.
 #'
 #' @export
 #'
 LogLinInactivation <- R6::R6Class(
   classname = "LogLinInactivation",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -103,7 +103,7 @@ LogLinInactivation <- R6::R6Class(
                                           D = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -166,14 +166,14 @@ LogLinInactivation <- R6::R6Class(
 #' R6 class describing the Weibull inactivation
 #'
 #' @details
-#' A risk module describing Weibullian inactivation. It has 4 inputs: logN0, t
+#' A risk element describing Weibullian inactivation. It has 4 inputs: logN0, t
 #' delta, beta.
 #'
 #' @export
 #'
 WeibullInactivation <- R6::R6Class(
   classname = "WeibullInactivation",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -187,7 +187,7 @@ WeibullInactivation <- R6::R6Class(
                                           beta = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -251,14 +251,14 @@ WeibullInactivation <- R6::R6Class(
 #' R6 class describing the Weibull inactivation
 #'
 #' @details
-#' A risk module describing Weibullian inactivation using the parameterization by
+#' A risk element describing Weibullian inactivation using the parameterization by
 #' Peleg. It has 4 inputs: logN0, t, b and n.
 #'
 #' @export
 #'
 PelegInactivation <- R6::R6Class(
   classname = "PelegInactivation",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -272,7 +272,7 @@ PelegInactivation <- R6::R6Class(
                                           n = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -336,13 +336,13 @@ PelegInactivation <- R6::R6Class(
 #' R6 class describing Tri-linear inactivation
 #'
 #' @details
-#' A risk module describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+#' A risk element describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
 #'
 #' @export
 #'
 TrilinearInactivation <- R6::R6Class(
   classname = "TrilinearInactivation",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -357,7 +357,7 @@ TrilinearInactivation <- R6::R6Class(
                                           logNres = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -433,13 +433,13 @@ TrilinearInactivation <- R6::R6Class(
 #' R6 class describing Tri-linear inactivation
 #'
 #' @details
-#' A risk module describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+#' A risk element describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
 #'
 #' @export
 #'
 GeeraerdInactivation <- R6::R6Class(
   classname = "GeeraerdInactivation",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -454,7 +454,7 @@ GeeraerdInactivation <- R6::R6Class(
                                           logNres = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)
@@ -522,13 +522,13 @@ GeeraerdInactivation <- R6::R6Class(
 #' R6 class describing Tri-linear inactivation
 #'
 #' @details
-#' A risk module describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+#' A risk element describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
 #'
 #' @export
 #'
 GeeraerdInactivation_noSL <- R6::R6Class(
   classname = "GeeraerdInactivation_noSL",
-  inherit = ContinuousModule,
+  inherit = ContinuousElement,
   public = list(
 
     initialize = function(name,
@@ -542,7 +542,7 @@ GeeraerdInactivation_noSL <- R6::R6Class(
                                           logNres = "continuous",
                                           logN0 = "continuous"),
                        units = units,
-                       module_type = "inactivation",
+                       element_type = "inactivation",
                        output_var = "logN",
                        output_unit = output_unit,
                        level = 0)

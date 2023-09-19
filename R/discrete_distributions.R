@@ -6,7 +6,7 @@
 #'
 EmpiricalDistr <- R6::R6Class(
   classname = "EmpiricalDistr",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     #' @field values A vector to resample
@@ -21,7 +21,7 @@ EmpiricalDistr <- R6::R6Class(
       super$initialize(name,
                        input_names = NULL,
                        units = NULL,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -73,13 +73,13 @@ EmpiricalDistr <- R6::R6Class(
 )
 
 
-#' A module simulating a Poisson distribution
+#' A element simulating a Poisson distribution
 #'
 #' @export
 #'
 Poisson <- R6::R6Class(
   classname = "Poisson",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -91,7 +91,7 @@ Poisson <- R6::R6Class(
                        input_names = c("lambda"),
                        input_types = list(lambda = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -144,13 +144,13 @@ Poisson <- R6::R6Class(
 
 )
 
-#' A module simulating a Binomial distribution
+#' A element simulating a Binomial distribution
 #'
 #' @export
 #'
 Binomial <- R6::R6Class(
   classname = "Binomial",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -163,7 +163,7 @@ Binomial <- R6::R6Class(
                        input_types = list(size = "discrete",
                                           prob = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -216,13 +216,13 @@ Binomial <- R6::R6Class(
 
 )
 
-#' A module simulating a zero-inflated Poisson distribution
+#' A element simulating a zero-inflated Poisson distribution
 #'
 #' @export
 #'
 ZIPoisson <- R6::R6Class(
   classname = "ZIPoisson",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -235,7 +235,7 @@ ZIPoisson <- R6::R6Class(
                        input_types = list(lambda = "continuous",
                                           pi = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -288,13 +288,13 @@ ZIPoisson <- R6::R6Class(
 
 )
 
-#' A module simulating a Beta-Binomial distribution
+#' A element simulating a Beta-Binomial distribution
 #'
 #' @export
 #'
 BetaBinomial <- R6::R6Class(
   classname = "BetaBinomial",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -308,7 +308,7 @@ BetaBinomial <- R6::R6Class(
                                           alpha = "continuous",
                                           beta = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
@@ -366,13 +366,13 @@ BetaBinomial <- R6::R6Class(
 
 )
 
-#' A module simulating a Gamma-Poisson distribution
+#' A element simulating a Gamma-Poisson distribution
 #'
 #' @export
 #'
 GammaPoisson <- R6::R6Class(
   classname = "GammaPoisson",
-  inherit = DiscreteModule,
+  inherit = DiscreteElement,
   public = list(
 
     initialize = function(name,
@@ -385,7 +385,7 @@ GammaPoisson <- R6::R6Class(
                        input_types = list(shape = "continuous",
                                           scale = "continuous"),
                        units = units,
-                       module_type = "distribution",
+                       element_type = "distribution",
                        output_var = "x",
                        output_unit = output_unit,
                        level = level)
