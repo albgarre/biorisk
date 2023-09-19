@@ -12,7 +12,7 @@ R6 class describing the secondary Full Ratkowsky model
 A risk element describing the fullRatkowsky model. It has 3 inputs: b, Tmin, temperature.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{FullRatkowsky_model}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{FullRatkowsky_model}
 }
 \section{Methods}{
 \subsection{Public methods}{

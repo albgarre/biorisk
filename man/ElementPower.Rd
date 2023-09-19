@@ -9,7 +9,7 @@ Power of the output of two elements (a^b)
 Power of the output of two elements (a^b)
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementPower}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementPower}
 }
 \section{Methods}{
 \subsection{Public methods}{

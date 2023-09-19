@@ -9,7 +9,7 @@ Natural logarithm of the output of a element
 Natural logarithm of the output of a element
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementLn}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementLn}
 }
 \section{Methods}{
 \subsection{Public methods}{

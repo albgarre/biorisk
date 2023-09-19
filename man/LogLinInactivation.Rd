@@ -13,7 +13,7 @@ A risk element describing log-linear inactivation. It has 3 inputs: logN0, t
 and D.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{LogLinInactivation}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LogLinInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{

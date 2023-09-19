@@ -9,7 +9,7 @@ A element simulating a Pert distribution
 A element simulating a Pert distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Pert}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Pert}
 }
 \section{Methods}{
 \subsection{Public methods}{

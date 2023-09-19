@@ -9,7 +9,7 @@ Growth model with exponential phase + lag
 Growth model with exponential phase + lag
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{TrilinealGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{TrilinealGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

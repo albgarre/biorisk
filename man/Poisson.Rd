@@ -9,7 +9,7 @@ A element simulating a Poisson distribution
 A element simulating a Poisson distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Poisson}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Poisson}
 }
 \section{Methods}{
 \subsection{Public methods}{

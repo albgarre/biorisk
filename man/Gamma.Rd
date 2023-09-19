@@ -9,7 +9,7 @@ A element simulating a Gamma distribution
 A element simulating a Gamma distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Gamma}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Gamma}
 }
 \section{Methods}{
 \subsection{Public methods}{

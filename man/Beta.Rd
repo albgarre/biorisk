@@ -9,7 +9,7 @@ A element simulating a Beta distribution
 A element simulating a Beta distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Beta}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Beta}
 }
 \section{Methods}{
 \subsection{Public methods}{

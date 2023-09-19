@@ -13,7 +13,7 @@ A risk element describing the secondary model of the Peleg model. It has 3 input
 k_b, temperature, temp_crit.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Peleg_secondary}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Peleg_secondary}
 }
 \section{Methods}{
 \subsection{Public methods}{

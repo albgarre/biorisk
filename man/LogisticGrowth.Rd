@@ -9,7 +9,7 @@ Growth element based on the logistic growth model
 Growth element based on the logistic growth model
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{LogisticGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LogisticGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

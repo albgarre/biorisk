@@ -9,7 +9,7 @@ Division of the output of two elements (a/b)
 Division of the output of two elements (a/b)
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementDivision}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementDivision}
 }
 \section{Methods}{
 \subsection{Public methods}{

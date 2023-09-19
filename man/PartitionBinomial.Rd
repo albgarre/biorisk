@@ -9,7 +9,7 @@ A element to describe partition as a binomial process
 A element to describe partition as a binomial process
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{PartitionBinomial}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{PartitionBinomial}
 }
 \section{Methods}{
 \subsection{Public methods}{

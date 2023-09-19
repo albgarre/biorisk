@@ -1,5 +1,10 @@
 
-#' Parent class for elements
+#' @title RiskElement Class
+#'
+#' @description
+#' This is the parent class defining the structure for the other elements.
+#'
+#' @param classname Name of the class
 #'
 #'
 RiskElement <- R6::R6Class(
@@ -27,7 +32,6 @@ RiskElement <- R6::R6Class(
     depended_by = c(),
 
     #' @field input_types A list with the preferred data type for each input (discrete/continuous/any)
-
     input_types = list(),
 
     #' @field output Name of the output variable
@@ -54,13 +58,18 @@ RiskElement <- R6::R6Class(
     ## Methods -----------------------------------------------------------------
 
     #' @description
-    #' Create a new element
-    #' @param name Name
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
     #' @param input_names A character vector with the names of the inputs
     #' @param units A character vector of units for each input
     #' @param element_type A character with the type of element
+    #' @param input_types A list with the type of output for each input
     #' @param output_var A character with the name of the output variable
     #' @param output_unit A character with the unit of the output
+    #' @param output_type A character with the type of the output ('continuous' or 'discrete')
+    #' @param level Level of the variance for 2D Monte Carlo
+    #'
     #' @return A new instance of the element
     #'
     initialize = function(name,
@@ -98,7 +107,9 @@ RiskElement <- R6::R6Class(
     #' @param input A character identifying the input variable
     #' @param element An instance of a element to use as input
     #' @param check_units Ignored
-    #' @return Self (invisible)
+    #' @param index Index of `element` (for elements with multiple outputs). By default, `1`
+    #'
+    #' @return `self` (invisible)
     #'
     map_input = function(input, element, check_units = FALSE, index = 1) {
 
@@ -126,8 +137,10 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Make simulation. Returns a vector of length niter with self.value.
+    #'
     #' @param niter Number of iterations (length of the vector).
-    #' @param check_units Ignored.
+    #' @param seed Seed for the pRNG. By default, `NULL` (no setting the seed)
+    #'
     #' @return A vector with the output variable
     #'
     simulate = function(niter,
@@ -151,6 +164,7 @@ RiskElement <- R6::R6Class(
     #'
     #' @param niter0 number of iterations on the lower level
     #' @param niter1 number of iterations on the upper level
+    #' @param seed Seed for the pRNG. By default, `NULL` (no setting the seed)
     #'
     simulate_2D = function(niter0, niter1,
                            seed = NULL) {
@@ -168,6 +182,13 @@ RiskElement <- R6::R6Class(
 
     },
 
+    #' @description
+    #' Simulation of one level for the 2D Monte Carlo
+    #'
+    #' @param niter0 number of iterations on the lower level
+    #' @param iter1 index representing the iteration (where to write). By default, `1`
+    #' @param level level to simulate (`0` by default)
+    #'
     simulate_level = function(niter0, iter1 = 1, level = 0) {
 
       private$update_inputs_level(niter0, iter1 = iter1, level = level)
@@ -185,9 +206,12 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Get the output
-    #' @param niter Number of iterations (length of the vector).
-    #' @param check_units Ignored.
+    #'
+    #' @param iter1 Number of iterations (length of the vector).
+    #' @param index Index fo the output (for multioutput modules). By default, `1`
+    #'
     #' @return A vector with the output variable
+    #'
     get_output = function(iter1 = NULL, index = 1) {
 
       # if (nrow(self$simulations) == 0) {
@@ -209,6 +233,8 @@ RiskElement <- R6::R6Class(
     #' @description
     #' Get the output of a 2D simulation
     #'
+    #' @param index Index fo the output (for multioutput modules). By default, `1`
+    #'
     get_output_2D = function(index = 1) {
 
       column <- self$output[[index]]
@@ -221,8 +247,11 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Saves the output of the simulation as a vector element
+    #'
     #' @param name Name of the new element (vctr_from_+self_name by default)
-    #' @return An instance of Vector
+    #'
+    #' @return An instance of [Vector]
+    #'
     save_as_vector = function(name = NULL) {
 
       if (nrow(self$simulations) == 0) {
@@ -239,8 +268,11 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Saves the output of the simulation as an empirical distribution.
+    #'
     #' @param name Name of the new element (distr_from_+self_name by default)
-    #' @return An instance of EmpiricalDistr
+    #'
+    #' @return An instance of [EmpiricalDistr]
+    #'
     save_as_distribution = function(name = NULL) {
 
       if (nrow(self$simulations) == 0) {
@@ -304,6 +336,9 @@ RiskElement <- R6::R6Class(
     #' @description
     #' Plots the empirical density function
     #'
+    #' @param add_discrete whether to add an horizontal line with the discrete estimate.
+    #' By default, `FALSE`
+    #'
     cummulative_plot = function(add_discrete = FALSE) {
 
       c <- ecdf(self$get_output())
@@ -326,6 +361,9 @@ RiskElement <- R6::R6Class(
     #' @description
     #' Makes a density plot of the model output
     #'
+    #' @param add_discrete whether to add an horizontal line with the discrete estimate.
+    #' By default, `FALSE`
+    #'
     density_plot = function(add_discrete = FALSE) {
 
       p <- ggplot() + geom_density(aes(x = self$get_output()))
@@ -341,6 +379,9 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Makes a histogram of the model output
+    #'
+    #' @param add_discrete whether to add a vertical line with the discrete estimate.
+    #' By default, `FALSE`
     #'
     histogram = function(add_discrete = FALSE) {
 
@@ -358,6 +399,9 @@ RiskElement <- R6::R6Class(
     #' @description
     #' Makes a boxplot of the model output
     #'
+    #' @param add_discrete whether to add an horizontal line with the discrete estimate.
+    #' By default, `FALSE`
+    #'
     boxplot = function(add_discrete = FALSE) {
 
       p <- ggplot() + geom_boxplot(aes(y = self$get_output()))
@@ -373,6 +417,8 @@ RiskElement <- R6::R6Class(
     #' @description
     #' Quantiles of the output variable
     #'
+    #' @param probs values of the quantiles. By default, `c(.01, .1, .5, .9, .99)`
+    #'
     quantiles = function(probs = c(.01, .1, .5, .9, .99)) {
 
       quantile(self$get_output(), probs = probs)
@@ -381,6 +427,8 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Quantiles of a 2D Monte Carlo simulation
+    #'
+    #' @param probs values of the quantiles. By default, `c(.01, .1, .5, .9, .99)`
     #'
     quantiles_2D = function(probs = c(.01, .1, .5, .9, .99)) {
 
@@ -412,6 +460,8 @@ RiskElement <- R6::R6Class(
 
     #' @description
     #' Checks that the type of the inputs is consistent
+    #'
+    #' @param recursive whether to also check the types of the dependencies. By default, `FALSE`
     #'
     check_input_types = function(recursive = FALSE) {
 
@@ -462,9 +512,11 @@ RiskElement <- R6::R6Class(
   ),
   private = list(
 
-    #' @description
-    #' Calls the simulate method for the dependencies
-    #'
+    # @description
+    # Calls the simulate method for the dependencies
+    #
+    # @param niter Number of Monte Carlo simulations
+    #
     update_inputs = function(niter) {
 
       # sims <- self$depends_on %>% map_dfc(~ .$simulate(niter)$get_output())
@@ -477,14 +529,23 @@ RiskElement <- R6::R6Class(
 
     },
 
-    #' @description
-    #' Calculates the output based on the
-    #'
+    # @description
+    # Calculates the output based on the math of the element. Implemented within the children
+    #
+    # @param niter Number of Monte Carlo simulations
+    #
     update_output = function(niter) {
       stop("update_output not implemented for this class")
 
     },
 
+    # @description
+    # Calls the simulate method for the dependencies for a 2D Monte Carlo
+    #
+    # @param niter0 Number of Monte Carlo simulations at the 0 level
+    # @param iter1 Index stating the index of level 1 to update
+    # @param level Level to limulate
+    #
     update_inputs_level = function(niter0, iter1 = 1, level = 0) {
 
       sims <- self$depends_on %>%
@@ -494,6 +555,14 @@ RiskElement <- R6::R6Class(
 
     },
 
+    # @description
+    # Calculates the output based on the math of the element for 2D Monte Carlo.
+    # Implemented within the children
+    #
+    # @param niter0 Number of Monte Carlo simulations at the 0 level
+    # @param iter1 Index stating the index of level 1 to update
+    # @param level Level to limulate
+    #
     update_output_level = function(niter0, iter1 = 1, level = 0) {
 
       stop("update_output_level not implemented for this class")
@@ -507,19 +576,38 @@ RiskElement <- R6::R6Class(
 
 
 
-#' Parent for elements with discrete outputs
+#' @title DiscreteElement Class
+#'
+#' @description
+#' This is the parent class for Elements that have a discrete output
+#'
 #'
 DiscreteElement <- R6::R6Class(
   inherit = RiskElement,
 
   public = list(
+
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param input_names A character vector with the names of the inputs
+    #' @param units A character vector of units for each input
+    #' @param element_type A character with the type of element
+    #' @param output_var A character with the name of the output variable
+    #' @param output_unit A character with the unit of the output
+    #' @param input_types A list defining types of each input
+    #' @param level Level of the module for 2D Monte Carlo. By default, `0`
+    #'
+    #' @return A new instance
+    #'
     initialize = function(name,
                           input_names = NA,
                           units = NA,
                           element_type = "",
                           output_var = "",
                           output_unit = "",
-                          output_type = "",
+                          # output_type = "",
                           input_types = list(),
                           level = 0) {
 
@@ -538,19 +626,39 @@ DiscreteElement <- R6::R6Class(
 
 )
 
-#' Parent for elements with continuous outputs
+#' @title ContinuousElement Class
+#'
+#' @description
+#' This is the parent class for Elements that have a continuous output
+#'
+#'
+#'
 #'
 ContinuousElement <- R6::R6Class(
   inherit = RiskElement,
 
   public = list(
+
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param input_names A character vector with the names of the inputs
+    #' @param units A character vector of units for each input
+    #' @param element_type A character with the type of element
+    #' @param output_var A character with the name of the output variable
+    #' @param output_unit A character with the unit of the output
+    #' @param input_types A list defining types of each input
+    #' @param level Level of the module for 2D Monte Carlo. By default, `0`
+    #'
+    #' @return A new instance
+    #'
     initialize = function(name,
                           input_names = NA,
                           units = NA,
                           element_type = "",
                           output_var = "",
                           output_unit = "",
-                          output_type = "",
                           input_types = list(),
                           level = 0) {
 

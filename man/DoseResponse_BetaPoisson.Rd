@@ -12,7 +12,7 @@ R6 class describing the beta-Poisson dose-response model
 A risk element describing the beta-Poisson dose-response model. It has 3 inputs: beta, alpha, dose
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DoseResponse_BetaPoisson}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DoseResponse_BetaPoisson}
 }
 \section{Methods}{
 \subsection{Public methods}{

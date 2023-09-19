@@ -9,7 +9,7 @@ A element simulating a (continuous) Uniform distribution
 A element simulating a (continuous) Uniform distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Uniform}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Uniform}
 }
 \section{Methods}{
 \subsection{Public methods}{

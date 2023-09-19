@@ -9,7 +9,7 @@ Exponential of the output of a element
 Exponential of the output of a element
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementExp}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementExp}
 }
 \section{Methods}{
 \subsection{Public methods}{

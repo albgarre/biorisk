@@ -9,7 +9,7 @@ Growth element based on the modified Gompertz model
 Growth element based on the modified Gompertz model
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{modGompertzGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{modGompertzGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

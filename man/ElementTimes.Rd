@@ -9,7 +9,7 @@ Multiplication of the output of two elements
 Multiplication of the output of two elements
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementTimes}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementTimes}
 }
 \section{Methods}{
 \subsection{Public methods}{

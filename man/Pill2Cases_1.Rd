@@ -9,7 +9,7 @@ Helper-element to convert from Pill to number of cases (1 per simulation)
 Helper-element to convert from Pill to number of cases (1 per simulation)
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Pill2Cases_1}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Pill2Cases_1}
 }
 \section{Methods}{
 \subsection{Public methods}{

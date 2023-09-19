@@ -12,7 +12,7 @@ Boolean operator >
 TRUE if variable x is greater than a
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementGreaterThan}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementGreaterThan}
 }
 \section{Methods}{
 \subsection{Public methods}{

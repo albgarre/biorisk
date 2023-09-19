@@ -9,7 +9,7 @@ A element simulating a 2D normal distribution
 A element simulating a 2D normal distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Normal}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Normal}
 }
 \section{Methods}{
 \subsection{Public methods}{

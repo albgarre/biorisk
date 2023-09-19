@@ -9,7 +9,7 @@ Growth element based on the Richards growth model
 Growth element based on the Richards growth model
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{RichardsGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{RichardsGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

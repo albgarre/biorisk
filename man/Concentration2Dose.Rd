@@ -9,7 +9,7 @@ Helper-element to convert from concentration to dose
 Helper-element to convert from concentration to dose
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Concentration2Dose}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Concentration2Dose}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -13,7 +13,7 @@ A risk element describing the fullRatkowsky model. It has 3 inputs: b, Tmin, Tma
 pHmax, pHmin, temperature and pH.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{FullRatkowsky_pH_model}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{FullRatkowsky_pH_model}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -9,7 +9,7 @@ A element simulating a Weibull distribution
 A element simulating a Weibull distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Weibull}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Weibull}
 }
 \section{Methods}{
 \subsection{Public methods}{

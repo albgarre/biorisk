@@ -9,7 +9,7 @@ A element simulating a log-normal distribution (in 10-scale)
 A element simulating a log-normal distribution (in 10-scale)
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{LogNormal}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LogNormal}
 }
 \section{Methods}{
 \subsection{Public methods}{

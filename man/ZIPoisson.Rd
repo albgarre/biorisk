@@ -9,7 +9,7 @@ A element simulating a zero-inflated Poisson distribution
 A element simulating a zero-inflated Poisson distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{ZIPoisson}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{ZIPoisson}
 }
 \section{Methods}{
 \subsection{Public methods}{

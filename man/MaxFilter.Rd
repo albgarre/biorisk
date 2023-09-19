@@ -9,7 +9,7 @@ Filters the output of a element according to a maximum value
 Filters the output of a element according to a maximum value
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{MaxFilter}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{MaxFilter}
 }
 \section{Methods}{
 \subsection{Public methods}{

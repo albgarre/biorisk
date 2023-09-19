@@ -2,14 +2,12 @@
 % Please edit documentation in R/parent_module.R
 \name{ContinuousElement}
 \alias{ContinuousElement}
-\title{Parent for elements with continuous outputs}
+\title{ContinuousElement Class}
 \description{
-Parent for elements with continuous outputs
-
-Parent for elements with continuous outputs
+This is the parent class for Elements that have a continuous output
 }
 \section{Super class}{
-\code{biorisk::RiskElement}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}}
 }
 \section{Methods}{
 \subsection{Public methods}{
@@ -47,6 +45,7 @@ Parent for elements with continuous outputs
 \if{html}{\out{<a id="method-NA-new"></a>}}
 \if{latex}{\out{\hypertarget{method-NA-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ContinuousElement$new(
   name,
@@ -55,12 +54,35 @@ Parent for elements with continuous outputs
   element_type = "",
   output_var = "",
   output_unit = "",
-  output_type = "",
   input_types = list(),
   level = 0
 )}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{input_names}}{A character vector with the names of the inputs}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{element_type}}{A character with the type of element}
+
+\item{\code{output_var}}{A character with the name of the output variable}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+
+\item{\code{input_types}}{A list defining types of each input}
+
+\item{\code{level}}{Level of the module for 2D Monte Carlo. By default, \code{0}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-unknown-clone"></a>}}

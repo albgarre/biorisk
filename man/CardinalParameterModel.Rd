@@ -12,7 +12,7 @@ R6 class describing the secondary Cardinal Parameter Model
 A risk element describing the Cardinal Parameter Model. It has 3 inputs: b, Tmin, temperature.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{CardinalParameterModel}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{CardinalParameterModel}
 }
 \section{Methods}{
 \subsection{Public methods}{

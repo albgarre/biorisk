@@ -9,7 +9,7 @@ A element simulating a Pareto distribution
 A element simulating a Pareto distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Pareto}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Pareto}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -12,7 +12,7 @@ R6 class describing the secondary Ratkowsky model (suboptimal)
 A risk element describing the (suboptimal) Ratkowsky model. It has 3 inputs: b, Tmin, temperature.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Ratkowsky_model}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Ratkowsky_model}
 }
 \section{Methods}{
 \subsection{Public methods}{

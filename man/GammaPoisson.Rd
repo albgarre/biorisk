@@ -9,7 +9,7 @@ A element simulating a Gamma-Poisson distribution
 A element simulating a Gamma-Poisson distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{GammaPoisson}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{GammaPoisson}
 }
 \section{Methods}{
 \subsection{Public methods}{

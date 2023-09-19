@@ -9,7 +9,7 @@ Square root of the output of a elements
 Square root of the output of a elements
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementSqrt}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementSqrt}
 }
 \section{Methods}{
 \subsection{Public methods}{

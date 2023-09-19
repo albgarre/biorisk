@@ -12,7 +12,7 @@ A element describing exponential growth as a discrete (negbinomial) process
 This describes a birth process (Yule's process)
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DiscreteGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DiscreteGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

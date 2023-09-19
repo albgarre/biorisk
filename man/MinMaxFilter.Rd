@@ -9,7 +9,7 @@ Filters the output of a element according to both a minimum and maximum value
 Filters the output of a element according to both a minimum and maximum value
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{MinMaxFilter}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{MinMaxFilter}
 }
 \section{Methods}{
 \subsection{Public methods}{

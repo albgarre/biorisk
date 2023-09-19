@@ -13,7 +13,7 @@ A risk element describing Weibullian inactivation. It has 4 inputs: logN0, t
 delta, beta.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{WeibullInactivation}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{WeibullInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{

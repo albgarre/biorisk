@@ -12,7 +12,7 @@ R6 class describing Tri-linear inactivation
 A risk element describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{GeeraerdInactivation}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{GeeraerdInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{

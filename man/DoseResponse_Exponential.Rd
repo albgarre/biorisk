@@ -12,7 +12,7 @@ R6 class describing the exponential dose-response model
 A risk element describing the exponential dose-response model. It has 2 inputs: r, dose
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DoseResponse_Exponential}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DoseResponse_Exponential}
 }
 \section{Methods}{
 \subsection{Public methods}{

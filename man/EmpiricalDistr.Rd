@@ -9,7 +9,7 @@ R6 Class that re-samples a vector
 R6 Class that re-samples a vector
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{EmpiricalDistr}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{EmpiricalDistr}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

@@ -9,7 +9,7 @@ A element simulating an exponential distribution
 A element simulating an exponential distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Exponential}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Exponential}
 }
 \section{Methods}{
 \subsection{Public methods}{

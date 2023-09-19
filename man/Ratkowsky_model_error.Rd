@@ -13,7 +13,7 @@ A risk element describing the (suboptimal) Ratkowsky model including an error te
 It has 4 inputs: b, Tmin, temperature, sigma.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Ratkowsky_model_error}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Ratkowsky_model_error}
 }
 \section{Methods}{
 \subsection{Public methods}{

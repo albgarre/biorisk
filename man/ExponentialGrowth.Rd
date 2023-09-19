@@ -9,7 +9,7 @@ Growth element based on exponential growth
 Growth element based on exponential growth
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{ExponentialGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{ExponentialGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

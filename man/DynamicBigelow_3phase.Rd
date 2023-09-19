@@ -14,7 +14,7 @@ a heating (or cooling) profile. It has 11 inputs: t1, t2, t3, D_R, z, temp_ref, 
 temp0, temp1, temp2, temp3.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DynamicBigelow_3phase}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DynamicBigelow_3phase}
 }
 \section{Methods}{
 \subsection{Public methods}{

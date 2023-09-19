@@ -9,7 +9,7 @@ Filters the output of a element according to a minimum value
 Filters the output of a element according to a minimum value
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{MinFilter}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{MinFilter}
 }
 \section{Methods}{
 \subsection{Public methods}{

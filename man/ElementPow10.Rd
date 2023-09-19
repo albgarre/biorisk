@@ -9,7 +9,7 @@ Ten to the power of the output of a element
 Ten to the power of the output of a element
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementPow10}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementPow10}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -9,7 +9,7 @@ R6 class describing log-linear inactivation parameterized as k
 R6 class describing log-linear inactivation parameterized as k
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{LogLinInactivation_k}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LogLinInactivation_k}
 }
 \section{Methods}{
 \subsection{Public methods}{

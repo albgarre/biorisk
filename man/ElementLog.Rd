@@ -9,7 +9,7 @@ Decimal logarithm of the output of a element
 Decimal logarithm of the output of a element
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementLog}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementLog}
 }
 \section{Methods}{
 \subsection{Public methods}{

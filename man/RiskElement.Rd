@@ -2,11 +2,9 @@
 % Please edit documentation in R/parent_module.R
 \name{RiskElement}
 \alias{RiskElement}
-\title{Parent class for elements}
+\title{RiskElement Class}
 \description{
-Parent class for elements
-
-Parent class for elements
+This is the parent class defining the structure for the other elements.
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -69,7 +67,7 @@ Parent class for elements
 \if{html}{\out{<a id="method-RiskElement-new"></a>}}
 \if{latex}{\out{\hypertarget{method-RiskElement-new}{}}}
 \subsection{Method \code{new()}}{
-Create a new element
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$new(
   name,
@@ -87,7 +85,7 @@ Create a new element
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{name}}{Name}
+\item{\code{name}}{A character defining the name for the element}
 
 \item{\code{input_names}}{A character vector with the names of the inputs}
 
@@ -95,9 +93,15 @@ Create a new element
 
 \item{\code{element_type}}{A character with the type of element}
 
+\item{\code{input_types}}{A list with the type of output for each input}
+
 \item{\code{output_var}}{A character with the name of the output variable}
 
 \item{\code{output_unit}}{A character with the unit of the output}
+
+\item{\code{output_type}}{A character with the type of the output ('continuous' or 'discrete')}
+
+\item{\code{level}}{Level of the variance for 2D Monte Carlo}
 }
 \if{html}{\out{</div>}}
 }
@@ -122,11 +126,13 @@ Map an input to a element
 \item{\code{element}}{An instance of a element to use as input}
 
 \item{\code{check_units}}{Ignored}
+
+\item{\code{index}}{Index of \code{element} (for elements with multiple outputs). By default, \code{1}}
 }
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-Self (invisible)
+\code{self} (invisible)
 }
 }
 \if{html}{\out{<hr>}}
@@ -143,7 +149,7 @@ Make simulation. Returns a vector of length niter with self.value.
 \describe{
 \item{\code{niter}}{Number of iterations (length of the vector).}
 
-\item{\code{check_units}}{Ignored.}
+\item{\code{seed}}{Seed for the pRNG. By default, \code{NULL} (no setting the seed)}
 }
 \if{html}{\out{</div>}}
 }
@@ -166,6 +172,8 @@ A vector with the output variable
 \item{\code{niter0}}{number of iterations on the lower level}
 
 \item{\code{niter1}}{number of iterations on the upper level}
+
+\item{\code{seed}}{Seed for the pRNG. By default, \code{NULL} (no setting the seed)}
 }
 \if{html}{\out{</div>}}
 }
@@ -174,10 +182,22 @@ A vector with the output variable
 \if{html}{\out{<a id="method-RiskElement-simulate_level"></a>}}
 \if{latex}{\out{\hypertarget{method-RiskElement-simulate_level}{}}}
 \subsection{Method \code{simulate_level()}}{
+Simulation of one level for the 2D Monte Carlo
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$simulate_level(niter0, iter1 = 1, level = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{niter0}}{number of iterations on the lower level}
+
+\item{\code{iter1}}{index representing the iteration (where to write). By default, \code{1}}
+
+\item{\code{level}}{level to simulate (\code{0} by default)}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-point_estimate"></a>}}
@@ -201,9 +221,9 @@ Get the output
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{niter}}{Number of iterations (length of the vector).}
+\item{\code{iter1}}{Number of iterations (length of the vector).}
 
-\item{\code{check_units}}{Ignored.}
+\item{\code{index}}{Index fo the output (for multioutput modules). By default, \code{1}}
 }
 \if{html}{\out{</div>}}
 }
@@ -220,6 +240,13 @@ Get the output of a 2D simulation
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$get_output_2D(index = 1)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{index}}{Index fo the output (for multioutput modules). By default, \code{1}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-save_as_vector"></a>}}
@@ -238,7 +265,7 @@ Saves the output of the simulation as a vector element
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An instance of Vector
+An instance of \link{Vector}
 }
 }
 \if{html}{\out{<hr>}}
@@ -258,7 +285,7 @@ Saves the output of the simulation as an empirical distribution.
 \if{html}{\out{</div>}}
 }
 \subsection{Returns}{
-An instance of EmpiricalDistr
+An instance of \link{EmpiricalDistr}
 }
 }
 \if{html}{\out{<hr>}}
@@ -290,6 +317,14 @@ Plots the empirical density function
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$cummulative_plot(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{add_discrete}}{whether to add an horizontal line with the discrete estimate.
+By default, \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-density_plot"></a>}}
@@ -300,6 +335,14 @@ Makes a density plot of the model output
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$density_plot(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{add_discrete}}{whether to add an horizontal line with the discrete estimate.
+By default, \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-histogram"></a>}}
@@ -310,6 +353,14 @@ Makes a histogram of the model output
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$histogram(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{add_discrete}}{whether to add a vertical line with the discrete estimate.
+By default, \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-boxplot"></a>}}
@@ -320,6 +371,14 @@ Makes a boxplot of the model output
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$boxplot(add_discrete = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{add_discrete}}{whether to add an horizontal line with the discrete estimate.
+By default, \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-quantiles"></a>}}
@@ -330,6 +389,13 @@ Quantiles of the output variable
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$quantiles(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{probs}}{values of the quantiles. By default, \code{c(.01, .1, .5, .9, .99)}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-quantiles_2D"></a>}}
@@ -340,6 +406,13 @@ Quantiles of a 2D Monte Carlo simulation
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$quantiles_2D(probs = c(0.01, 0.1, 0.5, 0.9, 0.99))}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{probs}}{values of the quantiles. By default, \code{c(.01, .1, .5, .9, .99)}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-get_output_type"></a>}}
@@ -363,6 +436,13 @@ Checks that the type of the inputs is consistent
 \if{html}{\out{<div class="r">}}\preformatted{RiskElement$check_input_types(recursive = FALSE)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{recursive}}{whether to also check the types of the dependencies. By default, \code{FALSE}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-RiskElement-clone"></a>}}

@@ -9,7 +9,7 @@ Growth element based on exponential growth considering a stationary phase
 Growth element based on exponential growth considering a stationary phase
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{ExponentialGrowthNmax}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{ExponentialGrowthNmax}
 }
 \section{Methods}{
 \subsection{Public methods}{

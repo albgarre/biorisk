@@ -9,7 +9,7 @@ Growth element based on the Baranyi model
 Growth element based on the Baranyi model
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{BaranyiGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{BaranyiGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

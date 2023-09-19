@@ -9,7 +9,7 @@ A element simulating a symmetrical Triangular distribution
 A element simulating a symmetrical Triangular distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{TriangularSym}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{TriangularSym}
 }
 \section{Methods}{
 \subsection{Public methods}{

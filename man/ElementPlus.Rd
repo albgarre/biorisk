@@ -9,7 +9,7 @@ Sum of the output of two elements
 Sum of the output of two elements
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementPlus}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementPlus}
 }
 \section{Methods}{
 \subsection{Public methods}{

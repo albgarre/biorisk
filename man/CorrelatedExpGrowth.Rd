@@ -9,7 +9,7 @@ Growth element based on exponential growth including time/temperature correlatio
 Growth element based on exponential growth including time/temperature correlation
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{CorrelatedExpGrowth}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{CorrelatedExpGrowth}
 }
 \section{Methods}{
 \subsection{Public methods}{

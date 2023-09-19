@@ -12,7 +12,7 @@ R6 class describing the secondary model for the D/z model
 A risk element describing the D/z model. It has 4 inputs: Dref, temperature, z and Tref.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Dz_model}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Dz_model}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -13,7 +13,7 @@ A risk element describing Weibullian inactivation using the parameterization by
 Peleg. It has 4 inputs: logN0, t, b and n.
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{PelegInactivation}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{PelegInactivation}
 }
 \section{Methods}{
 \subsection{Public methods}{

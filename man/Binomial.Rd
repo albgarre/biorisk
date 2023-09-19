@@ -9,7 +9,7 @@ A element simulating a Binomial distribution
 A element simulating a Binomial distribution
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{Binomial}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Binomial}
 }
 \section{Methods}{
 \subsection{Public methods}{

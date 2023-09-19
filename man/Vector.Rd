@@ -7,7 +7,7 @@
 A constant vector that can be used as input by other methods
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{Vector}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{Vector}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}

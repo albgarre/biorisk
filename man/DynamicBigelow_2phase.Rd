@@ -13,7 +13,7 @@ A risk element describing log-linear inactivation under dynamic conditions consi
 a heating (or cooling) profile. It has 9 inputs: t1, t2, D_R, z, temp_ref, logN0, temp0, temp1, temp2,
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DynamicBigelow_2phase}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DynamicBigelow_2phase}
 }
 \section{Methods}{
 \subsection{Public methods}{

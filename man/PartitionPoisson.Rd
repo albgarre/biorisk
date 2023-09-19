@@ -9,7 +9,7 @@ A element to describe partition as a Poisson process
 A element to describe partition as a Poisson process
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{PartitionPoisson}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{PartitionPoisson}
 }
 \section{Methods}{
 \subsection{Public methods}{

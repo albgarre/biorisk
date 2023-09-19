@@ -9,7 +9,7 @@ Lineal model
 Lineal model
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{LinealModel}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LinealModel}
 }
 \section{Methods}{
 \subsection{Public methods}{

@@ -14,7 +14,7 @@ a heating (or cooling) profile. It has 7 inputs: treat_time, D_R, z, temp_ref, l
 temp_end
 }
 \section{Super classes}{
-\code{biorisk::RiskElement} -> \code{biorisk::NA} -> \code{DynamicBigelow_1phase}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DynamicBigelow_1phase}
 }
 \section{Methods}{
 \subsection{Public methods}{

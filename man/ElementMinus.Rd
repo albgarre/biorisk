@@ -9,7 +9,7 @@ Substraction of the output of two elements
 Substraction of the output of two elements
 }
 \section{Super class}{
-\code{biorisk::RiskElement} -> \code{ElementMinus}
+\code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementMinus}
 }
 \section{Methods}{
 \subsection{Public methods}{
