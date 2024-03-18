@@ -1,7 +1,9 @@
 
-#' A element describing exponential growth as a discrete (negbinomial) process
+#' @title DiscreteGrowth Class
 #'
-#' This describes a birth process (Yule's process)
+#' @description
+#' An element that models growth as a discrete process
+#'
 #'
 #' @export
 #'
@@ -10,6 +12,15 @@ DiscreteGrowth <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {
@@ -76,9 +87,11 @@ DiscreteGrowth <- R6::R6Class(
 
 )
 
-#' A element describing exponential growth as a discrete (negbinomial) process with Nmax
+#' @title DiscreteGrowthNmax Class
 #'
-#' This describes a birth process (Yule's process) with Nmax
+#' @description
+#' An element that models growth as a discrete process accounting for maximum carrying capacity
+#'
 #'
 #' @export
 #'
@@ -87,6 +100,15 @@ DiscreteGrowthNmax <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {

@@ -4,7 +4,6 @@
 #' @description
 #' This is the parent class defining the structure for the other elements.
 #'
-#' @param classname Name of the class
 #'
 #'
 RiskElement <- R6::R6Class(

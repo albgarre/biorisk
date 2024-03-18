@@ -2,11 +2,9 @@
 % Please edit documentation in R/algebra.R
 \name{ElementPlus}
 \alias{ElementPlus}
-\title{Sum of the output of two elements}
+\title{ElementPlus Class}
 \description{
-Sum of the output of two elements
-
-Sum of the output of two elements
+An element that sums the output of two elements
 }
 \section{Super class}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementPlus}
@@ -47,10 +45,25 @@ Sum of the output of two elements
 \if{html}{\out{<a id="method-ElementPlus-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ElementPlus-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ElementPlus$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ElementPlus-get_output_type"></a>}}
@@ -66,7 +79,7 @@ Get the data type of the output.
 \if{html}{\out{<a id="method-ElementPlus-point_estimate"></a>}}
 \if{latex}{\out{\hypertarget{method-ElementPlus-point_estimate}{}}}
 \subsection{Method \code{point_estimate()}}{
-Returns the expected value
+Returns the point estimate
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ElementPlus$point_estimate()}\if{html}{\out{</div>}}
 }

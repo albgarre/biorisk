@@ -2,14 +2,9 @@
 % Please edit documentation in R/dose_response.R
 \name{DoseResponse_Exponential}
 \alias{DoseResponse_Exponential}
-\title{R6 class describing the exponential dose-response model}
+\title{DoseResponse_Exponential Class}
 \description{
-R6 class describing the exponential dose-response model
-
-R6 class describing the exponential dose-response model
-}
-\details{
-A risk element describing the exponential dose-response model. It has 2 inputs: r, dose
+An element for the exponential dose-response model
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DoseResponse_Exponential}
@@ -50,10 +45,25 @@ A risk element describing the exponential dose-response model. It has 2 inputs: 
 \if{html}{\out{<a id="method-DoseResponse_Exponential-new"></a>}}
 \if{latex}{\out{\hypertarget{method-DoseResponse_Exponential-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DoseResponse_Exponential$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DoseResponse_Exponential-point_estimate"></a>}}

@@ -1,8 +1,11 @@
 
-#' A element simulating a normal distribution
+#' @title Normal Class
+#'
+#' @description
+#' An element for a normal distribution
 #'
 #' @importFrom tibble tibble
-#' @importFrom R6 R6Class
+#'
 #' @export
 #'
 Normal <- R6::R6Class(
@@ -10,6 +13,16 @@ Normal <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -74,7 +87,10 @@ Normal <- R6::R6Class(
 
 )
 
-#' A element simulating a log-normal distribution (in e-scale)
+#' @title LnNormal Class
+#'
+#' @description
+#' An element for a log-normal distribution (base e)
 #'
 #' @export
 #'
@@ -83,6 +99,16 @@ LnNormal <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -147,7 +173,10 @@ LnNormal <- R6::R6Class(
 
 )
 
-#' A element simulating a log-normal distribution (in 10-scale)
+#' @title LogNormal Class
+#'
+#' @description
+#' An element for a log-normal distribution (base 10)
 #'
 #' @export
 #'
@@ -156,6 +185,16 @@ LogNormal <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -222,7 +261,10 @@ LogNormal <- R6::R6Class(
 
 )
 
-#' A element simulating a Weibull distribution
+#' @title Weibull Class
+#'
+#' @description
+#' An element for a Weibull distribution
 #'
 #' @export
 #'
@@ -231,6 +273,16 @@ Weibull <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -294,7 +346,10 @@ Weibull <- R6::R6Class(
 
 )
 
-#' A element simulating a Beta distribution
+#' @title Beta Class
+#'
+#' @description
+#' An element for a beta distribution
 #'
 #' @export
 #'
@@ -303,6 +358,16 @@ Beta <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -369,7 +434,10 @@ Beta <- R6::R6Class(
 
 )
 
-#' A element simulating a Gamma distribution
+#' @title Gamma Class
+#'
+#' @description
+#' An element for a gamma distribution
 #'
 #' @export
 #'
@@ -378,6 +446,16 @@ Gamma <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -444,7 +522,10 @@ Gamma <- R6::R6Class(
 
 )
 
-#' A element simulating an exponential distribution
+#' @title Exponential Class
+#'
+#' @description
+#' An element for a exponential distribution
 #'
 #' @export
 #'
@@ -453,6 +534,16 @@ Exponential <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -517,7 +608,10 @@ Exponential <- R6::R6Class(
 
 )
 
-#' A element simulating a (continuous) Uniform distribution
+#' @title Uniform Class
+#'
+#' @description
+#' An element for a uniform distribution
 #'
 #' @export
 #'
@@ -526,6 +620,16 @@ Uniform <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -592,7 +696,10 @@ Uniform <- R6::R6Class(
 
 )
 
-#' A element simulating a Triangular distribution
+#' @title Triangular Class
+#'
+#' @description
+#' An element for a triangular distribution
 #'
 #' @export
 #'
@@ -601,6 +708,16 @@ Triangular <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -667,7 +784,10 @@ Triangular <- R6::R6Class(
 
 )
 
-#' A element simulating a symmetrical Triangular distribution
+#' @title TriangularSym Class
+#'
+#' @description
+#' An element for a symmetrical triangular distribution
 #'
 #' @export
 #'
@@ -676,6 +796,16 @@ TriangularSym <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -741,7 +871,10 @@ TriangularSym <- R6::R6Class(
 
 )
 
-#' A element simulating a Pareto distribution
+#' @title Pareto Class
+#'
+#' @description
+#' An element for a Pareto distribution
 #'
 #' @export
 #'
@@ -750,6 +883,16 @@ Pareto <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -814,7 +957,10 @@ Pareto <- R6::R6Class(
   )
 )
 
-#' A element simulating a Pert distribution
+#' @title Pert Class
+#'
+#' @description
+#' An element for a Pert distribution
 #'
 #' @export
 #'
@@ -823,6 +969,16 @@ Pert <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -889,156 +1045,3 @@ Pert <- R6::R6Class(
   )
 
 )
-
-# ## tests
-#
-# my_mean <- Constant$new("mean", 3)
-# my_sd <- Constant$new("sd", .3)
-#
-# # my_mean$simulate(10)
-# # my_sd$simulate(20)
-#
-# logN0 <- Normal$new("Concentracion inicial")$
-#   map_input("mu", my_mean)$
-#   map_input("sigma", my_sd)
-# # aa$map_input("mu", my_mean)
-# # aa$map_input("sigma", my_sd)
-#
-# # aa$depends_on
-# # my_mean$depended_by
-#
-# logN0$simulate(2000)
-# logN0$histogram()
-#
-# ## test 2
-#
-# big_mean <- Constant$new("big mean", 4)
-# big_sd <- Constant$new("big sd", 1)
-#
-# norm1 <- Normal$new("Normal 1")$
-#   map_input("mu", big_mean)$
-#   map_input("sigma", big_sd)
-#
-# norm1$simulate(100)
-# norm1$histogram()
-#
-# small_sd <- Constant$new("small sd", 0.3)
-#
-# norm2 <- Normal$new("Normal 2")$
-#   map_input("mu", norm1)$
-#   map_input("sigma", small_sd)
-#
-# norm2$simulate(1000)
-# norm2$density_plot()
-#
-# aa <- LnNormal$new("test")$
-#   map_input("mu_ln", Constant$new("aa", 4))$
-#   map_input("sigma_ln", Constant$new("bb", .2))
-#
-# aa$simulate(100)
-# aa$histogram()
-#
-# aa <- LogNormal$new("test")$
-#   map_input("mu_log10", Constant$new("aa", 4))$
-#   map_input("sigma_log10", Constant$new("bb", .1))
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- Weibull$new("")$
-#   map_input("shape",
-#             Normal$new("aa")$
-#               map_input("mu", Constant$new("", 3))$
-#               map_input("sigma", Constant$new("", .1))
-#             )$
-#   map_input("scale", Constant$new("bb", 3))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- Beta$new("aa")$
-#   map_input("shape1", Constant$new("", 3))$
-#   map_input("shape2", Constant$new("", 4))
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- Gamma$new("")$
-#   map_input("shape", Constant$new("", 1))$
-#   map_input("scale", Constant$new("as", 3))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- Gamma$new("")$
-#   map_input("shape", Constant$new("", 1))$
-#   map_input("scale", Constant$new("as", 3))
-#
-# aa <- Exponential$new("")$
-#   # map_input("rate", Constant$new("", 3))$
-#   # simulate(1000)
-#   map_input("rate",aa)
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- Uniform$new("")$
-#   map_input("min", Constant$new("", 2))$
-#   map_input("max", Constant$new("", 4))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- Triangular$new("")$
-#   map_input("a", Constant$new("", 0))$
-#   map_input("b", Constant$new("", 2))$
-#   map_input("c", Constant$new("", 1.5))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- TriangularSym$new("")$
-# map_input("a", Constant$new("", 0))$
-# map_input("b", Constant$new("", 2))
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- Pareto$new("")$
-#   map_input("a", Constant$new("", 2))$
-#   map_input("b", Constant$new("", .5))
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- Pert$new("")$
-#   map_input("min", Constant$new("", 0))$
-#   map_input("mode", Constant$new("", 3))$
-#   map_input("max", Constant$new("", 4))$
-#   map_input("shape", Constant$new("", 8))
-#
-# aa$simulate(1000)
-# aa$histogram()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

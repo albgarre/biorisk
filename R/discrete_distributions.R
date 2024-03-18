@@ -1,5 +1,8 @@
 
-#' R6 Class that re-samples a vector
+#' @title EmpiricalDistr Class
+#'
+#' @description
+#' An element that describes an empirical distribution
 #'
 #'
 #' @export
@@ -12,6 +15,17 @@ EmpiricalDistr <- R6::R6Class(
     #' @field values A vector to resample
     values = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param values Values of the empirical distribution for resampling
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           values,
                           units = NA,
@@ -72,8 +86,11 @@ EmpiricalDistr <- R6::R6Class(
 
 )
 
-
-#' A element simulating a Poisson distribution
+#' @title Poisson Class
+#'
+#' @description
+#' An element that describes a Poisson distribution
+#'
 #'
 #' @export
 #'
@@ -82,6 +99,16 @@ Poisson <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -144,7 +171,11 @@ Poisson <- R6::R6Class(
 
 )
 
-#' A element simulating a Binomial distribution
+#' @title Binomial Class
+#'
+#' @description
+#' An element that describes a binomial distribution
+#'
 #'
 #' @export
 #'
@@ -153,6 +184,16 @@ Binomial <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -216,7 +257,11 @@ Binomial <- R6::R6Class(
 
 )
 
-#' A element simulating a zero-inflated Poisson distribution
+#' @title ZIPoisson Class
+#'
+#' @description
+#' An element that describes a zero-inflated Poisson distribution
+#'
 #'
 #' @export
 #'
@@ -225,6 +270,16 @@ ZIPoisson <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -288,7 +343,11 @@ ZIPoisson <- R6::R6Class(
 
 )
 
-#' A element simulating a Beta-Binomial distribution
+#' @title BetaBinomial Class
+#'
+#' @description
+#' An element that describes a beta-binomial Poisson distribution
+#'
 #'
 #' @export
 #'
@@ -297,6 +356,16 @@ BetaBinomial <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -366,7 +435,11 @@ BetaBinomial <- R6::R6Class(
 
 )
 
-#' A element simulating a Gamma-Poisson distribution
+#' @title GammaPoisson Class
+#'
+#' @description
+#' An element that describes a gamma-Poisson distribution
+#'
 #'
 #' @export
 #'
@@ -375,6 +448,16 @@ GammaPoisson <- R6::R6Class(
   inherit = DiscreteElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA,
@@ -439,50 +522,4 @@ GammaPoisson <- R6::R6Class(
   )
 
 )
-
-## test
-
-# aa <- Poisson$new("aa")$
-#   map_input("lambda", Constant$new("a", 30))
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- Binomial$new("aa")$
-#   map_input("size",
-#             Poisson$new("a")$
-#               map_input("lambda", Constant$new("b", 30))
-#             )$
-#   map_input("prob", Constant$new(".5", .5))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <-ZIPoisson$new("aa")$
-#   map_input("lambda", Constant$new("a", 30))$
-#   map_input("pi", Constant$new(".3", .3))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- BetaBinomial$new("")$
-#   map_input("size", Constant$new("a", 30))$
-#   map_input("alpha", Constant$new("b", 3))$
-#   map_input("beta", Constant$new("c", 4))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- GammaPoisson$new("")$
-#   map_input("shape", Constant$new("", 2))$
-#   map_input("scale", Constant$new("", 3))
-#
-# aa$simulate(1000)
-# aa$histogram()
-
-
-
-
-
-
-
 

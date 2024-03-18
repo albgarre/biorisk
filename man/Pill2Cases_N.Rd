@@ -2,11 +2,9 @@
 % Please edit documentation in R/dose_response.R
 \name{Pill2Cases_N}
 \alias{Pill2Cases_N}
-\title{Helper-element to convert from Pill to number of cases (N per simulation)}
+\title{Pill2Cases_N Class}
 \description{
-Helper-element to convert from Pill to number of cases (N per simulation)
-
-Helper-element to convert from Pill to number of cases (N per simulation)
+An element that acts as a helper to convert from probability of illness to number of cases
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Pill2Cases_N}
@@ -47,10 +45,25 @@ Helper-element to convert from Pill to number of cases (N per simulation)
 \if{html}{\out{<a id="method-Pill2Cases_N-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Pill2Cases_N-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Pill2Cases_N$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Pill2Cases_N-point_estimate"></a>}}

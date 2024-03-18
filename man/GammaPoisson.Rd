@@ -2,11 +2,9 @@
 % Please edit documentation in R/discrete_distributions.R
 \name{GammaPoisson}
 \alias{GammaPoisson}
-\title{A element simulating a Gamma-Poisson distribution}
+\title{GammaPoisson Class}
 \description{
-A element simulating a Gamma-Poisson distribution
-
-A element simulating a Gamma-Poisson distribution
+An element that describes a gamma-Poisson distribution
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{GammaPoisson}
@@ -47,10 +45,27 @@ A element simulating a Gamma-Poisson distribution
 \if{html}{\out{<a id="method-GammaPoisson-new"></a>}}
 \if{latex}{\out{\hypertarget{method-GammaPoisson-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{GammaPoisson$new(name, units = NA, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+
+\item{\code{level}}{Level of the distribution (for 2D Monte Carlo). By default, \code{0}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-GammaPoisson-point_estimate"></a>}}

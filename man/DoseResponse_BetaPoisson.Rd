@@ -2,14 +2,9 @@
 % Please edit documentation in R/dose_response.R
 \name{DoseResponse_BetaPoisson}
 \alias{DoseResponse_BetaPoisson}
-\title{R6 class describing the beta-Poisson dose-response model}
+\title{DoseResponse_BetaPoisson Class}
 \description{
-R6 class describing the beta-Poisson dose-response model
-
-R6 class describing the beta-Poisson dose-response model
-}
-\details{
-A risk element describing the beta-Poisson dose-response model. It has 3 inputs: beta, alpha, dose
+An element for the beta-Poisson dose-response model
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DoseResponse_BetaPoisson}
@@ -50,20 +45,52 @@ A risk element describing the beta-Poisson dose-response model. It has 3 inputs:
 \if{html}{\out{<a id="method-DoseResponse_BetaPoisson-new"></a>}}
 \if{latex}{\out{\hypertarget{method-DoseResponse_BetaPoisson-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DoseResponse_BetaPoisson$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DoseResponse_BetaPoisson-point_estimate"></a>}}
 \if{latex}{\out{\hypertarget{method-DoseResponse_BetaPoisson-point_estimate}{}}}
 \subsection{Method \code{point_estimate()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
+
+
 Returns the expected value
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DoseResponse_BetaPoisson$point_estimate()}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DoseResponse_BetaPoisson-clone"></a>}}

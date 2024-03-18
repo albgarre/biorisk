@@ -2,9 +2,9 @@
 % Please edit documentation in R/constants.R
 \name{Vector}
 \alias{Vector}
-\title{R6 Class Representing a Constant vector}
+\title{Vector Class}
 \description{
-A constant vector that can be used as input by other methods
+An element that defines a constant vector
 }
 \section{Super class}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{Vector}
@@ -12,16 +12,9 @@ A constant vector that can be used as input by other methods
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{value}}{The value of the constant}
+\item{\code{values}}{The values of the vector}
 
 \item{\code{n}}{Length of the vector}
-}
-\if{html}{\out{</div>}}
-}
-\section{Active bindings}{
-\if{html}{\out{<div class="r6-active-bindings">}}
-\describe{
-\item{\code{value}}{The value of the constant}
 }
 \if{html}{\out{</div>}}
 }
@@ -61,10 +54,25 @@ A constant vector that can be used as input by other methods
 \if{html}{\out{<a id="method-Vector-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Vector-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Vector$new(name, values, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Vector$new(name, values, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{values}}{A vector of values for the vector}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Vector-simulate"></a>}}

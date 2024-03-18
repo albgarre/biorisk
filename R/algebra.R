@@ -1,5 +1,9 @@
 
-#' Sum of the output of two elements
+#' @title ElementPlus Class
+#'
+#' @description
+#' An element that sums the output of two elements
+#'
 #'
 #' @export
 #'
@@ -8,6 +12,15 @@ ElementPlus <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -40,7 +53,7 @@ ElementPlus <- R6::R6Class(
     },
 
     #' @description
-    #' Returns the expected value
+    #' Returns the point estimate
     #'
     point_estimate = function() {
       self$depends_on$a$point_estimate() + self$depends_on$b$point_estimate()
@@ -86,7 +99,11 @@ ElementPlus <- R6::R6Class(
 
 )
 
-#' Substraction of the output of two elements
+#' @title ElementMinus Class
+#'
+#' @description
+#' An element that substraction of the output of two elements
+#'
 #'
 #' @export
 #'
@@ -95,6 +112,15 @@ ElementMinus <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -173,7 +199,11 @@ ElementMinus <- R6::R6Class(
 
 )
 
-#' Multiplication of the output of two elements
+#' @title ElementTimes Class
+#'
+#' @description
+#' An element that multiplies the output of two elements
+#'
 #'
 #' @export
 #'
@@ -182,6 +212,15 @@ ElementTimes <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -260,7 +299,11 @@ ElementTimes <- R6::R6Class(
 
 )
 
-#' Division of the output of two elements (a/b)
+#' @title ElementDivision Class
+#'
+#' @description
+#' An element that divides the output of two elements
+#'
 #'
 #' @export
 #'
@@ -269,6 +312,15 @@ ElementDivision <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -347,7 +399,11 @@ ElementDivision <- R6::R6Class(
 
 )
 
-#' Power of the output of two elements (a^b)
+#' @title ElementPower Class
+#'
+#' @description
+#' An element that powers the output of one element to the output of a second one
+#'
 #'
 #' @export
 #'
@@ -356,6 +412,15 @@ ElementPower <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -434,7 +499,11 @@ ElementPower <- R6::R6Class(
 
 )
 
-#' Square root of the output of a elements
+#' @title ElementSqrt Class
+#'
+#' @description
+#' An element that calculates the square root of the output of one element
+#'
 #'
 #' @export
 #'
@@ -443,6 +512,15 @@ ElementSqrt <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {
@@ -512,7 +590,11 @@ ElementSqrt <- R6::R6Class(
 
 )
 
-#' Decimal logarithm of the output of a element
+#' @title ElementLog Class
+#'
+#' @description
+#' An element that calculates the decimal logarithm of the output of one element
+#'
 #'
 #' @export
 #'
@@ -521,6 +603,15 @@ ElementLog <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {
@@ -590,7 +681,11 @@ ElementLog <- R6::R6Class(
 
 )
 
-#' Natural logarithm of the output of a element
+#' @title ElementLn Class
+#'
+#' @description
+#' An element that calculates the decimal logarithm of the output of one element
+#'
 #'
 #' @export
 #'
@@ -599,6 +694,15 @@ ElementLn <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {
@@ -668,7 +772,11 @@ ElementLn <- R6::R6Class(
 
 )
 
-#' Exponential of the output of a element
+#' @title ElementExp Class
+#'
+#' @description
+#' An element that calculates e to the power of the output of one element
+#'
 #'
 #' @export
 #'
@@ -677,6 +785,15 @@ ElementExp <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA) {
@@ -746,7 +863,11 @@ ElementExp <- R6::R6Class(
 
 )
 
-#' Ten to the power of the output of a element
+#' @title ElementPow10 Class
+#'
+#' @description
+#' An element that calculates 10 to the power of the output of one element
+#'
 #'
 #' @export
 #'
@@ -755,10 +876,19 @@ ElementPow10 <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = c("a"),
@@ -824,85 +954,3 @@ ElementPow10 <- R6::R6Class(
   )
 
 )
-
-# N1 <- Normal$new("N1")$
-#   map_input("mu", Constant$new("mu_1", 1))$
-#   map_input("sigma", Constant$new("sd_1", 1))
-#
-# N1 <- Poisson$new("aa1")$
-#   map_input("lambda", Constant$new("aaa1", 3))
-#
-# N2 <- Normal$new("N2")$
-#   map_input("mu", Constant$new("mu_2", 5))$
-#   map_input("sigma", Constant$new("sd_2", 4))
-#
-# N2 <- Poisson$new("aa")$
-#   map_input("lambda", Constant$new("bb", 3))
-#
-# aa <- ElementPlus$new("sum")$
-#   map_input("a", N1)$
-#   map_input("b", N2)
-#
-# aa$check_input_types()
-# aa$get_output_type()
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- ElementMinus$new("sum")$
-#   map_input("a", N1)$
-#   map_input("b", N2)
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- ElementTimes$new("sum")$
-#   map_input("a", N1)$
-#   map_input("b", N2)
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-# aa <- ElementDivision$new("sum")$
-#   map_input("a", N1)$
-#   map_input("b", N2)
-#
-# aa$simulate(1000)
-# aa$density_plot()
-#
-#
-# aa <- ElementPower$new("-")$
-#   map_input("a", N1)$
-#   map_input("b", Constant$new("a", 2))
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <-ElementSqrt$new("-")$
-#   map_input("a", N2)
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- ElementLog$new("-")$
-#   map_input("a", N2)
-#
-# aa$simulate(1000)
-# aa$histogram()
-#
-# aa <- ElementLn$new("")$
-#   map_input("a", N2)
-#
-# aa$simulate(100)
-# aa$density_plot()
-#
-# aa <- ElementExp$new("")$
-#   map_input("a", N1)
-# aa$simulate(100)
-# aa$histogram()
-#
-# aa <- ElementPow10$new("")$
-#   map_input("a", N2)
-# aa$simulate(52)
-# aa$histogram()
-
-

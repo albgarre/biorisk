@@ -2,9 +2,9 @@
 % Please edit documentation in R/constants.R
 \name{Constant}
 \alias{Constant}
-\title{R6 Class Representing a Constant}
+\title{Constant Class}
 \description{
-A constant that can be used as input by other methods
+An element that defines a constant
 }
 \section{Super class}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{Constant}
@@ -52,10 +52,25 @@ A constant that can be used as input by other methods
 \if{html}{\out{<a id="method-Constant-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Constant-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Constant$new(name, value, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Constant$new(name, value, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{value}}{The value of the constant}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Constant-simulate"></a>}}

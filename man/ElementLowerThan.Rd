@@ -2,14 +2,10 @@
 % Please edit documentation in R/booleans.R
 \name{ElementLowerThan}
 \alias{ElementLowerThan}
-\title{Boolean operator <}
+\title{ElementLowerThan Class}
 \description{
-Boolean operator <
-
-Boolean operator <
-}
-\details{
-TRUE if variable x is lower than a
+An element that checks if the output of one element is lower than the output of
+another ones
 }
 \section{Super class}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementLowerThan}
@@ -50,10 +46,23 @@ TRUE if variable x is lower than a
 \if{html}{\out{<a id="method-ElementLowerThan-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ElementLowerThan-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ElementLowerThan$new(name, units = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ElementLowerThan-point_estimate"></a>}}

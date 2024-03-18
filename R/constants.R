@@ -1,8 +1,9 @@
 
-#' R6 Class Representing a Constant
+#' @title Constant Class
 #'
 #' @description
-#' A constant that can be used as input by other methods
+#' An element that defines a constant
+#'
 #'
 #' @export
 #'
@@ -14,10 +15,18 @@ Constant <- R6::R6Class(
     #' @field value The value of the constant
     value = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param value The value of the constant
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           value,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA) {
 
       super$initialize(name,
                        input_names = NULL,
@@ -25,7 +34,7 @@ Constant <- R6::R6Class(
                        element_type = "constant",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
       self$value <- value
 
     },
@@ -69,10 +78,11 @@ Constant <- R6::R6Class(
 
 )
 
-#' R6 Class Representing a Constant vector
+#' @title Vector Class
 #'
 #' @description
-#' A constant vector that can be used as input by other methods
+#' An element that defines a constant vector
+#'
 #'
 #' @export
 #'
@@ -81,16 +91,25 @@ Vector <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
-    #' @field value The value of the constant
+    #' @field values The values of the vector
     values = NULL,
 
     #' @field n Length of the vector
     n = NULL,
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param values A vector of values for the vector
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           values,
-                          output_unit = NA,
-                          level = 0) {
+                          output_unit = NA
+                          ) {
 
       super$initialize(name,
                        input_names = NULL,
@@ -98,7 +117,7 @@ Vector <- R6::R6Class(
                        element_type = "constant",
                        output_var = "x",
                        output_unit = output_unit,
-                       level = level)
+                       level = 0)
 
       self$simulations <- tibble::tibble(x = values)
       self$n <- length(values)

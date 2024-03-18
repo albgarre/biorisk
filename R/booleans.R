@@ -1,7 +1,10 @@
 
-#' Boolean operator >
+#' @title ElementGreaterThan Class
 #'
-#' TRUE if variable x is greater than a
+#' @description
+#' An element that checks if the output of one element is greater than the output of
+#' another ones
+#'
 #'
 #' @export
 #'
@@ -10,6 +13,14 @@ ElementGreaterThan <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA
                           ) {
@@ -73,9 +84,12 @@ ElementGreaterThan <- R6::R6Class(
 
 )
 
-#' Boolean operator <
+#' @title ElementLowerThan Class
 #'
-#' TRUE if variable x is lower than a
+#' @description
+#' An element that checks if the output of one element is lower than the output of
+#' another ones
+#'
 #'
 #' @export
 #'
@@ -84,6 +98,14 @@ ElementLowerThan <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA
                           ) {
@@ -147,9 +169,11 @@ ElementLowerThan <- R6::R6Class(
 
 )
 
-#' Boolean operator >=
+#' @title ElementGreaterEqualThan Class
 #'
-#' TRUE if variable x is greater than a
+#' @description
+#' An element that checks if the output of one element is greater or equal than the output of
+#' another one
 #'
 #' @export
 #'
@@ -158,6 +182,14 @@ ElementGreaterEqualThan <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA
                           ) {
@@ -221,9 +253,11 @@ ElementGreaterEqualThan <- R6::R6Class(
 
 )
 
-#' Boolean operator <=
+#' @title ElementLowerEqualThan Class
 #'
-#' TRUE if variable x is greater than a
+#' @description
+#' An element that checks if the output of one element is lower or equal than the output of
+#' another one
 #'
 #' @export
 #'
@@ -232,6 +266,14 @@ ElementLowerEqualThan <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA
                           ) {
@@ -295,9 +337,11 @@ ElementLowerEqualThan <- R6::R6Class(
 
 )
 
-#' Boolean operator ==
+#' @title ElementEqualTo Class
 #'
-#' TRUE if variable x is greater than a
+#' @description
+#' An element that checks if the output of one element is equal to the output of
+#' another one
 #'
 #' @export
 #'
@@ -306,6 +350,14 @@ ElementEqualTo <- R6::R6Class(
   inherit = RiskElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA
                           ) {
@@ -369,52 +421,3 @@ ElementEqualTo <- R6::R6Class(
 
 )
 
-## tests
-
-# N1 <- Normal$new("N1")$
-#   map_input("mu", Constant$new("mu_1", 1))$
-#   map_input("sigma", Constant$new("sd_1", 1))
-#
-# N2 <- Normal$new("N2")$
-#   map_input("mu", Constant$new("mu_2", 2))$
-#   map_input("sigma", Constant$new("sd_2", 1))
-#
-# aa <- ElementGreaterThan$new("aa")$
-#   map_input("a", N1)$
-#   map_input("x", N2)
-#
-# plot_model(aa)
-# aa$simulate(1000) %>% mean()
-# aa$simulations
-#
-# bb <- ElementLowerThan$new("bb")$
-#   map_input("a", N1)$
-#   map_input("x", N2)
-#
-# bb$simulate(10)
-# bb$simulations
-#
-# cc <- ElementGreaterEqualThan$new("cc")$
-#   map_input("a", N1)$
-#   map_input("x", N2)
-#
-# cc$simulate(10)
-# cc$simulations
-#
-# dd <- ElementLowerEqualThan$new("dd")$
-#   map_input("a", N1)$
-#   map_input("x", N2)
-#
-# dd$simulate(10)
-# dd$simulations
-#
-# xx <- Poisson$new("xx")$
-#   map_input("lambda", Constant$new("lambda", 2))
-#
-# aa <- ElementEqualTo$new("aa")$
-#   map_input("x", xx)$
-#   map_input("a", Constant$new("a", 2))
-#
-# aa$simulate(10)
-# aa$simulations
-#

@@ -2,11 +2,9 @@
 % Please edit documentation in R/distributions.R
 \name{LogNormal}
 \alias{LogNormal}
-\title{A element simulating a log-normal distribution (in 10-scale)}
+\title{LogNormal Class}
 \description{
-A element simulating a log-normal distribution (in 10-scale)
-
-A element simulating a log-normal distribution (in 10-scale)
+An element for a log-normal distribution (base 10)
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{LogNormal}
@@ -47,10 +45,27 @@ A element simulating a log-normal distribution (in 10-scale)
 \if{html}{\out{<a id="method-LogNormal-new"></a>}}
 \if{latex}{\out{\hypertarget{method-LogNormal-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{LogNormal$new(name, units = NA, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+
+\item{\code{level}}{Level of the distribution (for 2D Monte Carlo). By default, \code{0}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-LogNormal-point_estimate"></a>}}

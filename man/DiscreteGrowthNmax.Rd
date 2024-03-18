@@ -2,14 +2,9 @@
 % Please edit documentation in R/discrete_models.R
 \name{DiscreteGrowthNmax}
 \alias{DiscreteGrowthNmax}
-\title{A element describing exponential growth as a discrete (negbinomial) process with Nmax}
+\title{DiscreteGrowthNmax Class}
 \description{
-A element describing exponential growth as a discrete (negbinomial) process with Nmax
-
-A element describing exponential growth as a discrete (negbinomial) process with Nmax
-}
-\details{
-This describes a birth process (Yule's process) with Nmax
+An element that models growth as a discrete process accounting for maximum carrying capacity
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{DiscreteGrowthNmax}
@@ -50,10 +45,25 @@ This describes a birth process (Yule's process) with Nmax
 \if{html}{\out{<a id="method-DiscreteGrowthNmax-new"></a>}}
 \if{latex}{\out{\hypertarget{method-DiscreteGrowthNmax-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{DiscreteGrowthNmax$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-DiscreteGrowthNmax-point_estimate"></a>}}

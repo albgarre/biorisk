@@ -2,11 +2,9 @@
 % Please edit documentation in R/algebra.R
 \name{ElementLn}
 \alias{ElementLn}
-\title{Natural logarithm of the output of a element}
+\title{ElementLn Class}
 \description{
-Natural logarithm of the output of a element
-
-Natural logarithm of the output of a element
+An element that calculates the decimal logarithm of the output of one element
 }
 \section{Super class}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{ElementLn}
@@ -47,10 +45,25 @@ Natural logarithm of the output of a element
 \if{html}{\out{<a id="method-ElementLn-new"></a>}}
 \if{latex}{\out{\hypertarget{method-ElementLn-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{ElementLn$new(name, units = NA, output_unit = NA)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-ElementLn-get_output_type"></a>}}

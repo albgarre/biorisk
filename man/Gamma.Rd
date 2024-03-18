@@ -2,11 +2,9 @@
 % Please edit documentation in R/distributions.R
 \name{Gamma}
 \alias{Gamma}
-\title{A element simulating a Gamma distribution}
+\title{Gamma Class}
 \description{
-A element simulating a Gamma distribution
-
-A element simulating a Gamma distribution
+An element for a gamma distribution
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{Gamma}
@@ -47,10 +45,27 @@ A element simulating a Gamma distribution
 \if{html}{\out{<a id="method-Gamma-new"></a>}}
 \if{latex}{\out{\hypertarget{method-Gamma-new}{}}}
 \subsection{Method \code{new()}}{
+Creates a new instance of this \link[R6:R6Class]{R6} class.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Gamma$new(name, units = NA, output_unit = NA, level = 0)}\if{html}{\out{</div>}}
 }
 
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{name}}{A character defining the name for the element}
+
+\item{\code{units}}{A character vector of units for each input}
+
+\item{\code{output_unit}}{A character with the unit of the output}
+
+\item{\code{level}}{Level of the distribution (for 2D Monte Carlo). By default, \code{0}}
+}
+\if{html}{\out{</div>}}
+}
+\subsection{Returns}{
+A new instance of the element
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Gamma-point_estimate"></a>}}

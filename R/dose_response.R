@@ -1,8 +1,9 @@
 
-#' R6 class describing the exponential dose-response model
+#' @title DoseResponse_Exponential Class
 #'
-#' @details
-#' A risk element describing the exponential dose-response model. It has 2 inputs: r, dose
+#' @description
+#' An element for the exponential dose-response model
+#'
 #'
 #' @export
 #'
@@ -11,6 +12,15 @@ DoseResponse_Exponential <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -80,10 +90,11 @@ DoseResponse_Exponential <- R6::R6Class(
 
 )
 
-#' R6 class describing the beta-Poisson dose-response model
+#' @title DoseResponse_BetaPoisson Class
 #'
-#' @details
-#' A risk element describing the beta-Poisson dose-response model. It has 3 inputs: beta, alpha, dose
+#' @description
+#' An element for the beta-Poisson dose-response model
+#'
 #'
 #' @export
 #'
@@ -92,11 +103,29 @@ DoseResponse_BetaPoisson <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
                           ) {
 
+      #' @description
+      #' Creates a new instance of this [R6][R6::R6Class] class.
+      #'
+      #' @param name A character defining the name for the element
+      #' @param units A character vector of units for each input
+      #' @param output_unit A character with the unit of the output
+      #'
+      #' @return A new instance of the element
+      #'
       super$initialize(name,
                        input_names = c("beta", "alpha", "dose"),
                        input_types = list(beta = "continuous",
@@ -163,8 +192,10 @@ DoseResponse_BetaPoisson <- R6::R6Class(
 
 )
 
-
-#' Helper-element to convert from concentration to dose
+#' @title Concentration2Dose Class
+#'
+#' @description
+#' An element that acts as a helper to convert from concentration to dose
 #'
 #'
 #' @export
@@ -174,6 +205,15 @@ Concentration2Dose <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -242,8 +282,10 @@ Concentration2Dose <- R6::R6Class(
 
 )
 
-
-#' Helper-element to convert from concentration to dose
+#' @title Concentration2Dose_continuous Class
+#'
+#' @description
+#' An element that acts as a helper to convert from concentration to dose
 #'
 #'
 #' @export
@@ -253,6 +295,15 @@ Concentration2Dose_continuous <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -319,8 +370,10 @@ Concentration2Dose_continuous <- R6::R6Class(
 
 )
 
-
-#' Helper-element to convert from Pill to number of cases (1 per simulation)
+#' @title Pill2Cases_1 Class
+#'
+#' @description
+#' An element that acts as a helper to convert from probability of illness to number of cases
 #'
 #'
 #' @export
@@ -330,6 +383,15 @@ Pill2Cases_1 <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
@@ -395,7 +457,10 @@ Pill2Cases_1 <- R6::R6Class(
 
 )
 
-#' Helper-element to convert from Pill to number of cases (N per simulation)
+#' @title Pill2Cases_N Class
+#'
+#' @description
+#' An element that acts as a helper to convert from probability of illness to number of cases
 #'
 #'
 #' @export
@@ -405,6 +470,15 @@ Pill2Cases_N <- R6::R6Class(
   inherit = ContinuousElement,
   public = list(
 
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #'
+    #' @return A new instance of the element
+    #'
     initialize = function(name,
                           units = NA,
                           output_unit = NA
