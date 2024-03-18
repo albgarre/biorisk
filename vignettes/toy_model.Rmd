@@ -407,7 +407,7 @@ In this case, for each quantile selected (in `probs`), the function returns two 
 * LogLinInactivation
 * PelegInactivation
 * WeibullInactivation
-* TrilinealGrowth
+* TrilinearGrowth
 * TrilinearInactivation
 
 ### Secondary models

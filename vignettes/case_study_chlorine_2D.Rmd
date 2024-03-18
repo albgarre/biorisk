@@ -92,7 +92,7 @@ inactivation <- LogLinInactivation_k$new("Treatment")$
 
 ### Growth during storage
 
-We will describe microbial growth during storage using the exponential growth model with stationary phase (bilineal model):
+We will describe microbial growth during storage using the exponential growth model with stationary phase (bilinear model):
 
 $$
 logN = logN_0 + \mu \cdot t \ ; \ if \ logN_0 + \mu \cdot t < logN_{max} \\
