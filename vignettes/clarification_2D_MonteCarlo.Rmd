@@ -1,0 +1,299 @@
+---
+title: "Clarification of 2D Monte Carlo simulations"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{clarification_2D_MonteCarlo}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(tidyverse)
+library(biorisk)
+```
+
+Despite being the go-to method for including variability and uncertainty in QMRA,
+2D-Monte Carlo simulations can be hard to define and interpret. This document explains 
+the approach that **biorisk** uses for this methodology. In order to avoid surprises,
+we also set up the seed of the p-rng.
+
+```{r}
+set.seed(412)
+```
+
+
+## Variability only
+
+As a first step, let's define a normal distribution. For simplicity, we will consider 
+that this defines some type of variability. So, we will call it just "variability":
+
+```{r}
+normal_variability <- Normal$new("variability")
+```
+
+This distribution has two parameters (`mu` and `sigma`). For starters, we will
+assign constant to both of them.
+
+```{r}
+normal_variability$
+  map_input("sigma", Constant$new("sigma", .1))$
+  map_input("mu", Constant$new("mu", 0))
+```
+
+Once we have defined the model, we can get 10,000 Monte Carlo simulations
+
+```{r}
+normal_variability$simulate(10000)
+```
+
+and visualize them as a density plot
+
+```{r}
+normal_variability$density_plot()
+```
+
+
+## Uncertainty
+
+We will now define our uncertainty distribution by assuming that the expected value
+of `variability` follows a normal distribution. First, we just define the uniform
+distribution, which we will call "uncertainty".
+
+```{r}
+uniform_uncertainty <- Uniform$new("uncertainty")
+```
+
+This distribution has two parameters. We assign constants to both of them:
+
+```{r}
+uniform_uncertainty$
+  map_input("min", Constant$new("min", -.5))$
+  map_input("max", Constant$new("max", .5))
+```
+
+We can simulate this distribution and visualize it as a density plot.
+
+```{r}
+uniform_uncertainty$simulate(1000)
+uniform_uncertainty$density_plot()
+```
+
+## Variability and uncertainty together and not separated
+
+Right now, both our distributions are independent. That is not what we want. We want
+"uncertainty" to describe the uncertainty of the expected value of "variability" (`mu`).
+We can do that by "mapping the input" `mu` to our `uniform_uncertainty`
+
+```{r}
+normal_variability$
+  map_input("mu", uniform_uncertainty)
+```
+
+so we now have a linked model
+
+```{r}
+plot_model(normal_variability)
+```
+
+We can now simulate the model as we did before to get 10,000 Monte Carlo simulations 
+that combine the variability (normal distribution) with the uncertainty (uniform distribution
+for the expected value).
+
+```{r}
+normal_variability$simulate(10000)
+```
+
+If we do a density plot
+
+```{r}
+normal_variability$density_plot()
+```
+
+we observe that both distributions have been combined. Instead of the typical bell curve,
+we see that there is a "flat top". This is due to the uncertainty in the expected value.
+
+Therefore, these simulations combine the variability and the uncertainty. However, we cannot
+separate between them.
+
+## 2D Monte Carlo
+
+This separation is accomplished using 2D Monte Carlo. In **biorisk**, this is done
+by adding a `level` to the definition of the probability distribution. Distributions
+on the "uncertainty" level are `level = 1` and those in the variability level are
+`level = 0`.
+
+It is more convenient to define the uncertainty distributions first. Therefore,
+we define our `uniform_uncertainty`. Please note the addition of `level = 1`:
+
+```{r}
+uniform_uncertainty <- Uniform$new("uncertainty", level = 1)
+```
+
+Apart from that, the mapping of the inputs is identical as for the 1D Monte Carlo.
+
+```{r}
+uniform_uncertainty$
+  map_input("min", Constant$new("min", -.5))$
+  map_input("max", Constant$new("max", .5))
+```
+
+Next, we define our variability distributions. Please note the addition of `level = 0`:
+
+```{r}
+normal_variability <- Normal$new("variability", level = 0)
+```
+
+Again, the mapping of the inputs is identical regardless of whether calculations are
+1D or 2D:
+
+```{r}
+normal_variability$
+  map_input("sigma", Constant$new("sigma", .1))$
+  map_input("mu", uniform_uncertainty)
+```
+
+We can plot the model to see that we have built the same dependencies:
+
+```{r}
+plot_model(normal_variability)
+```
+
+In fact, even if we have defined variability and uncertainty separately, we can 
+still make the simulations as 1D Monte Carlo (small differences in the contour are due
+to lack of convergence):
+
+```{r}
+normal_variability$simulate(10000)
+normal_variability$density_plot()
+```
+
+But, again, those simulations do not separate between variability and uncertainty. 
+To make that separation, we need to use `$simulate_2D()`. This method takes two 
+arguments. The first one is the number of MC iterations in level 0 and the second
+the number of iterations in level 1. This difference will be clear in a second, so 
+we first call the function with 500 and 200 iterations.
+
+```{r}
+normal_variability$simulate_2D(500, 200)
+```
+
+So... what did just happen? When we use `$simulate()`, **biorisk** creates a large table where each row is a MC iteration:
+
+```{r}
+normal_variability$simulations %>% head()
+```
+
+When we use `$simulate_2D()`, **biorisk** creates instead an array. That is just a fancy word for a table with extra dimensions. The results are saved in `$simulations_multi` and we can see that each one of its entries looks like a normal Monte Carlo simulation. For instance, this is the first one:
+
+```{r}
+normal_variability$simulations_multi[[1]] %>% head()
+```
+
+and this is the second one:
+
+```{r}
+normal_variability$simulations_multi[[2]] %>% head()
+```
+
+If we play a closer look, we see that each one of those tables has 500 rows
+
+```{r}
+normal_variability$simulations_multi[[2]] %>% nrow()
+```
+
+and if we count them, we see there are 200
+
+```{r}
+normal_variability$simulations_multi %>% length()
+```
+
+Those numbers sound familiar, right? That's because they are the number of iterations
+that we defined when we called `$simulate_2D(500, 200)`.
+
+So, what is happening behind the curtains?
+
+For each simulation in the uncertainty level, we can simulate values from each distribution defined at (`level = 1`). Then, using those values, we do a whole Monte Carlo simulations for those distributions at (`level = 0`), considering the dependencies. This is clear if we look at the first uncertainty iteration for `uniform_uncertainty`:
+
+```{r}
+uniform_uncertainty$simulations_multi[[1]] %>% head()
+```
+
+Even though it is a distribution, every row has exactly the same value (0.43).
+That is due to the rows within the table representing the variability iterations. 
+Because `uniform_uncertainty` is defined on the uncertainty level (`level = 1`), 
+it does not vary in that dimension. 
+
+Now, if we look at the second uncertainty
+
+```{r}
+uniform_uncertainty$simulations_multi[[2]] %>% head()
+```
+
+The value also remains constant between rows, but it is a different one (-0.43). So,
+`uniform_uncertainty` varies between tables (uncertainty dimension), but not between
+rows (variability dimension).
+
+On the other hand, `normal_variability` varies in both dimensions. If we look at the 
+first uncertainty iteration
+
+```{r}
+normal_variability$simulations_multi[[1]] %>% head()
+```
+
+we see that `x` (the output of the normal distribution) varies between rows, as is
+normal in every Monte Carlo simulation. Please note that both `mu` and `sigma` remain
+constant between rows (variability dimension). Why is that the case if `mu` is defined 
+as a distribution? Because that distribution is in the uncertainty dimension (`level = 1`).
+In fact, the value remains constant at 0.43, which was the output of `uniform_uncertainty$simulations_multi[[1]]`. 
+
+In fact, if we look at the second uncertainty iteration
+
+```{r}
+normal_variability$simulations_multi[[2]] %>% head()
+```
+
+it matches `uniform_uncertainty$simulations_multi[[2]]`. 
+
+## Visualizing the results
+
+The results of the 2D Monte Carlo simulation can be visualized using 2D cummulative
+plot
+
+```{r}
+normal_variability$cummulative_plot_2D()
+```
+
+In this plot, the solid line is the "variability distribution". Then, the gray ribbon
+introduces the additional uncertainty due to the "uncertainty distributions". This shows
+somehow the main hypothesis of 2D Monte Carlo. What we observe is a combination of
+variability and uncertainty. If we remove uncertainty, we have only variability, so we
+have "narrower" distributions. Theoretically, we could follow the opposite approach 
+and remove variability to observe only uncertainty. However, for QMRA, we care more
+about variability than uncertainty, so we define models in this way because it
+is more convenient.
+
+This philosophy is also evident if we look at the quantile table.
+
+```{r}
+quantile_table_2D(normal_variability, 
+                  probs = c(.5, .9), 
+                  chosen = c("variability", "uncertainty"))
+```
+
+The `uncertainty` element does not make a difference between variability and uncertainty dimensions.
+Therefore, its quantiles do not vary between both levels.
+
+However, the `variability` element makes a difference. For that reason, the quantiles
+at `level = 0` are different from those at `level = 1`. In particular, the quantiles at
+`level = 1` are calculated as the quantiles of every simulation together. That is, binding every
+Monte Carlo simulation in the uncertainty dimension and calculating quantiles. On the
+other hand, the quantiles at `level = 0` are calculated independently for each iteration in the
+uncertainty dimension. Then, the values reported are the median of each quantile. Therefore,
+as a general rule, quantiles at `level = 1` should be wider than those at `level = 0`.
