@@ -434,14 +434,14 @@ RiskElement <- R6::R6Class(
       my_sims <- self$get_output_2D()
 
       out <- quantile(my_sims$x, probs) %>%
-        set_names(., paste0(probs, "_level0"))
+        set_names(., paste0(probs, "_level1"))
 
       out2 <- my_sims %>%
         group_by(sim) %>%
         summarize(x = median(x, na.rm = TRUE)) %>%
         pull(x) %>%
         quantile(., probs) %>%
-        set_names(., paste0(probs, "_level1"))
+        set_names(., paste0(probs, "_level0"))
 
       c(out, out2)
 
