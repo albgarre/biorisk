@@ -35,7 +35,7 @@ LogLinInactivation_k <- R6::R6Class(
       k <- self$depends_on$k$point_estimate()
       logN0 <- self$depends_on$logN0$point_estimate()
 
-      logN0 - k*t
+      logN0 - k*t/log(10)
 
     }
 
