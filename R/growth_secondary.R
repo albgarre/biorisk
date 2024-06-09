@@ -717,6 +717,93 @@ FullRatkowsky_pH_model <- R6::R6Class(
 
 )
 
+#' R6 class describing the secondary Full Ratkowsky model with the modification as a gamma factor
+#'
+#' @details
+#' A risk element describing the GammaFullRatkowsky_model model. It has 5 inputs: Tmin, temperature, Tmax and c.
+#'
+#' @export
+#'
+GammaFullRatkowsky_model <- R6::R6Class(
+  classname = "GammaFullRatkowsky_model",
+  inherit = ContinuousElement,
+  public = list(
+
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA
+    ) {
+
+      super$initialize(name,
+                       input_names = c("Tmin", "temperature", "Tmax", "c"),
+                       input_types = list(Tmin = "continuous",
+                                          temperature = "continuous",
+                                          c = "continuous",
+                                          Tmax = "continuous"),
+                       units = units,
+                       element_type = "secondary",
+                       output_var = "gamma",
+                       output_unit = output_unit,
+                       level = 0)
+
+    },
+
+    #' @description
+    #' Returns the expected value
+    #'
+    point_estimate = function() {
+
+      Tmin <- self$depends_on$Tmin$point_estimate()
+      temperature <- self$depends_on$temperature$point_estimate()
+      Tmax <- self$depends_on$Tmax$point_estimate()
+      c <- self$depends_on$c$point_estimate()
+
+      gamma <- biogrowth:::full_Ratkowski(temperature, Tmin, Tmax, c)
+
+      gamma
+
+    }
+
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          gamma = biogrowth:::full_Ratkowski(temperature, Tmin, Tmax, c)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          gamma = biogrowth:::full_Ratkowski(temperature, Tmin, Tmax, c)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
 
 
 ####### Tests -----------------------
