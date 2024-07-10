@@ -1045,3 +1045,95 @@ Pert <- R6::R6Class(
   )
 
 )
+
+#' @title LogisticDistr Class
+#'
+#' @description
+#' An element for a Logistic distribution
+#'
+#' @export
+#'
+LogisticDistr <- R6::R6Class(
+  classname = "LogisticDistr",
+  inherit = ContinuousElement,
+  public = list(
+
+    #' @description
+    #' Creates a new instance of this [R6][R6::R6Class] class.
+    #'
+    #' @param name A character defining the name for the element
+    #' @param units A character vector of units for each input
+    #' @param output_unit A character with the unit of the output
+    #' @param level Level of the distribution (for 2D Monte Carlo). By default, `0`
+    #'
+    #' @return A new instance of the element
+    #'
+    initialize = function(name,
+                          units = NA,
+                          output_unit = NA,
+                          level = 0) {
+
+      super$initialize(name,
+                       input_names = c("location", "scale"),
+                       input_types = list(location = "continuous",
+                                          scale = "continuous"),
+                       units = units,
+                       element_type = "distribution",
+                       output_var = "x",
+                       output_unit = output_unit,
+                       level =  level)
+
+    },
+
+    #' @description
+    #' Returns the mode
+    #'
+    point_estimate = function() {
+
+      self$depends_on$location$point_estimate()
+
+    }
+  ),
+
+  private = list(
+
+    update_output = function(niter) {
+
+      sims <- self$simulations %>%
+        dplyr::mutate(
+          x = rlogis(niter, location, scale)
+        )
+
+      self$simulations <- sims
+
+    },
+
+    update_output_level = function(niter0, iter1 = 1, level = 0) {
+
+      if (self$level > level) {
+        niter0 <- 1
+      }
+
+      sims <- self$simulations_multi[[iter1]] %>%
+        dplyr::mutate(
+          x = rlogis(niter, location, scale)
+        )
+
+      ## Save it
+
+      self$simulations_multi[[iter1]] <- sims
+
+      ## Return the output
+
+      invisible(sims[[self$output]])
+
+    }
+
+  )
+
+)
+
+
+
+
+
