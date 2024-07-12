@@ -652,7 +652,7 @@ Uniform <- R6::R6Class(
     #'
     point_estimate = function() {
 
-      (self$depends_on$min$point_estimate() * self$depends_on$max$point_estimate())/2
+      (self$depends_on$min$point_estimate() + self$depends_on$max$point_estimate())/2
 
     }
 
