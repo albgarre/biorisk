@@ -2,11 +2,11 @@
 % Please edit documentation in R/inactivation.R
 \name{PelegInactivation}
 \alias{PelegInactivation}
-\title{R6 class describing the Weibull inactivation}
+\title{R6 class describing a Weibull inactivation model}
 \description{
-R6 class describing the Weibull inactivation
+R6 class describing a Weibull inactivation model
 
-R6 class describing the Weibull inactivation
+R6 class describing a Weibull inactivation model
 }
 \details{
 A risk element describing Weibullian inactivation using the parameterization by

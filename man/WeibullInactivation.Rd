@@ -2,11 +2,11 @@
 % Please edit documentation in R/inactivation.R
 \name{WeibullInactivation}
 \alias{WeibullInactivation}
-\title{R6 class describing the Weibull inactivation}
+\title{R6 class describing a Weibull primary inactivation}
 \description{
-R6 class describing the Weibull inactivation
+R6 class describing a Weibull primary inactivation
 
-R6 class describing the Weibull inactivation
+R6 class describing a Weibull primary inactivation
 }
 \details{
 A risk element describing Weibullian inactivation. It has 4 inputs: logN0, t

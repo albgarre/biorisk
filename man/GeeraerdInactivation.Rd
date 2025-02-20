@@ -2,14 +2,14 @@
 % Please edit documentation in R/inactivation.R
 \name{GeeraerdInactivation}
 \alias{GeeraerdInactivation}
-\title{R6 class describing Tri-linear inactivation}
+\title{R6 class describing Geeraerd inactivation model}
 \description{
-R6 class describing Tri-linear inactivation
+R6 class describing Geeraerd inactivation model
 
-R6 class describing Tri-linear inactivation
+R6 class describing Geeraerd inactivation model
 }
 \details{
-A risk element describing Tri-linear inactivation. It has 5 inputs: logN0, t, D, SL and Nres.
+A risk element describing the Geeraerd inactivation model. It has 5 inputs: logN0, t, D, SL and Nres.
 }
 \section{Super classes}{
 \code{\link[biorisk:RiskElement]{biorisk::RiskElement}} -> \code{biorisk::NA} -> \code{GeeraerdInactivation}
