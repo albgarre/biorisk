@@ -263,6 +263,34 @@ plot_outputs(cases,
              chosen = c("logN0", "Treatment", "growth_distrib"),
              type = "violin")
 ```
+## Sensitivity analysis
+
+The **biorisk** package includes also several functions for sensitivity analysis. The `tornado_plot()` function generates a tornado plot. It takes as input the output node for which to make the plot.
+
+```{r}
+tornado_plot(cases)
+```
+
+By default, it uses every node in the model. This can be modified using the `chosen` argument, which takes a character vector of node names.
+
+```{r}
+tornado_plot(cases, chosen = c("temp_distrib", "Treatment"))
+```
+
+Moreover, the package includes the `regression_tree()` function to make a regression tree of the output. This function also takes as input an output node. Then, it returns a regression tree built using the **rpart** package. In order to plot the tree, the argument `make_plot` must be set to `TRUE`.
+
+```{r}
+regression_tree(cases, make_plot = TRUE)
+```
+
+By default, the tree is built using every node in the model. This can be modified using the `chosen` argument, which also takes a character vector of node names.
+
+```{r}
+regression_tree(cases, 
+                chosen = c("temp_distrib", "time_distrib", "k_chlorine"),
+                make_plot = TRUE)
+```
+
 
 ## Simulation as a 2D Monte Carlo
 
